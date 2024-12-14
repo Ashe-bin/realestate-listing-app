@@ -34,11 +34,9 @@ export const signin = async (req, res, next) => {
     if (!isValidPassword) {
       return next(errorHandler(404, "Wrong credential"));
     }
-    const token = jwt.sign(
-      { id: isValidUser._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
-    );
+    const token = jwt.sign({ id: isValidUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
     const { password: pass, ...rest } = isValidUser._doc;
     res
       .cookie("access_token", token, { httpOnly: true })
@@ -56,11 +54,9 @@ export const googleAuth = async (req, res, next) => {
     });
 
     if (user) {
-      const token = jwt.sign(
-        { id: user._id },
-        process.env.JWT_SECRET,
-        { expiresIn: "1d" }
-      );
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+        expiresIn: "1d",
+      });
 
       const { password: pass, ...rest } = user._doc;
       res
@@ -71,10 +67,7 @@ export const googleAuth = async (req, res, next) => {
       const generatedPassword =
         Math.random().toString(36).slice(-8) +
         Math.random().toString(36).slice(-8);
-      const hashedPassword = bcryptjs.hashSync(
-        generatedPassword,
-        10
-      );
+      const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
 
       const newUser = new User({
         username:
@@ -87,11 +80,9 @@ export const googleAuth = async (req, res, next) => {
 
       await newUser.save();
 
-      const token = jwt.sign(
-        { id: newUser._id },
-        process.env.JWT_SECRET,
-        { expiresIn: "1d" }
-      );
+      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+        expiresIn: "1d",
+      });
 
       const { password: pass, ...rest } = newUser._doc;
       res
@@ -99,6 +90,15 @@ export const googleAuth = async (req, res, next) => {
         .status(200)
         .json(rest);
     }
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const signout = async (req, res, next) => {
+  try {
+    res.clearCookie("access_token", { httpOnly: true });
+    res.status(200).json("user has been logged out");
   } catch (error) {
     next(error);
   }

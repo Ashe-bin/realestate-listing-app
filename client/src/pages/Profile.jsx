@@ -2,14 +2,16 @@ import { useSelector } from "react-redux";
 import { supabase } from "../supabase";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   updateStart,
   updateFailure,
   updateSuccess,
   deleteUserFailure,
   deleteUserSuccess,
+  signoutFailure,
+  signout,
 } from "../redux/feature/user/userSlice";
-import { useNavigate } from "react-router-dom";
 export const Profile = () => {
   const { currentUser, loading, error } = useSelector((state) => state.user);
   const [uploading, setUploading] = useState(false);
@@ -22,7 +24,6 @@ export const Profile = () => {
   const [deleteUser, setDeleteUser] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   useEffect(() => {
     if (imageFile) {
       handleImageUpload(imageFile);
@@ -110,8 +111,6 @@ export const Profile = () => {
     try {
       const res = await fetch(`/api/user/delete-user/${currentUser._id}`, {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(currentUser),
       });
 
       const data = await res.json();
@@ -123,9 +122,8 @@ export const Profile = () => {
       setDeleteUser(true);
 
       setTimeout(() => {
-        dispatch(deleteUserSuccess());
-
         navigate("/sign-up");
+        dispatch(deleteUserSuccess());
       }, 3000);
     } catch (error) {
       dispatch(deleteUserFailure(error.message));
@@ -133,6 +131,21 @@ export const Profile = () => {
       setTimeout(() => {
         setDeleteUser(false);
       }, 3000);
+    }
+  };
+
+  const handleSignout = async () => {
+    try {
+      const res = await fetch(`/api/auth/signout`);
+
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(signoutFailure(data.message));
+        return;
+      }
+      dispatch(signout());
+    } catch (error) {
+      dispatch(signoutFailure(error.message));
     }
   };
 
@@ -206,7 +219,9 @@ export const Profile = () => {
         <button className="text-red-700 cursor-pointer" onClick={handleDelete}>
           {deleteUser ? "Deleted successfully" : "Delete account"}
         </button>
-        <button className="text-red-700 cursor-pointer">Sign out</button>
+        <button onClick={handleSignout} className="text-red-700 cursor-pointer">
+          Sign out
+        </button>
       </div>
       <p className="text-center text-red-700 mt-2">{error ? error : ""}</p>
     </div>
