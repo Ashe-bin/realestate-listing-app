@@ -1,13 +1,22 @@
 import { useSelector } from "react-redux";
 import { supabase } from "../supabase";
 import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  updateStart,
+  updateFailure,
+  updateSuccess,
+} from "../redux/feature/user/userSlice";
 export const Profile = () => {
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, loading, error } = useSelector((state) => state.user);
   const [uploading, setUploading] = useState(false);
   const [errorUploading, setErrorUploading] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [imgURL, setImgURL] = useState(null);
   const imgRef = useRef(null);
+  const [formData, setFormData] = useState({});
+  const [updateInfo, setUpdateInfo] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (imageFile) {
@@ -24,8 +33,8 @@ export const Profile = () => {
         setImageFile(null);
         return;
       }
-      const fileExt = imageFile.name.split(".").pop().toLowerCase();
-      const fileName = `${new Date().getTime()}-${imageFile.name}.${fileExt}`;
+
+      const fileName = `${new Date().getTime()}-${imageFile.name}`;
       const { data, error } = await supabase.storage
         .from("image-storage") // Replace with your bucket name
         .upload(fileName, imageFile);
@@ -48,6 +57,7 @@ export const Profile = () => {
         return;
       }
       setImgURL(publicUrl);
+      setFormData({ avatar: publicUrl });
     } catch (error) {
       console.error(error.message);
       setErrorUploading("Image upload failed try again");
@@ -59,11 +69,43 @@ export const Profile = () => {
       }, 3000);
     }
   };
+  console.log(formData);
+  const changeHandler = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+    console.log(formData);
+  };
 
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    dispatch(updateStart());
+    try {
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(updateFailure(data.message));
+        return;
+      }
+      dispatch(updateSuccess(data));
+      setUpdateInfo(true);
+    } catch (error) {
+      dispatch(updateFailure(error.message));
+    } finally {
+      setTimeout(() => {
+        setUpdateInfo(false);
+      }, 3000);
+    }
+  };
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
-      <form className="flex flex-col gap-4">
+      <form
+        onSubmit={submitHandler}
+        className="flex flex-col gap-4 text-gray-700"
+      >
         <input
           onChange={(e) => setImageFile(e.target.files[0])}
           type="file"
@@ -78,7 +120,6 @@ export const Profile = () => {
           className="rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2"
         />
         <p className="text-sm self-center">
-          {console.log("errr", errorUploading)}
           {errorUploading ? (
             <p className=" text-red-700">{errorUploading}</p>
           ) : uploading ? (
@@ -92,30 +133,43 @@ export const Profile = () => {
 
         <input
           type="text"
-          placeholder="text"
-          id="text"
+          placeholder="username"
+          defaultValue={currentUser.username}
+          id="username"
           className="border p-3 rounded-lg"
+          onChange={changeHandler}
         />
         <input
           type="email"
           placeholder="email"
+          defaultValue={currentUser.email}
           id="email"
           className="border p-3 rounded-lg"
+          onChange={changeHandler}
         />
         <input
           type="password"
           placeholder="password"
           id="password"
           className="border p-3 rounded-lg"
+          onChange={changeHandler}
         />
-        <button className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80">
-          update
+        <button
+          disabled={loading}
+          className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80"
+        >
+          {loading
+            ? "Updating.."
+            : updateInfo
+            ? "Updated Successfully"
+            : "update"}
         </button>
       </form>
       <div className="flex justify-between mt-5">
         <span className="text-red-700 cursor-pointer">Delete account</span>
         <span className="text-red-700 cursor-pointer">Sign out</span>
       </div>
+      <p className="text-center text-red-700 mt-2">{error ? error : ""}</p>
     </div>
   );
 };
