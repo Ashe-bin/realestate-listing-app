@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { supabase } from "../supabase";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   updateStart,
   updateFailure,
@@ -213,6 +213,13 @@ export const Profile = () => {
             : updateInfo
             ? "Updated Successfully"
             : "update"}
+        </button>
+
+        <button
+          type="button"
+          className="  bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95"
+        >
+          <Link to={"/create-listing"}>Create Listing</Link>
         </button>
       </form>
       <div className="flex justify-between mt-5">
