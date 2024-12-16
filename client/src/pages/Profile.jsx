@@ -40,7 +40,7 @@ export const Profile = () => {
         return;
       }
 
-      const fileName = `${new Date().getTime()}-${imageFile.name}`;
+      const fileName = `${Date().now()}-${imageFile.name}`;
       const { data, error } = await supabase.storage
         .from("image-storage") // Replace with your bucket name
         .upload(fileName, imageFile);

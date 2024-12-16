@@ -22,12 +22,15 @@ const CreateListing = () => {
     try {
       for (const file of imageFile) {
         const fileName = `${Date.now()}-${file.name}`;
+
         console.log("file", file);
 
         console.log("fileName", fileName);
+
         const { data, error } = await supabase.storage
-          .from("listing-storage") // Replace with your bucket name
-          .upload(fileName, imageFile);
+          .from("image-storage") // Replace with your bucket name
+          .upload(fileName, file);
+
         if (error) {
           setUploadingError("Image upload failed, try again");
           return;
@@ -36,9 +39,10 @@ const CreateListing = () => {
           setUploadingError("Image upload failed, try again");
           return;
         }
+
         const {
           data: { publicUrl },
-        } = supabase.storage.from("listing-storage").getPublicUrl(fileName);
+        } = supabase.storage.from("image-storage").getPublicUrl(fileName);
 
         if (!publicUrl) {
           setUploadingError("Image upload failed, try again");
@@ -58,9 +62,6 @@ const CreateListing = () => {
       }, 3000);
     }
   };
-  console.log("selectefie", selectedFile);
-  console.log("imgPublicUrl", imgPublicUrl);
-  console.log("imagefile", imageFile);
 
   const handleDeleteImg = (index) => {
     setSelectedFile((prevFiles) => prevFiles.filter((_, idx) => idx !== index));
