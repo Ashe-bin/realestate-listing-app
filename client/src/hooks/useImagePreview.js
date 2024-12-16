@@ -1,28 +1,24 @@
 import { useState } from "react";
 
 const useImagePreview = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState([]);
   const [error, setError] = useState(null);
-  const maxFileSize = 2 * 1024 * 1024;
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-
-    if (file && file.type.startsWith("image/")) {
-      if (file.size > maxFileSize) {
-        setError("Image file size must be less than 2MB");
-        return;
+  const handleImageChange = (files) => {
+    files.forEach((file) => {
+      if (file && file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          // filePreviews.push(reader.result);
+          setSelectedFile((prevFiles) => [...prevFiles, reader.result]);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        setError("Only Image files are accepted");
       }
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setSelectedFile(reader.result);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setError("Only Image files are accepted");
-    }
+    });
   };
-  return { selectedFile, setSelectedFile, handleImageChange, error };
+  return { selectedFile, handleImageChange, error, setSelectedFile };
 };
 
 export default useImagePreview;
