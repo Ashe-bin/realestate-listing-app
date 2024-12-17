@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useImagePreview from "../hooks/useImagePreview";
 import { AiOutlineClose } from "react-icons/ai";
 import { supabase } from "../supabase";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-const CreateListing = () => {
+const EditListing = () => {
   const { currentUser } = useSelector((state) => state.user);
   const { error, handleImageChange, selectedFile, setSelectedFile } =
     useImagePreview();
@@ -14,7 +14,10 @@ const CreateListing = () => {
   const [creatingList, setCreatingList] = useState(false);
   const [createListError, setCreateListError] = useState(null);
   const [uploadingError, setUploadingError] = useState(null);
+  const [initialExtracted, setInitialExtracted] = useState([]);
   const navigate = useNavigate();
+  const { listingId } = useParams();
+
   const [formData, setFormData] = useState({
     imageURLS: [],
     name: "",
@@ -29,6 +32,28 @@ const CreateListing = () => {
     parking: false,
     furnished: false,
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      console.log("started execution");
+
+      try {
+        const res = await fetch(`/api/listing/getListing/${listingId}`);
+        const data = await res.json();
+        console.log("started data", data);
+
+        if (data.success === false) {
+          throw new Error(`fetching list error ${data}`);
+        }
+        setFormData(data);
+        setInitialExtracted(data.imageURLS);
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+    fetchData();
+  }, [listingId]);
+
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files).slice(0, 6);
     setImageFile(files);
@@ -85,14 +110,24 @@ const CreateListing = () => {
     setSelectedFile((prevFiles) => prevFiles.filter((_, idx) => idx !== index));
     setImageFile((prevFiles) => prevFiles.filter((_, idx) => idx !== index));
   };
-
-  const handleFormChange = (e) => {
-    const { id, type, checked, value } = e.target;
-
+  const handleDeleteImgFetched = (imgurl) => {
+    setInitialExtracted((prev) => prev.filter((img) => img !== imgurl));
     setFormData((prev) => ({
       ...prev,
-      [id]: type === "checkbox" ? checked : value,
+      imageURLS: prev.imageURLS.filter((img) => img !== imgurl),
     }));
+  };
+  const handleFormChange = (e) => {
+    const { id, name, type, checked, value } = e.target;
+
+    if (name === "type") {
+      setFormData((prev) => ({ ...prev, type: id }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [id]: type === "checkbox" ? checked : value,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -109,7 +144,7 @@ const CreateListing = () => {
     }
 
     try {
-      const res = await fetch("/api/listing/create", {
+      const res = await fetch(`/api/listing/edit/${listingId}`, {
         method: "POST",
         headers: { "Content-Type": "Application/JSON" },
         body: JSON.stringify({ ...formData, userRef: currentUser._id }),
@@ -121,6 +156,10 @@ const CreateListing = () => {
         setCreateListError("Create list failed, try again");
         return;
       }
+      setFormData(data);
+      setInitialExtracted(data.imageURLS);
+      setSelectedFile(null);
+      setImageFile(null);
     } catch (error) {
       setCreateListError("Create list failed, try again");
       console.error(error.message);
@@ -132,7 +171,7 @@ const CreateListing = () => {
   return (
     <main className="p-3 max-w-4xl mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">
-        Create a Listing
+        Update Listing
       </h1>
       <form
         onSubmit={handleSubmit}
@@ -175,6 +214,7 @@ const CreateListing = () => {
                 onChange={handleFormChange}
                 checked={formData.type === "sale"}
                 id="sale"
+                name="type"
                 className="w-5"
               />
               <span>Sell</span>
@@ -184,6 +224,7 @@ const CreateListing = () => {
                 onChange={handleFormChange}
                 checked={formData.type === "rent"}
                 type="checkbox"
+                name="type"
                 id="rent"
                 className="w-5"
               />
@@ -310,6 +351,23 @@ const CreateListing = () => {
           {uploadingError && (
             <p className="text-center text-sm text-red-700">{uploadingError}</p>
           )}
+          {initialExtracted &&
+            initialExtracted.map((img, idx) => (
+              <div
+                key={idx}
+                className="relative flex justify-center items-center overflow-hidden rounded-lg my-1"
+              >
+                <img
+                  src={img}
+                  alt="listing-image"
+                  className="object-cover overflow-clip w-full h-80 self-center rounded-lg transition-transform duration-700 ease-in-out hover:scale-110"
+                />
+                <AiOutlineClose
+                  onClick={() => handleDeleteImgFetched(img)}
+                  className="bg-white text-black rounded-full p-1 size-6 font-bold absolute top-1 right-1 hover:text-white hover:p-2 hover:bg-red-700 transition duration-300 ease-in-out"
+                />
+              </div>
+            ))}
           {selectedFile &&
             selectedFile.map((file, idx) => (
               <div
@@ -335,7 +393,7 @@ const CreateListing = () => {
             disabled={creatingList || isUploading}
             className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80 disabled:cursor-not-allowed"
           >
-            {creatingList ? "creating..." : "Create Listing"}
+            {creatingList ? "Updating..." : "Update Listing"}
           </button>
           {createListError && (
             <p className="text-sm text-red-700 text-center">
@@ -348,4 +406,4 @@ const CreateListing = () => {
   );
 };
 
-export default CreateListing;
+export default EditListing;
