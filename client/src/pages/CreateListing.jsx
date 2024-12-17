@@ -121,7 +121,7 @@ const CreateListing = () => {
         setCreateListError("Create list failed, try again");
         return;
       }
-      navigate(`/listing/data._id`);
+      navigate(`/listing/${data._id}`);
     } catch (error) {
       setCreateListError("Create list failed, try again");
       console.error(error.message);
