@@ -19,7 +19,7 @@ export const Header = () => {
     if (searchTermFromUrl) {
       setSearchTerm(searchTermFromUrl);
     }
-  }, []);
+  }, [location.search]);
 
   return (
     <header className="bg-slate-200 shadow-md">
@@ -32,7 +32,7 @@ export const Header = () => {
         </Link>
         <form
           onSubmit={handleSubmit}
-          className="bg-slate-100 p-3 rounded-lg flex items-center"
+          className=" bg-slate-100 p-3 rounded-lg flex items-center"
         >
           <input
             type="text"
@@ -41,7 +41,7 @@ export const Header = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="bg-transparent focus:outline-none w-24 sm:w-64"
           />
-          <button>
+          <button className="flex self-center">
             <FaSearch className="text-slate-600" />\
           </button>
         </form>
