@@ -34,9 +34,7 @@ export const signin = async (req, res, next) => {
     if (!isValidPassword) {
       return next(errorHandler(404, "Wrong credential"));
     }
-    const token = jwt.sign({ id: isValidUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
-    });
+    const token = jwt.sign({ id: isValidUser._id }, process.env.JWT_SECRET);
     const { password: pass, ...rest } = isValidUser._doc;
     res
       .cookie("access_token", token, { httpOnly: true })
@@ -54,9 +52,7 @@ export const googleAuth = async (req, res, next) => {
     });
 
     if (user) {
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: "1d",
-      });
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
       const { password: pass, ...rest } = user._doc;
       res
@@ -80,9 +76,7 @@ export const googleAuth = async (req, res, next) => {
 
       await newUser.save();
 
-      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-        expiresIn: "1d",
-      });
+      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
 
       const { password: pass, ...rest } = newUser._doc;
       res
