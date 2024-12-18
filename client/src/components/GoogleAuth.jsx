@@ -1,8 +1,4 @@
-import {
-  GoogleAuthProvider,
-  getAuth,
-  signInWithPopup,
-} from "firebase/auth";
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { app } from "../firebase/firebase";
 import { useDispatch } from "react-redux";
 import { signInSuccess } from "../redux/feature/user/userSlice";
@@ -29,7 +25,6 @@ export const GoogleAuth = () => {
       const data = await res.json();
       dispatch(signInSuccess(data));
       navigate("/");
-      console.log(data);
     } catch (error) {
       console.log(error.message);
     }

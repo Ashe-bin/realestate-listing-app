@@ -79,8 +79,6 @@ const CreateListing = () => {
     }
   };
 
-  console.log("formdata", formData);
-  console.log(formData.imageURLS);
   const handleDeleteImg = (index) => {
     setSelectedFile((prevFiles) => prevFiles.filter((_, idx) => idx !== index));
     setImageFile((prevFiles) => prevFiles.filter((_, idx) => idx !== index));

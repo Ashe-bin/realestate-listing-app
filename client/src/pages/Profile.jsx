@@ -77,10 +77,8 @@ export const Profile = () => {
       }, 3000);
     }
   };
-  console.log(formData);
   const changeHandler = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
-    console.log(formData);
   };
 
   const submitHandler = async (e) => {
@@ -109,14 +107,12 @@ export const Profile = () => {
   };
 
   const handleDelete = async () => {
-    console.log("start delete");
     try {
       const res = await fetch(`/api/user/delete-user/${currentUser._id}`, {
         method: "DELETE",
       });
 
       const data = await res.json();
-      console.log("data", data);
       if (data.success === false) {
         dispatch(deleteUserFailure(data.message));
         return;
@@ -162,7 +158,6 @@ export const Profile = () => {
         setShowListingError(true);
         return;
       }
-      console.log("data", data);
 
       setUserListing(data);
     } catch (error) {
@@ -278,7 +273,6 @@ export const Profile = () => {
       <p className="text-center text-red-600 my-2">
         {showListingError ? "Error showing listing" : ""}
       </p>
-      {console.log("userlisting", userListing)}
       {userListing && userListing.length > 0 && (
         <div className="flex flex-col gap-4">
           <h1 className="text-center mt-7 text-2xl">Your Listings</h1>
@@ -295,8 +289,8 @@ export const Profile = () => {
                 />
               </Link>
               <Link
+                to={`/listing/${listing._id}`}
                 className="text-slate-700 flex-1 hover:underline truncate"
-                to={`{listing/${listing._id}}`}
               >
                 <p>{listing.name}</p>
               </Link>

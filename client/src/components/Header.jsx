@@ -2,18 +2,13 @@ import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { useSelector } from "react-redux";
 export const Header = () => {
-  const { currentUser } = useSelector(
-    (state) => state.user
-  );
-  console.log("currentuser", currentUser);
+  const { currentUser } = useSelector((state) => state.user);
   return (
     <header className="bg-slate-200 shadow-md">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
         <Link to="/">
           <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
-            <span className="text-slate-500">
-              Real Estate
-            </span>
+            <span className="text-slate-500">Real Estate</span>
             <span className="text-slate-700">Listing</span>
           </h1>
         </Link>

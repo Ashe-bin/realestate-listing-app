@@ -35,12 +35,9 @@ const EditListing = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log("started execution");
-
       try {
         const res = await fetch(`/api/listing/getListing/${listingId}`);
         const data = await res.json();
-        console.log("started data", data);
 
         if (data.success === false) {
           throw new Error(`fetching list error ${data}`);
@@ -104,8 +101,6 @@ const EditListing = () => {
     }
   };
 
-  console.log("formdata", formData);
-  console.log(formData.imageURLS);
   const handleDeleteImg = (index) => {
     setSelectedFile((prevFiles) => prevFiles.filter((_, idx) => idx !== index));
     setImageFile((prevFiles) => prevFiles.filter((_, idx) => idx !== index));
