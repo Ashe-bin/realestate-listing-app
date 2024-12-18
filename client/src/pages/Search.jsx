@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ListingItem from "../components/ListingItem";
 
 const Search = () => {
   const [sidebarData, setSidebarData] = useState({
@@ -12,9 +13,9 @@ const Search = () => {
     order: "desc",
   });
 
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [listing, setListing] = useState(null);
+  const [listing, setListing] = useState([]);
 
   const navigate = useNavigate();
   console.log("lisig", listing);
@@ -96,7 +97,6 @@ const Search = () => {
           e.target.checked || e.target.checked === "true" ? true : false,
       });
     }
-
     if (e.target.id === "sort_order") {
       const sort = e.target.value.split("_")[0] || "createdAt";
       const order = e.target.value.split("_")[1] || "desc";
@@ -221,8 +221,15 @@ const Search = () => {
       </div>
       <div className="">
         <h1 className="text-3xl font-semibold border-b p-3 text-slate-700">
-          Listing results:
+          Listing results
         </h1>
+        <div>
+          {!loading && listing.length === 0 && <p>No listing found!</p>}
+          {!loading &&
+            listing.map((list) => (
+              <ListingItem key={list._id} listing={list} />
+            ))}
+        </div>
       </div>
     </div>
   );
