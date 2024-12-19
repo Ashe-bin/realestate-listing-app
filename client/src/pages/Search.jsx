@@ -16,6 +16,7 @@ const Search = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [listing, setListing] = useState([]);
+  const [showMore, setShowMore] = useState(false);
 
   const navigate = useNavigate();
   console.log("lisig", listing);
@@ -62,7 +63,13 @@ const Search = () => {
           console.log("error response", data);
           return;
         }
-        console.log("data", data);
+
+        if (data.length > 8) {
+          setShowMore(true);
+        } else {
+          setShowMore(false);
+        }
+        console.log("data", data, length.length);
         setListing(data);
       } catch (error) {
         console.log("error", error.message);
@@ -117,6 +124,26 @@ const Search = () => {
     urlParams.set("order", sidebarData.order);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
+  };
+
+  const onShowMoreClick = async () => {
+    console.log("exec");
+
+    const numberOfListings = listing.length;
+    const startIndex = numberOfListings;
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("startIndex", startIndex);
+    const searchQuery = urlParams.toString();
+    const res = await fetch(`/api/listing/getListing?${searchQuery}`);
+    const data = await res.json();
+    if (data.success === false) {
+      return;
+    }
+    console.log("data", data);
+    if (data.length < 9) {
+      setShowMore(false);
+    }
+    setListing([...listing, ...data]);
   };
 
   return (
@@ -219,17 +246,25 @@ const Search = () => {
           </button>
         </form>
       </div>
-      <div className="">
-        <h1 className="text-3xl font-semibold border-b p-3 text-slate-700">
+      <div className=" w-full ">
+        <h1 className="text-3xl text-center font-semibold border-b p-3 text-slate-700">
           Listing results
         </h1>
-        <div>
+        <div className="flex flex-wrap gap-4 justify-around">
           {!loading && listing.length === 0 && <p>No listing found!</p>}
           {!loading &&
             listing.map((list) => (
               <ListingItem key={list._id} listing={list} />
             ))}
         </div>
+        {showMore && (
+          <button
+            onClick={onShowMoreClick}
+            className="bg-slate-500 my-2 py-2 px-3 rounded-md"
+          >
+            Show More
+          </button>
+        )}
       </div>
     </div>
   );

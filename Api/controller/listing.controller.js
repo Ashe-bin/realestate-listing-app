@@ -94,13 +94,15 @@ export const getListings = async (req, res, next) => {
     const sort = req.query.sort || "createdAt";
     const order = req.query.order || "desc";
 
-    const listings = await Listing.find({
+    const filters = {
       name: { $regex: searchTerm, $options: "i" },
       offer,
       furnished,
       parking,
       type,
-    })
+    };
+
+    const listings = await Listing.find(filters)
       .sort({ [sort]: order })
       .limit(limit)
       .skip(startIndex);

@@ -44,13 +44,14 @@ export const Listing = () => {
     };
     fetchListing();
   }, [listingId]);
+  console.log("listing see", listing);
 
   return (
     <main>
-      {error ||
-        (!listing && (
-          <p className="text-center text-2xl ">Something went wrong</p>
-        ))}
+      {error &&
+        !listing &&
+        !loading(<p className="text-center text-2xl ">Something went wrong</p>)}
+      {loading && <p>Loading..</p>}
       {listing && !loading && (
         <>
           <Swiper navigation>
@@ -101,7 +102,7 @@ export const Listing = () => {
               </p>
               {listing.offer && (
                 <p className="bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md">
-                  ${+listing.regularPrice - +listing.discountPrice} OFF
+                  $ {+listing.regularPrice - +listing.discountPrice} OFF
                 </p>
               )}
             </div>
@@ -112,15 +113,15 @@ export const Listing = () => {
             <ul className="text-green-900 font-semibold text-sm flex flex-wrap items-center gap-4 sm:gap-6">
               <li className="flex items-center gap-1 whitespace-nowrap">
                 <FaBed className="text-lg" />
-                {listing.bedRoom > 1
-                  ? `${listing.bedRoom} beds`
-                  : `${listing.bedRoom} bed`}
+                {listing?.bedRoom > 1
+                  ? `${listing?.bedRoom} beds`
+                  : `${listing?.bedRoom} bed`}
               </li>
               <li className="flex items-center gap-1 whitespace-nowrap">
                 <FaBath className="text-lg" />
                 {listing.bathRoom > 1
-                  ? `${listing.bathRoom} baths`
-                  : `${listing.bathRoom} bath`}
+                  ? `${listing?.bathRoom} baths`
+                  : `${listing?.bathRoom} bath`}
               </li>
               <li className="flex items-center gap-1 whitespace-nowrap">
                 <FaParking className="text-lg" />
