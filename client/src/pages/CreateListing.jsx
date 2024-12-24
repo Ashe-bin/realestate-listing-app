@@ -18,6 +18,7 @@ const CreateListing = () => {
   const [formData, setFormData] = useState({
     imageURLS: [],
     name: "",
+
     description: "",
     address: "",
     type: "rent",
@@ -28,6 +29,12 @@ const CreateListing = () => {
     offer: false,
     parking: false,
     furnished: false,
+    propertyType: "",
+    houseArea: 0,
+    lotArea: 0,
+    developedDate: "",
+    location: null,
+    propertyDetail: "",
   });
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files).slice(0, 6);
@@ -128,18 +135,18 @@ const CreateListing = () => {
   };
 
   return (
-    <main className="p-3 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-semibold text-center my-7">
+    <main className="p-3 max-w-[90%] mx-auto  my-7">
+      <h1 className="text-3xl font-semibold text-center my-5">
         Create a Listing
       </h1>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col md:flex-row gap-10"
+        className="flex flex-col md:flex-row gap-10 "
       >
-        <div className="flex flex-col gap-4 flex-1">
+        <div className="flex flex-col gap-4 flex-1 border border-black/10 rounded-lg shadow-md shadow-gray-300 p-1">
           <input
             type="text"
-            placeholder="Name"
+            placeholder="Name of developer company/(Name of a person if individual)"
             className="border p-3 rounded-lg"
             id="name"
             maxLength="62"
@@ -148,13 +155,31 @@ const CreateListing = () => {
             value={formData.name}
             required
           />
+          <input
+            type="text"
+            placeholder="type of property (single-family,apartment, condo, townhouse...)"
+            className="border p-3 rounded-lg"
+            id="propertyType"
+            onChange={handleFormChange}
+            value={formData.propertyType}
+            required
+          />
           <textarea
             type="text"
-            placeholder="Description"
+            placeholder="Short description"
             className="border p-3 rounded-lg"
             id="description"
             onChange={handleFormChange}
             value={formData.description}
+            required
+          />
+          <textarea
+            type="text"
+            placeholder="property detail(modern kitchen with granite counter tops, a private backyard with a deck...)"
+            className="border p-3 rounded-lg"
+            id="propertyDetail"
+            onChange={handleFormChange}
+            value={formData.propertyDetail}
             required
           />
           <input
@@ -166,6 +191,24 @@ const CreateListing = () => {
             value={formData.address}
             required
           />
+          <input
+            type="text"
+            placeholder="Location"
+            className="border p-3 rounded-lg"
+            id="location"
+            onChange={handleFormChange}
+            value={formData.location}
+            required
+          />
+          <input
+            type="date"
+            placeholder="Developed date"
+            className="border p-3 rounded-lg"
+            id="developedDate"
+            onChange={handleFormChange}
+            value={formData.developedDate}
+            required
+          />{" "}
           <div className="flex gap-6 flex-wrap">
             <div className="flex gap-2">
               <input
@@ -218,7 +261,6 @@ const CreateListing = () => {
               <span>you have Offer</span>
             </div>
           </div>
-
           <div className="flex flex-wrap gap-4">
             <div className="flex items-center gap-2">
               <input
@@ -226,7 +268,7 @@ const CreateListing = () => {
                 id="bedRoom"
                 onChange={handleFormChange}
                 value={formData.bedRoom}
-                min="1"
+                min="0"
                 max="100"
                 required
                 className="p-3 border border-gray-300 rounded-lg "
@@ -240,7 +282,7 @@ const CreateListing = () => {
                 min="0"
                 onChange={handleFormChange}
                 value={formData.bathRoom}
-                max="50"
+                max="100"
                 required
                 className="p-3 border border-gray-300 rounded-lg "
               />
@@ -278,9 +320,37 @@ const CreateListing = () => {
                 </div>
               </div>
             )}
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                id="houseArea"
+                onChange={handleFormChange}
+                value={formData.houseArea}
+                min="0"
+                required
+                className="p-3 border border-gray-300 rounded-lg "
+              />
+              <div className="flex flex-col items-center">
+                <p>house square fit area</p>
+              </div>
+            </div>{" "}
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                id="lotArea"
+                onChange={handleFormChange}
+                value={formData.lotArea}
+                min="0"
+                required
+                className="p-3 border border-gray-300 rounded-lg "
+              />
+              <div className="flex flex-col items-center">
+                <p>lot square fit area</p>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="flex flex-col flex-1 gap-4">
+        <div className="flex flex-col flex-1 gap-4 border border-black/10 rounded-lg p-2">
           <p className="font-semibold">
             Images:{" "}
             <span className="font-normal text-gray-600 ml-2">

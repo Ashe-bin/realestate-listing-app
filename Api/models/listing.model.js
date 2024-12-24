@@ -15,6 +15,20 @@ const listingSchema = new mongoose.Schema(
     offer: { type: Boolean, required: true },
     imageURLS: [{ type: String, required: true }],
     userRef: { type: String, required: true },
+    propertyType: { type: String },
+    propertyDetail: { type: String },
+    houseArea: { type: Number, required: true },
+    lotArea: { type: Number, required: true },
+    location: {
+      type: {
+        type: String,
+        enum: ["Point"],
+      },
+      coordinates: {
+        type: [Number],
+      },
+    },
+    developedDate: { type: Date },
   },
   { timestamps: true }
 );

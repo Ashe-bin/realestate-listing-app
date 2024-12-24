@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema(
       default:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhwaLDKaK49tsHmdMGOrmTdns5qiw080F2Yw&s",
     },
+    liked: [{ type: String }],
   },
 
   { timestamps: true }

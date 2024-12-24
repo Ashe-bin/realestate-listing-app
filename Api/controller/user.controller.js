@@ -82,3 +82,41 @@ export const getUser = async (req, res, next) => {
     next(error);
   }
 };
+export const addRemoveFromFavorite = async (req, res, next) => {
+  try {
+    if (req.user.id !== req.params.id) {
+      return errorHandler(401, "You can only add favorites to your account !");
+    }
+
+    const userData = await User.findById(req.params.id);
+    if (!userData) {
+      return next(errorHandler(404, "user not found"));
+    }
+    const listingId = req.body.id;
+
+    const isLiked = userData.liked.includes(listingId);
+    let updatedUser;
+    if (isLiked) {
+      updatedUser = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+          $pull: { liked: listingId },
+        },
+        { new: true }
+      );
+    } else {
+      updatedUser = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+          $push: { liked: listingId },
+        },
+        { new: true }
+      );
+    }
+    const { password: pass, ...rest } = updatedUser._doc;
+
+    res.status(200).json(rest);
+  } catch (error) {
+    next(error);
+  }
+};
