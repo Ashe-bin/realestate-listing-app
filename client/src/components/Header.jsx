@@ -13,11 +13,10 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import ShowListing from "@/pages/ShowListing";
 
 export const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
-  const [searchTerm, setSearchTerm] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -41,7 +40,7 @@ export const Header = () => {
   return (
     <header className="sticky top-0 z-50 backdrop-filter backdrop-blur-3xl   py-2 transparent shadow-gray-800 shadow-md">
       <Container>
-        <div className="flex justify-between  items-center max-w-6xl mx-auto p-3">
+        <div className="flex justify-between  items-center  mx-auto py-4 pr-12 ">
           <Link to="/" className="">
             <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
               <span className="text-black uppercase">Real-</span>
@@ -68,7 +67,7 @@ export const Header = () => {
                 </button>
               </form>
             )}
-          <ul className="flex gap-4 items-center">
+          <ul className="flex  gap-4  justify-around items-center">
             <Link to="/">
               <li className="hidden sm:inline text-slate-700 hover:underline">
                 <button

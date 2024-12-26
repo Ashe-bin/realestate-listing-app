@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import useImagePreview from "../hooks/useImagePreview";
 import { AiOutlineClose } from "react-icons/ai";
 import { supabase } from "../supabase";
@@ -15,10 +15,10 @@ const CreateListing = () => {
   const [createListError, setCreateListError] = useState(null);
   const [uploadingError, setUploadingError] = useState(null);
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     imageURLS: [],
     name: "",
-
     description: "",
     address: "",
     type: "rent",
@@ -33,9 +33,11 @@ const CreateListing = () => {
     houseArea: 0,
     lotArea: 0,
     developedDate: "",
-    location: null,
     propertyDetail: "",
   });
+
+  console.log("formdata", formData);
+
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files).slice(0, 6);
     setImageFile(files);
@@ -92,12 +94,16 @@ const CreateListing = () => {
   };
 
   const handleFormChange = (e) => {
-    const { id, type, checked, value } = e.target;
+    const { id, name, type, checked, value } = e.target;
 
-    setFormData((prev) => ({
-      ...prev,
-      [id]: type === "checkbox" ? checked : value,
-    }));
+    if (name === "type") {
+      setFormData((prev) => ({ ...prev, type: id }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [id]: type === "checkbox" ? checked : value,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -141,7 +147,7 @@ const CreateListing = () => {
       </h1>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col md:flex-row gap-10 "
+        className="flex flex-col lg:flex-row flex-wrap flex-shrink-0 gap-10 "
       >
         <div className="flex flex-col gap-4 flex-1 border border-black/10 rounded-lg shadow-md shadow-gray-300 p-1">
           <input
@@ -191,24 +197,18 @@ const CreateListing = () => {
             value={formData.address}
             required
           />
-          <input
-            type="text"
-            placeholder="Location"
-            className="border p-3 rounded-lg"
-            id="location"
-            onChange={handleFormChange}
-            value={formData.location}
-            required
-          />
-          <input
-            type="date"
-            placeholder="Developed date"
-            className="border p-3 rounded-lg"
-            id="developedDate"
-            onChange={handleFormChange}
-            value={formData.developedDate}
-            required
-          />{" "}
+          <div className="flex-col justify-center gap-2 w-full">
+            <p>Date property developed</p>
+            <input
+              type="date"
+              placeholder="Developed date"
+              className="border p-3 rounded-lg"
+              id="developedDate"
+              onChange={handleFormChange}
+              value={formData.developedDate}
+              required
+            />{" "}
+          </div>
           <div className="flex gap-6 flex-wrap">
             <div className="flex gap-2">
               <input
@@ -216,6 +216,7 @@ const CreateListing = () => {
                 onChange={handleFormChange}
                 checked={formData.type === "sale"}
                 id="sale"
+                name="type"
                 className="w-5"
               />
               <span>Sell</span>
@@ -226,6 +227,7 @@ const CreateListing = () => {
                 checked={formData.type === "rent"}
                 type="checkbox"
                 id="rent"
+                name="type"
                 className="w-5"
               />
               <span>Rent</span>
@@ -258,7 +260,7 @@ const CreateListing = () => {
                 id="offer"
                 className="w-5"
               />
-              <span>you have Offer</span>
+              <span>you have Offer(discount)</span>
             </div>
           </div>
           <div className="flex flex-wrap gap-4">
@@ -331,7 +333,7 @@ const CreateListing = () => {
                 className="p-3 border border-gray-300 rounded-lg "
               />
               <div className="flex flex-col items-center">
-                <p>house square fit area</p>
+                <p>house square fit area(meter square)</p>
               </div>
             </div>{" "}
             <div className="flex items-center gap-2">
@@ -345,7 +347,7 @@ const CreateListing = () => {
                 className="p-3 border border-gray-300 rounded-lg "
               />
               <div className="flex flex-col items-center">
-                <p>lot square fit area</p>
+                <p>lot square fit area(meter square)</p>
               </div>
             </div>
           </div>
@@ -358,14 +360,16 @@ const CreateListing = () => {
             </span>
           </p>
           <div className="flex gap-4">
-            <input
-              className="p-3 border border-gray-300 rounded w-full"
-              type="file"
-              id="images"
-              accept="image/*"
-              onChange={handleFileChange}
-              multiple
-            />
+            <div className="flex-col gap-2">
+              <input
+                className="p-3 border border-gray-300 rounded w-full"
+                type="file"
+                id="images"
+                accept="image/*"
+                onChange={handleFileChange}
+                multiple
+              />
+            </div>
             <button
               type="button"
               disabled={error || imageFile.length === 0}
@@ -375,6 +379,7 @@ const CreateListing = () => {
               {isUploading ? "uploading.." : "Upload"}
             </button>
           </div>
+
           {uploadingError && (
             <p className="text-center text-sm text-red-700">{uploadingError}</p>
           )}

@@ -28,6 +28,18 @@ html {
 .custom-scrollbar::-webkit-scrollbar-track {
   background-color: #c0fdfb;
 }
+/* Style for navigation buttons */
+.swiper-button-next,
+.swiper-button-prev {
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  size: 4px;
+}
+
+/* Hover effect */
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  transform: scale(1.1);
+}
 
 @layer base {
   :root {
