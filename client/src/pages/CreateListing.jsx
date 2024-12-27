@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useState } from "react";
 import useImagePreview from "../hooks/useImagePreview";
 import { AiOutlineClose } from "react-icons/ai";
 import { supabase } from "../supabase";

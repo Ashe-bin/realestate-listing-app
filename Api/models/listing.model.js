@@ -19,15 +19,6 @@ const listingSchema = new mongoose.Schema(
     propertyDetail: { type: String },
     houseArea: { type: Number, required: true },
     lotArea: { type: Number, required: true },
-    location: {
-      type: {
-        type: String,
-        enum: ["Point"],
-      },
-      coordinates: {
-        type: [Number],
-      },
-    },
     developedDate: { type: Date },
   },
   { timestamps: true }
