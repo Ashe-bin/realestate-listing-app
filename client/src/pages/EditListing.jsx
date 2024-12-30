@@ -31,6 +31,11 @@ const EditListing = () => {
     offer: false,
     parking: false,
     furnished: false,
+    propertyType: "",
+    houseArea: 0,
+    lotArea: 0,
+    developedDate: "",
+    propertyDetail: "",
   });
 
   useEffect(() => {
@@ -178,10 +183,10 @@ const EditListing = () => {
         onSubmit={handleSubmit}
         className="flex flex-col md:flex-row gap-10"
       >
-        <div className="flex flex-col gap-4 flex-1">
+        <div className="flex flex-col gap-4 flex-1 border border-black/10 rounded-lg shadow-md shadow-gray-300 p-1">
           <input
             type="text"
-            placeholder="Name"
+            placeholder="Name of developer company/(Name of a person if individual)"
             className="border p-3 rounded-lg"
             id="name"
             maxLength="62"
@@ -190,14 +195,34 @@ const EditListing = () => {
             value={formData.name}
             required
           />
+          <input
+            type="text"
+            placeholder="type of property (single-family,apartment, condo, townhouse...)"
+            className="border p-3 rounded-lg"
+            id="propertyType"
+            onChange={handleFormChange}
+            value={formData.propertyType}
+            required
+          />
           <textarea
             type="text"
-            placeholder="Description"
+            rows="5"
+            placeholder="Short description"
             className="border p-3 rounded-lg"
             id="description"
             onChange={handleFormChange}
             value={formData.description}
             required
+          />
+          <textarea
+            type="text"
+            placeholder="property detail(modern kitchen with granite counter tops, a private backyard with a deck...)"
+            className="border p-3 rounded-lg"
+            id="propertyDetail"
+            onChange={handleFormChange}
+            value={formData.propertyDetail}
+            required
+            rows={"5"}
           />
           <input
             type="text"
@@ -208,6 +233,18 @@ const EditListing = () => {
             value={formData.address}
             required
           />
+          <div className="flex-col justify-center gap-2 w-full">
+            <p>Date property developed</p>
+            <input
+              type="date"
+              placeholder="Developed date"
+              className="border p-3 rounded-lg"
+              id="developedDate"
+              onChange={handleFormChange}
+              value={formData.developedDate}
+              required
+            />{" "}
+          </div>
           <div className="flex gap-6 flex-wrap">
             <div className="flex gap-2">
               <input
@@ -225,8 +262,8 @@ const EditListing = () => {
                 onChange={handleFormChange}
                 checked={formData.type === "rent"}
                 type="checkbox"
-                name="type"
                 id="rent"
+                name="type"
                 className="w-5"
               />
               <span>Rent</span>
@@ -259,10 +296,9 @@ const EditListing = () => {
                 id="offer"
                 className="w-5"
               />
-              <span>you have Offer</span>
+              <span>you have Offer(discount)</span>
             </div>
           </div>
-
           <div className="flex flex-wrap gap-4">
             <div className="flex items-center gap-2">
               <input
@@ -270,7 +306,7 @@ const EditListing = () => {
                 id="bedRoom"
                 onChange={handleFormChange}
                 value={formData.bedRoom}
-                min="1"
+                min="0"
                 max="100"
                 required
                 className="p-3 border border-gray-300 rounded-lg "
@@ -284,7 +320,7 @@ const EditListing = () => {
                 min="0"
                 onChange={handleFormChange}
                 value={formData.bathRoom}
-                max="50"
+                max="100"
                 required
                 className="p-3 border border-gray-300 rounded-lg "
               />
@@ -322,6 +358,34 @@ const EditListing = () => {
                 </div>
               </div>
             )}
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                id="houseArea"
+                onChange={handleFormChange}
+                value={formData.houseArea}
+                min="0"
+                required
+                className="p-3 border border-gray-300 rounded-lg "
+              />
+              <div className="flex flex-col items-center">
+                <p>house square fit area(meter square)</p>
+              </div>
+            </div>{" "}
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                id="lotArea"
+                onChange={handleFormChange}
+                value={formData.lotArea}
+                min="0"
+                required
+                className="p-3 border border-gray-300 rounded-lg "
+              />
+              <div className="flex flex-col items-center">
+                <p>lot square fit area(meter square)</p>
+              </div>
+            </div>
           </div>
         </div>
         <div className="flex flex-col flex-1 gap-4">
