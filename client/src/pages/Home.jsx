@@ -123,17 +123,17 @@ export const Home = () => {
         <div className=" w-[40%]">
           <form
             onSubmit={handleSubmit}
-            className=" bg-slate-100 p-1  rounded-full flex items-center border border-black/25"
+            className=" bg-slate-100 p-1  rounded-full flex items-center  border  transition-all duration-1000 border-black/25 focus-within:border-black  "
           >
             <input
               type="text"
               placeholder=" name/type of the  house "
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="bg-transparent focus:outline-none placeholder:text-xl px-2  placeholder:font-medium  w-full placeholder:text-gray-400"
+              className="bg-transparent focus:outline-none border-none focus:border-none placeholder:text-xl px-2 focus:ring-0   placeholder:font-medium  w-full placeholder:text-gray-400 peer"
             />
-            <button className="flex self-center p-3 text-center justify-center rounded-full bg-[#fcd5ce] active:bg-[#c0fdfb]">
-              <FaSearch className="text-black/80  text-2xl" />
+            <button className="flex self-center p-3 text-center justify-center rounded-full bg-[#fcd5ce] peer-focus:bg-[#64b6ac] active:bg-[#c0fdfb] transition-all duration-1000">
+              <FaSearch className="  text-2xl" />
             </button>
           </form>
         </div>

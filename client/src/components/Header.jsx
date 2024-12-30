@@ -53,16 +53,16 @@ export const Header = () => {
             pathname !== "sign-up" && (
               <form
                 onSubmit={handleSubmit}
-                className=" bg-slate-100 p-1  rounded-full flex items-center border border-black/25 w-[40%]"
+                className=" bg-slate-100 p-1  rounded-full flex items-center border border-black/25 w-[40%] focus-within:border-black transition duration-1000"
               >
                 <input
                   type="text"
                   placeholder=" name/type of the  house "
                   value={searchTerm ?? ""}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="bg-transparent focus:outline-none placeholder:text-sm px-2  placeholder:font-medium  w-full placeholder:text-gray-400"
+                  className="bg-transparent focus:outline-none placeholder:text-sm px-2  placeholder:font-medium  w-full placeholder:text-gray-400 border-none focus:ring-0 peer"
                 />
-                <button className="flex self-center p-2 text-center justify-center rounded-full bg-[#fcd5ce]">
+                <button className="flex self-center p-[10px] text-center justify-center rounded-full bg-[#fcd5ce] peer-focus:bg-[#64b6ac] active:bg-[#c0fdfb] transition-all duration-1000">
                   <FaSearch className="text-black/80  text-lg" />
                 </button>
               </form>
