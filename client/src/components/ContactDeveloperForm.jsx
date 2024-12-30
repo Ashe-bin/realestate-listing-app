@@ -66,7 +66,7 @@ const ContactDeveloperForm = () => {
               Message
             </label>
           </div>
-          <button className="p-3 background text-white text-lg rounded-full capitalize bg-[#b09e99] hover:bg-[#c9b2ac] active:bg-[#c0fdfb] ">
+          <button className="p-3 background text-white text-lg rounded-xl capitalize bg-[#b09e99] w-[70%] hover:bg-[#c9b2ac] active:bg-[#c0fdfb]  border border-black/50 mx-auto">
             Contact developer
           </button>
         </form>

@@ -202,7 +202,7 @@ export const Profile = () => {
         />
         <button
           disabled={loading}
-          className="bg-[#b09e99] font-semibold text-lg text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80"
+          className="bg-[#b09e99] font-semibold text-lg text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80 border border-black/60"
         >
           {loading
             ? "Updating.."

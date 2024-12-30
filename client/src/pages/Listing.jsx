@@ -33,6 +33,17 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import ContactDeveloperForm from "@/components/ContactDeveloperForm";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 export const Listing = () => {
   SwiperCore.use([Navigation]);
@@ -43,10 +54,16 @@ export const Listing = () => {
   const [copied, setCopied] = useState(false);
   const [contact, setContact] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
-  const [openDropdown, setOpenDropdown] = useState(null);
+  const [openDropdown, setOpenDropdown] = useState("openHouse");
   const [dates, setDates] = useState([]);
   const contentRef = useRef(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
+  const [isOpenDialog, setIsOpenDialog] = useState(false);
+  const [tourRequestForm, setTourRequestForm] = useState({
+    phoneNumber: "",
+    email: "",
+    date: {},
+  });
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -83,6 +100,7 @@ export const Listing = () => {
         daysArray.push({ dayName, dayNumber, monthName });
       }
       setDates(daysArray);
+      setSelectedIndex(0);
     };
     generateNextSevenDays();
   }, []);
@@ -91,6 +109,11 @@ export const Listing = () => {
   const toggleDropdown = (dropDownId) => {
     console.log("dropDownId", dropDownId);
     setOpenDropdown((prev) => (prev === dropDownId ? null : dropDownId));
+  };
+
+  const handleRequestTour = (e) => {
+    e.preventDefault();
+    setIsOpenDialog(true);
   };
 
   return (
@@ -240,7 +263,10 @@ export const Listing = () => {
                       opacity: openDropdown === "openHouse" ? 1 : 0,
                     }}
                   >
-                    <form className="mx-auto border border-black/60  w-[60%] flex flex-col gap-4 justify-center items-center py-3 rounded-xl bg-[#d8e2dc] shadow-md shadow-gray-400">
+                    <form
+                      onSubmit={handleRequestTour}
+                      className="mx-auto border border-black/60  w-[60%] flex flex-col gap-4 justify-center items-center py-3 rounded-xl bg-[#d8e2dc] shadow-md shadow-gray-400"
+                    >
                       <p className="text-center ">Schedule tour</p>
                       <p className="text-center">Choose your preferred date</p>
                       <Carousel className="w-[80%] mx-auto  ">
@@ -250,7 +276,13 @@ export const Listing = () => {
                               <CarouselItem className="  m-1">
                                 <div
                                   className=""
-                                  onClick={() => setSelectedIndex(index)}
+                                  onClick={() => {
+                                    setTourRequestForm({
+                                      ...tourRequestForm,
+                                      date: date,
+                                    });
+                                    setSelectedIndex(index);
+                                  }}
                                 >
                                   <Card
                                     className={`border border-black/70  h-[5rem] w-[8rem] flex items-center justify-center transition ${
@@ -283,6 +315,13 @@ export const Listing = () => {
                           <input
                             name="requestTourEmail"
                             type="email"
+                            value={tourRequestForm.name}
+                            onChange={(e) =>
+                              setTourRequestForm({
+                                ...tourRequestForm,
+                                email: e.target.value,
+                              })
+                            }
                             id="requestTourEmail"
                             className="border peer placeholder-transparent border-slate-800 p-3 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20 w-full"
                             placeholder="Enter your email"
@@ -298,6 +337,13 @@ export const Listing = () => {
                           <input
                             name="requestTourPhone"
                             type="text"
+                            value={tourRequestForm.name}
+                            onChange={(e) =>
+                              setTourRequestForm({
+                                ...tourRequestForm,
+                                phoneNumber: e.target.value,
+                              })
+                            }
                             id="requestTourPhone"
                             className="border peer placeholder-transparent border-slate-800 p-3 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20 w-full"
                             placeholder="Enter phone number"
@@ -311,7 +357,7 @@ export const Listing = () => {
                         </div>
                       </div>
 
-                      <button className="p-3 font-semibold background text-white text-xl rounded-full capitalize bg-[#b09e99] hover:bg-[#c9b2ac] active:bg-[#c0fdfb] w-[80%] ">
+                      <button className="p-3 font-semibold background text-white text-xl rounded-xl  capitalize bg-[#b09e99] hover:bg-[#c9b2ac] active:bg-[#c0fdfb] w-[80%] border border-black/50 ">
                         Request Tour
                       </button>
                     </form>
@@ -360,6 +406,48 @@ export const Listing = () => {
                 <div className=" mx-auto w-[70%] flex justify-center xl:hidden ">
                   <ContactDeveloperForm />
                 </div>
+                <Dialog open={isOpenDialog} onOpenChange={setIsOpenDialog}>
+                  <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                      <DialogTitle>Tour Request received</DialogTitle>
+                      <DialogDescription>
+                        Request Tour processed successfully!
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="flex flex-col justify center gap-2 text-slate-700 text-lg text-left">
+                      <div>
+                        You have requested a tour to{" "}
+                        <span className="font-semibold italic">
+                          {listing.name}
+                        </span>{" "}
+                        at
+                        <span className="font-semibold italic">
+                          {" "}
+                          {`${tourRequestForm.date.dayNumber}, ${tourRequestForm.date.dayName}, ${tourRequestForm.date.monthName}`}{" "}
+                        </span>
+                      </div>
+                      <div>
+                        Coordinator will call you shortly to
+                        <span className="font-semibold italic">
+                          {" "}
+                          {tourRequestForm.phoneNumber}{" "}
+                        </span>
+                        to connect with an agent, Thank You!
+                      </div>
+                    </div>
+                    <DialogFooter className="sm:justify-start">
+                      <DialogClose asChild>
+                        <Button
+                          type="button"
+                          variant="primary"
+                          className="bg-slate-700 text-white text-md hover:bg-slate-600"
+                        >
+                          Close
+                        </Button>
+                      </DialogClose>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
               </div>
               {currentUser &&
                 listing.userRef == currentUser._id &&
