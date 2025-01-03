@@ -8,6 +8,7 @@ import { FaSearch } from "react-icons/fa";
 import Container from "../components/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { setLiked } from "@/redux/feature/user/userLikedListSlice";
+import Footer from "@/components/Footer";
 
 export const Home = () => {
   const [offerListings, setOfferListings] = useState([]);
@@ -97,117 +98,107 @@ export const Home = () => {
       <div
         style={{
           background: `linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)),url(https://images.pexels.com/photos/29799518/pexels-photo-29799518/free-photo-of-real-estate-investment-essentials-with-euro-currency.jpeg) center no-repeat`,
-          backgroundSize: "cover",
-          backgroundPosition: "center center",
         }}
-        className="h-[70vh] flex flex-col justify-center items-center gap-4"
+        className="h-[70vh]  flex flex-col justify-center items-center gap-8 bg-cover bg-center bg-gradient-to-b from-transparent to-black sm:bg-gradient-to-b sm:from-transparent sm:to-black md:bg-gradient-to-b md:from-black md:to-black"
       >
-        <div></div>
-        <div className="flex flex-wrap gap-2 justify-between items-center font-medium text-black/80 text-xl  w-[40%] px-3">
-          <div>
-            <button className="border border-black/80 capitalize bg-[#fcd5ce] py-1 px-4  rounded-full hover:bg-[#fee9e1] active:bg-[#c0fdfb]">
-              sell
-            </button>
-          </div>
-          <div>
-            <button className="border border-black/80 capitalize bg-[#fcd5ce] py-1 px-4  rounded-full hover:bg-[#fee9e1] active:bg-[#c0fdfb]">
-              Buy
-            </button>
-          </div>
-          <div>
-            <button className="border border-black/80 capitalize bg-[#fcd5ce] py-1 px-4  rounded-full hover:bg-[#fee9e1] active:bg-[#c0fdfb]">
-              Rent
-            </button>
-          </div>
+        <div className="flex flex-col w-[80%] md:[w-60%] lg:w-[45%   mx-auto  text-center">
+          <h1 className="text-white text-2xl  md:font-extrabold md:text-6xl">
+            Find your next <span className="text-slate-500">perfect</span>{" "}
+            <br className="hidden md:block" /> place with ease
+          </h1>
         </div>
-        <div className=" w-[40%]">
+
+        <div className="w-[80%] xs:w-[100%] sm:w-[60%]  md:w-[50%] lg:w-[40%]">
           <form
             onSubmit={handleSubmit}
-            className=" bg-slate-100 p-1  rounded-full flex items-center  border  transition-all duration-1000 border-black/25 focus-within:border-black  "
+            className=" bg-slate-100 sm:p-1  rounded-full flex items-center  border border-red-800  transition-all duration-1000 border-black/25 focus-within:border-black  "
           >
             <input
               type="text"
               placeholder=" name/type of the  house "
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="bg-transparent focus:outline-none border-none focus:border-none placeholder:text-xl px-2 focus:ring-0   placeholder:font-medium  w-full placeholder:text-gray-400 peer"
+              className="bg-transparent focus:outline-none border-none focus:border-none placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-xl px-2 focus:ring-0   md:placeholder:font-medium  w-full placeholder:text-gray-400 peer"
             />
-            <button className="flex self-center p-3 text-center justify-center rounded-full bg-[#fcd5ce] peer-focus:bg-[#64b6ac] active:bg-[#c0fdfb] transition-all duration-1000">
-              <FaSearch className="  text-2xl" />
+            <button className="flex mr-1 sm:mr-0 p-2 lg:p-3 text-center justify-center rounded-full bg-[#fcd5ce] peer-focus:bg-[#64b6ac] active:bg-[#c0fdfb] transition-all duration-1000">
+              <FaSearch className="text-md md:text-xl   lg:text-2xl" />
             </button>
           </form>
         </div>
       </div>
       <Container>
-        <div className="flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto">
-          <h1 className="text-slate-700 font-bold text-3xl lg:text-6xl">
-            Find your next <span className="text-slate-500">perfect</span>{" "}
-            <br /> place with ease
-          </h1>
-        </div>
-        <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 my-10">
+        <div className="w-full text-center   flex flex-col gap-10  my-10 py-10 ">
           {offerListings && offerListings.length > 0 && (
-            <div>
-              <div className="my-3">
-                <h2 className="text-2xl font-semibold text-slate-600">
+            <div className="flex flex-col gap-y-14 ">
+              <div>
+                <h2 className="inline-block text-xl   sm:font-semibold md:text-2xl lg:text-4xl md:font-extrabold rounded-2xl  p-3 shadow-sm shadow-[#f0abfc] text-[#155e75] ">
                   Recent offers
                 </h2>
-                <Link
-                  className="text-sm text-blue-800 hover:underline"
-                  to={"/search?offer=true"}
-                >
-                  Show more offers
-                </Link>
               </div>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex  gap-7 flex-wrap  justify-center  ">
                 {offerListings.map((listing) => (
-                  <ListingItem listing={listing} key={listing._id} />
+                  <div key={listing._id} className="">
+                    <ListingItem listing={listing} />
+                  </div>
                 ))}
               </div>
+              <Link
+                className="border w-[300px] mx-auto border-black/30 text-md py-1 px-2 bg-[#64b6ac] rounded-lg md:text-lg text-black/70 shadow-md shadow-gray-500"
+                to={"/search?offer=true"}
+              >
+                Show more listing with offers
+              </Link>
             </div>
           )}
           {rentListings && rentListings.length > 0 && (
-            <div>
-              <div className="my-3">
-                <h2 className="text-2xl font-semibold text-slate-600">
+            <div className="flex flex-col gap-y-14">
+              <div>
+                <h2 className="inline-block text-xl sm:font-semibold md:text-2xl lg:text-4xl md:font-extrabold rounded-2xl p-3  shadow-sm shadow-[#f0abfc] text-[#155e75]  ">
+                  {" "}
                   Recent places for rent
                 </h2>
-                <Link
-                  className="text-sm text-blue-800 hover:underline"
-                  to={"/search?type=rent"}
-                >
-                  Show more places for rent
-                </Link>
               </div>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex  gap-7 flex-wrap  justify-center">
                 {rentListings.map((listing) => (
-                  <ListingItem listing={listing} key={listing._id} />
+                  <div key={listing._id} className="">
+                    <ListingItem listing={listing} />
+                  </div>
                 ))}
               </div>
+              <Link
+                className="border w-[300px] mx-auto border-black/30 text-md py-1 px-2 bg-[#64b6ac] rounded-lg md:text-lg text-black/70 shadow-md shadow-gray-500"
+                to={"/search?type=rent"}
+              >
+                Show more places for rent
+              </Link>
             </div>
           )}
           {saleListings && saleListings.length > 0 && (
-            <div>
-              <div className="my-3">
-                <h2 className="text-2xl font-semibold text-slate-600">
+            <div className="flex flex-col gap-y-14">
+              <div>
+                <h2 className=" inline-block text-xl sm:font-semibold md:text-2xl lg:text-4xl md:font-extrabold  border  p-3 rounded-2xl shadow-sm shadow-[#f0abfc] text-[#155e75] ">
+                  {" "}
                   Recent places for sale
                 </h2>
-                <Link
-                  className="text-sm text-blue-800 hover:underline"
-                  to={"/search?type=sale"}
-                >
-                  Show more place for sale
-                </Link>
               </div>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex gap-7 flex-wrap  justify-center">
                 {saleListings.map((listing) => (
-                  <ListingItem listing={listing} key={listing._id} />
+                  <div key={listing._id} className="">
+                    <ListingItem listing={listing} />
+                  </div>
                 ))}
               </div>
+              <Link
+                className="border w-[300px] mx-auto border-black/30 text-md py-1 px-2 bg-[#64b6ac] rounded-lg md:text-lg text-black/70 shadow-md shadow-gray-500"
+                to={"/search?type=sale"}
+              >
+                Show more place for sale
+              </Link>
             </div>
           )}
         </div>
       </Container>
+      <Footer />
     </div>
   );
 };

@@ -51,11 +51,11 @@ const ListingItem = ({ listing }) => {
   };
 
   return (
-    <div className="relative bg-white shadow-md shadow-gray-[#c0fdfb] hover:shadow-lg hover:shadow-gray-300 transition-shadow overflow-hidden rounded-lg w-full sm:w-[330px] border border-black/20 ">
-      <p className="absolute rounded-bl-md text-white top-0 right-0 px-1 z-10  bg-[#64b6ac]">
+    <div className="relative bg-white shadow-md shadow-gray-[#c0fdfb] hover:shadow-lg hover:shadow-gray-300 transition-shadow overflow-hidden rounded-lg w-[95%] mx-auto sm:w-[330px] border border-black/20 text-left">
+      <p className="absolute rounded-bl-md text-white top-0 right-0 px-1 z-10  bg-[#64b6ac] ">
         {listing.type}
       </p>
-      <div className="relative">
+      <div className="relative overflow-clip">
         <Link to={`/listing/${listing._id}`}>
           <img
             src={listing.imageURLS[0]}
@@ -88,7 +88,7 @@ const ListingItem = ({ listing }) => {
         <div className="p-3 flex flex-col gap-2 w-full">
           <div className="flex items-center gap-1">
             <IoHome className="size-4 text-[#64b6ac]" />
-            <p className="truncate text-lg font-semibold text-slate-700">
+            <p className="truncate text-wrap sm:text-nowrap sm:text-lg sm:font-semibold text-slate-700">
               {listing.name}
             </p>
           </div>

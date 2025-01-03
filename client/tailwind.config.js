@@ -7,6 +7,15 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      animation: {
+        "border-dots": "border-dots 2s linear infinite",
+      },
+      keyframes: {
+        "border-dots": {
+          "0%": { backgroundPosition: "0% 0%" },
+          "100%": { backgroundPosition: "200% 200%" },
+        },
+      },
       screens: { "custom-900": "900px" },
       backgroundImage: {
         "square-lines":
