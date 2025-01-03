@@ -4,6 +4,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { supabase } from "../supabase";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import Container from "@/components/Container";
 
 const EditListing = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -175,299 +176,305 @@ const EditListing = () => {
   };
 
   return (
-    <main className="p-3 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-semibold text-center my-7">
-        Update Listing
-      </h1>
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col md:flex-row gap-10"
-      >
-        <div className="flex flex-col gap-4 flex-1 border border-black/10 rounded-lg shadow-md shadow-gray-300 p-1">
-          <input
-            type="text"
-            placeholder="Name of developer company/(Name of a person if individual)"
-            className="border p-3 rounded-lg"
-            id="name"
-            maxLength="62"
-            minLength="10"
-            onChange={handleFormChange}
-            value={formData.name}
-            required
-          />
-          <input
-            type="text"
-            placeholder="type of property (single-family,apartment, condo, townhouse...)"
-            className="border p-3 rounded-lg"
-            id="propertyType"
-            onChange={handleFormChange}
-            value={formData.propertyType}
-            required
-          />
-          <textarea
-            type="text"
-            rows="5"
-            placeholder="Short description"
-            className="border p-3 rounded-lg"
-            id="description"
-            onChange={handleFormChange}
-            value={formData.description}
-            required
-          />
-          <textarea
-            type="text"
-            placeholder="property detail(modern kitchen with granite counter tops, a private backyard with a deck...)"
-            className="border p-3 rounded-lg"
-            id="propertyDetail"
-            onChange={handleFormChange}
-            value={formData.propertyDetail}
-            required
-            rows={"5"}
-          />
-          <input
-            type="text"
-            placeholder="Address"
-            className="border p-3 rounded-lg"
-            id="address"
-            onChange={handleFormChange}
-            value={formData.address}
-            required
-          />
-          <div className="flex-col justify-center gap-2 w-full">
-            <p>Date property developed</p>
+    <Container>
+      <main className="my-7">
+        <h1 className="text-2xl md:text-3xl text-[#083344]  font-semibold text-center my-5">
+          Update Listing
+        </h1>
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col lg:flex-row gap-10 mx-auto flex-shrink-0"
+        >
+          <div className="flex flex-col gap-4 flex-1 border border-black/10 rounded-lg shadow-md shadow-gray-300 text-slate-700 font-semibold p-2 w-full md:w-[70%] mx-auto lg:basis-1/2 md:p-5">
             <input
-              type="date"
-              placeholder="Developed date"
-              className="border p-3 rounded-lg"
-              id="developedDate"
+              type="text"
+              placeholder="Name of developer company/(Name of a person if individual)"
+              className="border rounded-lg font-normal p-2 placeholder:text-sm md:placeholder:text-md md:p-3 focus:outline-none focus:border-black focus:ring focus:ring-black/20"
+              id="name"
+              maxLength="62"
+              minLength="10"
               onChange={handleFormChange}
-              value={formData.developedDate}
+              value={formData.name}
               required
-            />{" "}
-          </div>
-          <div className="flex gap-6 flex-wrap">
-            <div className="flex gap-2">
+            />
+            <input
+              type="text"
+              placeholder="type of property (single-family,apartment, condo, townhouse...)"
+              className="border p-2 rounded-lg placeholder:text-sm md:placeholder:text-md md:p-3 focus:outline-none focus:border-black focus:ring focus:ring-black/20"
+              id="propertyType"
+              onChange={handleFormChange}
+              value={formData.propertyType}
+              required
+            />
+            <textarea
+              type="text"
+              rows="5"
+              placeholder="Short description"
+              className="border p-2 rounded-lg font-normal placeholder:text-sm md:placeholder:text-md md:p-3 focus:outline-none focus:border-black focus:ring focus:ring-black/20"
+              id="description"
+              onChange={handleFormChange}
+              value={formData.description}
+              required
+            />
+            <textarea
+              type="text"
+              placeholder="property detail(modern kitchen with granite counter tops, a private backyard with a deck...)"
+              className="border p-2 rounded-lg placeholder:text-sm md:placeholder:text-md md:p-3 font-normal focus:outline-none focus:border-black focus:ring focus:ring-black/20"
+              id="propertyDetail"
+              onChange={handleFormChange}
+              value={formData.propertyDetail}
+              required
+              rows={"5"}
+            />
+            <input
+              type="text"
+              placeholder="Address"
+              className="border p-2 rounded-lg placeholder:text-sm md:placeholder:text-md md:p-3 focus:outline-none font-normal focus:border-black focus:ring focus:ring-black/20"
+              id="address"
+              onChange={handleFormChange}
+              value={formData.address}
+              required
+            />
+            <div className="flex-col justify-center gap-2 w-full">
+              <p className="my-2">Date property developed</p>
               <input
-                type="checkbox"
+                type="date"
+                placeholder="Developed date"
+                className="border p-2 rounded-lg focus:outline-none placeholder:text-sm md:placeholder:text-md md:p-3 focus:border-black focus:ring focus:ring-black/20"
+                id="developedDate"
                 onChange={handleFormChange}
-                checked={formData.type === "sale"}
-                id="sale"
-                name="type"
-                className="w-5"
-              />
-              <span>Sell</span>
-            </div>
-            <div className="flex gap-2">
-              <input
-                onChange={handleFormChange}
-                checked={formData.type === "rent"}
-                type="checkbox"
-                id="rent"
-                name="type"
-                className="w-5"
-              />
-              <span>Rent</span>
-            </div>
-            <div className="flex gap-2">
-              <input
-                onChange={handleFormChange}
-                checked={formData.parking}
-                type="checkbox"
-                id="parking"
-                className="w-5"
-              />
-              <span>Parking Spot</span>
-            </div>
-            <div className="flex gap-2">
-              <input
-                onChange={handleFormChange}
-                checked={formData.furnished}
-                type="checkbox"
-                id="furnished"
-                className="w-5"
-              />
-              <span>Furnished</span>
-            </div>
-            <div className="flex gap-2">
-              <input
-                onChange={handleFormChange}
-                checked={formData.offer}
-                type="checkbox"
-                id="offer"
-                className="w-5"
-              />
-              <span>you have Offer(discount)</span>
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-4">
-            <div className="flex items-center gap-2">
-              <input
-                type="number"
-                id="bedRoom"
-                onChange={handleFormChange}
-                value={formData.bedRoom}
-                min="0"
-                max="100"
+                value={formData.developedDate}
                 required
-                className="p-3 border border-gray-300 rounded-lg "
-              />
-              <p>Beds</p>
+              />{" "}
             </div>
-            <div className="flex items-center gap-2">
-              <input
-                type="number"
-                id="bathRoom"
-                min="0"
-                onChange={handleFormChange}
-                value={formData.bathRoom}
-                max="100"
-                required
-                className="p-3 border border-gray-300 rounded-lg "
-              />
-              <p>Baths</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <input
-                type="number"
-                id="regularPrice"
-                onChange={handleFormChange}
-                value={formData.regularPrice}
-                min="0"
-                required
-                className="p-3 border border-gray-300 rounded-lg "
-              />
-              <div className="flex flex-col items-center">
-                <p>Regular Price</p>
-                <span className="text-xs">($ / month)</span>
+            <div className="flex gap-6 flex-wrap flex-col sm:flex-row">
+              <div className="flex gap-2 items-center">
+                <input
+                  type="checkbox"
+                  onChange={handleFormChange}
+                  checked={formData.type === "sale"}
+                  id="sale"
+                  name="type"
+                  className="w-6 h-6 rounded-md focus:outline-none border focus:border-black focus:ring focus:ring-black/20 checked:bg-black/60 checked:border-black/30"
+                />
+                <span>Sell</span>
+              </div>
+              <div className="flex gap-2 items-center">
+                <input
+                  onChange={handleFormChange}
+                  checked={formData.type === "rent"}
+                  type="checkbox"
+                  id="rent"
+                  name="type"
+                  className="w-6 h-6 rounded-md focus:outline-none border  focus:border-black focus:ring focus:ring-black/20 checked:bg-black/60 checked:border-black/30"
+                />
+                <span>Rent</span>
+              </div>
+              <div className="flex gap-2 items-center">
+                <input
+                  onChange={handleFormChange}
+                  checked={formData.parking}
+                  type="checkbox"
+                  id="parking"
+                  className="w-6 h-6 rounded-md focus:outline-none border focus:border-black focus:ring focus:ring-black/20 checked:bg-black/60 checked:border-black/30"
+                />
+                <span>Parking Spot</span>
+              </div>
+              <div className="flex gap-2 items-center">
+                <input
+                  onChange={handleFormChange}
+                  checked={formData.furnished}
+                  type="checkbox"
+                  id="furnished"
+                  className="w-6 h-6 rounded-md focus:outline-none border focus:border-black focus:ring focus:ring-black/20 checked:bg-black/60 checked:border-black/30"
+                />
+                <span>Furnished</span>
+              </div>
+              <div className="flex gap-2 items-center">
+                <input
+                  onChange={handleFormChange}
+                  checked={formData.offer}
+                  type="checkbox"
+                  id="offer"
+                  className="w-6 h-6 rounded-md focus:outline-none border focus:border-black focus:ring focus:ring-black/20 checked:bg-black/60 checked:border-black/30"
+                />
+                <span>you have Offer(discount)</span>
               </div>
             </div>
-            {formData.offer && (
-              <div className="flex items-center gap-2">
+            <div className="flex flex-wrap flex-col sm:flex-row gap-4">
+              <div className="flex flex-col items-start sm:items-center gap-2 sm:flex-row">
                 <input
                   type="number"
-                  id="discountPrice"
-                  min="1"
+                  id="bedRoom"
                   onChange={handleFormChange}
-                  value={formData.discountPrice}
+                  value={formData.bedRoom}
+                  min="0"
+                  max="100"
                   required
-                  className="p-3 border border-gray-300 rounded-lg "
+                  className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20"
+                />
+                <p>Beds</p>
+              </div>
+              <div className="flex flex-col smitems-center gap-2">
+                <input
+                  type="number"
+                  id="bathRoom"
+                  min="0"
+                  onChange={handleFormChange}
+                  value={formData.bathRoom}
+                  max="100"
+                  required
+                  className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20"
+                />
+                <p>Baths</p>
+              </div>
+              <div className="flex flex-col sm:flex-row items-start  sm:items-center gap-2 ">
+                <input
+                  type="number"
+                  id="regularPrice"
+                  onChange={handleFormChange}
+                  value={formData.regularPrice}
+                  min="0"
+                  required
+                  className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20"
                 />
                 <div className="flex flex-col items-center">
-                  <p>Discounted Price</p>
+                  <p>Regular Price</p>
                   <span className="text-xs">($ / month)</span>
                 </div>
               </div>
-            )}
-            <div className="flex items-center gap-2">
-              <input
-                type="number"
-                id="houseArea"
-                onChange={handleFormChange}
-                value={formData.houseArea}
-                min="0"
-                required
-                className="p-3 border border-gray-300 rounded-lg "
-              />
-              <div className="flex flex-col items-center">
-                <p>house square fit area(meter square)</p>
-              </div>
-            </div>{" "}
-            <div className="flex items-center gap-2">
-              <input
-                type="number"
-                id="lotArea"
-                onChange={handleFormChange}
-                value={formData.lotArea}
-                min="0"
-                required
-                className="p-3 border border-gray-300 rounded-lg "
-              />
-              <div className="flex flex-col items-center">
-                <p>lot square fit area(meter square)</p>
+              {formData.offer && (
+                <div className="flex flex-col sm:flex-row items-start  sm:items-center gap-2">
+                  <input
+                    type="number"
+                    id="discountPrice"
+                    min="1"
+                    onChange={handleFormChange}
+                    value={formData.discountPrice}
+                    required
+                    className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20"
+                  />
+                  <div className="flex flex-col items-center">
+                    <p>Discounted Price</p>
+                    <span className="text-xs">($ / month)</span>
+                  </div>
+                </div>
+              )}
+              <div className="flex flex-col sm:flex-row sm:items-center items-start gap-2 ">
+                <input
+                  type="number"
+                  id="houseArea"
+                  onChange={handleFormChange}
+                  value={formData.houseArea}
+                  min="0"
+                  required
+                  className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20"
+                />
+                <div className="flex flex-col items-center">
+                  <p>house square fit area(meter square)</p>
+                </div>
+              </div>{" "}
+              <div className="flex flex-col sm:flex-row items-start  sm:items-center gap-2">
+                <input
+                  type="number"
+                  id="lotArea"
+                  onChange={handleFormChange}
+                  value={formData.lotArea}
+                  min="0"
+                  required
+                  className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20"
+                />
+                <div className="flex flex-col items-center">
+                  <p>lot square fit area(meter square)</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="flex flex-col flex-1 gap-4">
-          <p className="font-semibold">
-            Images:{" "}
-            <span className="font-normal text-gray-600 ml-2">
-              The first image will be the cover of you listing (max-6)
-            </span>
-          </p>
-          <div className="flex gap-4">
-            <input
-              className="p-3 border border-gray-300 rounded w-full"
-              type="file"
-              id="images"
-              accept="image/*"
-              onChange={handleFileChange}
-              multiple
-            />
-            <button
-              type="button"
-              disabled={error || imageFile.length === 0}
-              className="p-3 disabled:text-gray-700 disabled:cursor-not-allowed  text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80 "
-              onClick={handleUpload}
-            >
-              {isUploading ? "uploading.." : "Upload"}
-            </button>
-          </div>
-          {uploadingError && (
-            <p className="text-center text-sm text-red-700">{uploadingError}</p>
-          )}
-          {initialExtracted &&
-            initialExtracted.map((img, idx) => (
-              <div
-                key={idx}
-                className="relative flex justify-center items-center overflow-hidden rounded-lg my-1"
-              >
-                <img
-                  src={img}
-                  alt="listing-image"
-                  className="object-cover overflow-clip w-full h-80 self-center rounded-lg transition-transform duration-700 ease-in-out hover:scale-110"
-                />
-                <AiOutlineClose
-                  onClick={() => handleDeleteImgFetched(img)}
-                  className="bg-white text-black rounded-full p-1 size-6 font-bold absolute top-1 right-1 hover:text-white hover:p-2 hover:bg-red-700 transition duration-300 ease-in-out"
-                />
-              </div>
-            ))}
-          {selectedFile &&
-            selectedFile.map((file, idx) => (
-              <div
-                key={idx}
-                className="relative flex justify-center items-center overflow-hidden rounded-lg my-1"
-              >
-                <img
-                  src={file}
-                  alt="listing-image"
-                  className="object-cover overflow-clip w-full h-80 self-center rounded-lg transition-transform duration-700 ease-in-out hover:scale-110"
-                />
-                <AiOutlineClose
-                  onClick={() => handleDeleteImg(idx)}
-                  className="bg-white text-black rounded-full p-1 size-6 font-bold absolute top-1 right-1 hover:text-white hover:p-2 hover:bg-red-700 transition duration-300 ease-in-out"
-                />
-              </div>
-            ))}
-          {error && (
-            <p className="my-2 text-center self-center text-red-700">{error}</p>
-          )}
-
-          <button
-            disabled={creatingList || isUploading}
-            className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80 disabled:cursor-not-allowed"
-          >
-            {creatingList ? "Updating..." : "Update Listing"}
-          </button>
-          {createListError && (
-            <p className="text-sm text-red-700 text-center">
-              {createListError}
+          <div className="flex flex-col flex-1 gap-4 w-full md:w-[70%] mx-auto border border-black/10 p-5 lg:basis-1/2">
+            <p className="font-semibold">
+              Images:{" "}
+              <span className="font-normal text-gray-600 ml-2">
+                The first image will be the cover of you listing (max-6)
+              </span>
             </p>
-          )}
-        </div>
-      </form>
-    </main>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <input
+                className="p-3 border border-black/30 rounded-xl w-full"
+                type="file"
+                id="images"
+                accept="image/*"
+                onChange={handleFileChange}
+                multiple
+              />
+              <button
+                type="button"
+                disabled={error || imageFile.length === 0}
+                className="p-3 disabled:text-gray-700 disabled:cursor-not-allowed  text-slate-700 border border-black/30 bg-[#64b6ac]  rounded-xl font-semibold uppercase hover:shadow-lg disabled:opacity-80"
+                onClick={handleUpload}
+              >
+                {isUploading ? "uploading.." : "Upload"}
+              </button>
+            </div>
+            {uploadingError && (
+              <p className="text-center text-sm text-red-700">
+                {uploadingError}
+              </p>
+            )}
+            {initialExtracted &&
+              initialExtracted.map((img, idx) => (
+                <div
+                  key={idx}
+                  className="relative flex justify-center items-center overflow-hidden rounded-lg my-1 w-full sm:w-[40%] md:w-[60%] lg:w-[80%] mx-auto"
+                >
+                  <img
+                    src={img}
+                    alt="listing-image"
+                    className="object-cover overflow-clip w-full h-80 self-center rounded-lg transition-transform duration-700 ease-in-out hover:scale-110"
+                  />
+                  <AiOutlineClose
+                    onClick={() => handleDeleteImgFetched(img)}
+                    className="bg-white text-black rounded-full p-1 size-6 font-bold absolute top-1 right-1 hover:text-white hover:p-2 hover:bg-red-700 transition duration-300 ease-in-out"
+                  />
+                </div>
+              ))}
+            {selectedFile &&
+              selectedFile.map((file, idx) => (
+                <div
+                  key={idx}
+                  className="relative flex justify-center items-center overflow-hidden rounded-lg my-1 w-full sm:w-[40%] md:w-[60%] lg:w-[80%] mx-auto"
+                >
+                  <img
+                    src={file}
+                    alt="listing-image"
+                    className="object-cover overflow-clip w-full h-80 self-center rounded-lg transition-transform duration-700 ease-in-out hover:scale-110"
+                  />
+                  <AiOutlineClose
+                    onClick={() => handleDeleteImg(idx)}
+                    className="bg-white text-black rounded-full p-1 size-6 font-bold absolute top-1 right-1 hover:text-white hover:p-2 hover:bg-red-700 transition duration-300 ease-in-out"
+                  />
+                </div>
+              ))}
+            {error && (
+              <p className="my-2 text-center self-center text-red-700">
+                {error}
+              </p>
+            )}
+
+            <button
+              disabled={creatingList || isUploading}
+              className="p-3 bg-[#b09e99] text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80 disabled:cursor-not-allowed text-xl font-semibold border border-black/50"
+            >
+              {creatingList ? "Updating..." : "Update Listing"}
+            </button>
+            {createListError && (
+              <p className="text-sm text-red-700 text-center">
+                {createListError}
+              </p>
+            )}
+          </div>
+        </form>
+      </main>
+    </Container>
   );
 };
 
