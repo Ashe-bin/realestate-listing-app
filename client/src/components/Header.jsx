@@ -57,14 +57,14 @@ export const Header = () => {
 
           {pathname !== "/" &&
             pathname !== "/sign-in" &&
-            pathname !== "sign-up" && (
+            pathname !== "/sign-up" && (
               <form
                 onSubmit={handleSubmit}
                 className=" bg-slate-100 mt-1 sm:mt-0 flex-shrink-0 sm:flex-shrink md:p-1 order-3 sm:order-2  w-full rounded-full flex items-center border border-black/25 sm:w-[60%] custom-900:w-[40%] focus-within:border-black transition duration-1000 mx-auto"
               >
                 <input
                   type="text"
-                  placeholder=" name/type of the  house "
+                  placeholder="Search "
                   value={searchTerm ?? ""}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="bg-transparent focus:outline-none placeholder:text-sm px-2   md:placeholder:font-medium  w-full placeholder:text-gray-400 border-none focus:ring-0 peer"
@@ -214,7 +214,7 @@ export const Header = () => {
             <Link to="/">
               <li className="hidden sm:inline text-slate-700 hover:underline">
                 <button
-                  className={`border-2 border-black/50 capitalize  py-1 px-4  rounded-full hover:bg-[#fee9e1] active:bg-[#c0fdfb] bg-[#c0fdfb]  ${
+                  className={`border-2 border-black/30 capitalize  py-1 px-4  rounded-xl hover:bg-[#fee9e1] active:bg-[#c0fdfb] bg-[#fcd5ce] ${
                     pathname === "/" ? "bg-white" : ""
                   } transition duration-300`}
                 >
@@ -225,7 +225,7 @@ export const Header = () => {
             <Link to="/about">
               <li className="hidden sm:inline text-slate-700 hover:underline">
                 <button
-                  className={`border-2 border-black/60 capitalize py-1 px-4  rounded-full hover:bg-[#fee9e1] active:bg-[#c0fdfb] bg-[#c0fdfb] ${
+                  className={`border-2  border-black/30 capitalize py-1 px-4  rounded-xl hover:bg-[#fee9e1] active:bg-[#c0fdfb] bg-[#fcd5ce] ${
                     pathname === "/about" ? "bg-white" : ""
                   } transition duration-300`}
                 >
@@ -247,14 +247,14 @@ export const Header = () => {
                       }`}
                     >
                       <li className="hidden sm:inline hover:underline">
-                        <button className=" capitalize bg-[#c0fdfb]  p-[6px] rounded-full hover:bg-[#fee9e1] active:bg-[#c0fdfb] flex justify-center items-center ">
+                        <button className="group  capitalize bg-white/30  p-1 rounded-full group-hover:bg-[#fee9e1] active:bg-[#c0fdfb] flex justify-center items-center ">
                           {" "}
                           <IoMdHeartEmpty className="text-black/70 text-2xl" />
                         </button>
                       </li>
                     </NavigationMenuTrigger>
                     {pathname !== "/show-listing" && (
-                      <NavigationMenuContent className="custom-scrollbar text-black/80 flex flex-col gap-2 w-auto max-h-64  overflow-y-scroll">
+                      <NavigationMenuContent className="custom-scrollbar text-slate-700 capitalize flex flex-col gap-2 w-auto max-h-64  overflow-y-scroll">
                         {liked.length > 0 ? (
                           <Link
                             to={"/show-listing#saved-listing"}
@@ -315,14 +315,24 @@ export const Header = () => {
                       </Link>
                     </NavigationMenuTrigger>
                     <NavigationMenuContent className=" text-black/80 flex flex-col gap-2 ">
-                      <NavigationMenuLink class="block whitespace-nowrap hover:bg-white px-4 py-2 ">
-                        <Link to="/profile">Profile</Link>
+                      <NavigationMenuLink class="block whitespace-nowrap hover:bg-white  ">
+                        <Link to="/profile">
+                          <p className="text-slate-700 px-4 py-2">Profile</p>
+                        </Link>
                       </NavigationMenuLink>
-                      <NavigationMenuLink className="block whitespace-nowrap hover:bg-white px-4 py-2">
-                        <Link to="/create-listing">Create Listing</Link>
+                      <NavigationMenuLink className="block whitespace-nowrap hover:bg-white ">
+                        <Link to="/create-listing">
+                          <p className="text-slate-700 px-4 py-2">
+                            Create Listing
+                          </p>
+                        </Link>
                       </NavigationMenuLink>
-                      <NavigationMenuLink className="block whitespace-nowrap hover:bg-white px-4 py-2">
-                        <Link to="/show-listing">My Listings</Link>
+                      <NavigationMenuLink className="block whitespace-nowrap hover:bg-white ">
+                        <Link to="/show-listing">
+                          <p className="text-slate-700 px-4 py-2">
+                            My Listings
+                          </p>
+                        </Link>
                       </NavigationMenuLink>
                     </NavigationMenuContent>
                   </NavigationMenuItem>
@@ -331,7 +341,7 @@ export const Header = () => {
             ) : (
               <Link to="/sign-in">
                 <li className=" sm:inline text-slate-700 hover:underline">
-                  <button className="border border-black/60 capitalize bg-[#fcd5ce] py-1 px-4  rounded-full hover:bg-[#fee9e1] active:bg-[#c0fdfb]">
+                  <button className="border-2 border-black/30 capitalize bg-[#fcd5ce] py-1 px-4  rounded-xl hover:bg-[#fee9e1] active:bg-[#c0fdfb]">
                     Sign in
                   </button>
                 </li>

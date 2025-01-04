@@ -33,7 +33,9 @@ export const GoogleAuth = () => {
     <button
       onClick={handleGoogleAuth}
       type="button"
-      className="bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95"
+      className="border border-black/60 capitalize bg-[#FAD2CF]
+          
+         transition-all duration-300 p-3 rounded-md hover:opacity-90 active:bg-[#c0fdfb] cursor-pointer text-slate-700 text-lg md:text-xl lg:text-2xl"
     >
       Continue with google
     </button>

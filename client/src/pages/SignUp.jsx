@@ -1,88 +1,132 @@
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { GoogleAuth } from "../components/GoogleAuth";
+import Container from "@/components/Container";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInFailure,
+  signInStart,
+  signInSuccess,
+} from "@/redux/feature/user/userSlice";
+import { BeatLoader } from "react-spinners";
 
 export const SignUp = () => {
-  const [formData, setFormData] = useState({});
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value,
-    });
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
+  const { loading, error } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const onSubmit = async (data) => {
+    dispatch(signInStart());
+    if (data) {
+      setTimeout(() => {
+        dispatch(signInSuccess());
+      }, 3000);
+      return;
+    }
+
     try {
       const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(data),
       });
-      const data = await res.json();
-      if (data.success === false) {
-        setError(data.message);
+      const resData = await res.json();
+      if (resData.success === false) {
+        console.error(data.message);
+        dispatch(signInFailure("Signup failed please try again"));
         return;
       }
+      console.log("response data");
+      dispatch(signInSuccess(resData.data));
       navigate("/sign-in");
     } catch (error) {
-      setError(error.message);
-    } finally {
-      setLoading(false);
+      dispatch(signInFailure("Signup failed please try again"));
+      console.error(error.message);
     }
   };
   return (
-    <div className="p-3 max-w-lg mx-auto">
-      <h1 className="text-3xl text-center font-semibold my-7">
-        Sign Up
-      </h1>
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-4"
-      >
-        <input
-          type="text"
-          placeholder="username"
-          className="border p-3 rounded-lg"
-          id="username"
-          onChange={handleChange}
-        />
-        <input
-          type="email"
-          placeholder="email"
-          className="border p-3 rounded-lg"
-          id="email"
-          onChange={handleChange}
-        />
-        <input
-          type="password"
-          placeholder="password"
-          className="border p-3 rounded-lg"
-          id="password"
-          onChange={handleChange}
-        />
-        <button
-          disabled={loading}
-          className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:bg-slate-600 disabled:opacity-80 cursor-pointer"
+    <Container>
+      <div className="p-3 max-w-lg mx-auto border border-black/30 rounded-lg my-7 shadow-md shadow-gray-500">
+        {" "}
+        <h1 className="text-xl text-slate-700 md:text-3xl text-center font-semibold my-7">
+          Sign Up
+        </h1>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-4 "
         >
-          {loading ? "Loading..." : "Sign up"}
-        </button>
-        <GoogleAuth />
-      </form>
-      <div className="flex gap-2 mt-5">
-        <p>Have an account?</p>
-        <Link to="/sign-in">
-          <span className="text-blue-700">Sign in</span>
-        </Link>
+          <input
+            type="text"
+            placeholder="username"
+            className="border font-normal p-2 placeholder:text-lg md:placeholder:text-xl   md:p-3 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20
+          "
+            {...register("username", { required: "username is required " })}
+          />
+          {errors.username && (
+            <p className="text-red-500 text-sm py-1">
+              {errors.username.message}
+            </p>
+          )}
+          <input
+            type="email"
+            placeholder="email"
+            className="border font-normal p-2 placeholder:text-lg md:placeholder:text-xl   md:p-3 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20"
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                message: "Invalid email address",
+              },
+            })}
+          />
+          {errors.email && (
+            <p className="text-red-500 text-sm py-1">{errors.email.message}</p>
+          )}
+          <input
+            type="password"
+            placeholder="password"
+            className="border font-normal p-2 placeholder:text-lg md:placeholder:text-xl   md:p-3 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20"
+            {...register("password", {
+              required: "password is required",
+              pattern: {
+                value:
+                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                message:
+                  "password must be at least 8 characters, include  capital letter, small letter, number, and special symbol",
+              },
+            })}
+          />
+          {errors.password && (
+            <p className="text-red-500 text-sm py-1">
+              {errors.password.message}
+            </p>
+          )}
+          <button
+            disabled={loading}
+            className="border border-black/60 capitalize bg-[#1f2937] p-3 rounded-md hover:opacity-90 cursor-pointer text-white text-lg md:text-xl lg:text-2xl"
+          >
+            {loading ? (
+              <BeatLoader color="white" size={15} speedMultiplier={0.4} />
+            ) : (
+              "Sign up"
+            )}
+          </button>
+          <GoogleAuth />
+        </form>
+        <div className="flex text-slate-700 text-md gap-2 mt-5">
+          <p>Have an account?</p>
+          <Link to="/sign-in">
+            <span className="text-blue-700">Sign in</span>
+          </Link>
+        </div>
+        {error && <p className="text-red-500 mt-5">{error}</p>}
       </div>
-      {error && (
-        <p className="text-red-500 mt-5">{error}</p>
-      )}
-    </div>
+    </Container>
   );
 };

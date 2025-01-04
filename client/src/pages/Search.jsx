@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ListingItem from "../components/ListingItem";
+import Container from "@/components/Container";
 
 const Search = () => {
   const [sidebarData, setSidebarData] = useState({
@@ -147,126 +148,163 @@ const Search = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row">
-      <div className="p-7 border-b-2 md:border-r-2 md:min-h-screen">
-        <form onSubmit={handleSubmit} className="flex flex-col gap-8">
-          <div className="flex items-center gap-2">
-            <label className="whitespace-nowrap">Search Term:</label>
-            <input
-              type="text"
-              id="searchTerm"
-              placeholder="Search..."
-              className="border rounded-lg p-3 w-full"
-              value={sidebarData.SearchTerm}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="flex gap-2 flex-wrap items-center">
-            <label>Type:</label>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="all"
-                className="w-5"
-                onChange={handleChange}
-                checked={sidebarData.type === "all"}
-              />
-              <span>Rent & sale</span>
-            </div>{" "}
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="rent"
-                className="w-5"
-                onChange={handleChange}
-                checked={sidebarData.type === "rent"}
-              />
-              <span>Rent </span>
-            </div>{" "}
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                onChange={handleChange}
-                checked={sidebarData.type === "sale"}
-                id="sale"
-                className="w-5"
-              />
-              <span>Sale</span>
-            </div>{" "}
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="offer"
-                className="w-5"
-                onChange={handleChange}
-                checked={sidebarData.offer}
-              />
-              <span>Offer</span>
-            </div>
-          </div>
-          <div className="flex gap-2 flex-wrap items-center">
-            <label>Amenities:</label>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                onChange={handleChange}
-                checked={sidebarData.parking}
-                id="parking"
-                className="w-5"
-              />
-              <span>Parking</span>
-            </div>{" "}
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                id="furnished"
-                className="w-5"
-                onChange={handleChange}
-                checked={sidebarData.furnished}
-              />
-              <span>Furnished </span>
-            </div>{" "}
-          </div>
-          <div className="flex items-center gap-2">
-            <label className="font-semibold">Sort: </label>
-            <select
-              id="sort_order"
-              className="border rounded-lg p-3"
-              onChange={handleChange}
-              value={`${sidebarData.sort}_${sidebarData.order}`}
-            >
-              <option value="regularPrice_desc">Price high to low</option>
-              <option value="regularPrice_asc">Price low to high</option>
-              <option value="createdAt_desc">Latest</option>
-              <option value="createdAt_asc">Oldest</option>
-            </select>
-          </div>
-          <button className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95">
-            search
-          </button>
-        </form>
-      </div>
-      <div className=" w-full ">
-        <h1 className="text-3xl text-center font-semibold border-b p-3 text-slate-700">
-          Listing results
-        </h1>
-        <div className="flex flex-wrap gap-4 justify-around">
-          {!loading && listing.length === 0 && <p>No listing found!</p>}
-          {!loading &&
-            listing.map((list) => (
-              <ListingItem key={list._id} listing={list} />
-            ))}
-        </div>
-        {showMore && (
-          <button
-            onClick={onShowMoreClick}
-            className="bg-slate-500 my-2 py-2 px-3 rounded-md"
+    <Container className="">
+      <div className="flex  flex-col md:flex-row my-10 gap-5 ">
+        <div className="py-7 order-2 md:order-1 lg:flex-1 flex-shrink-0 md:w-[20rem] w-full  lg:basis-1/4 px-3 border rounded-2xl shadow-lg shadow-gray-300 border-black/10">
+          <form
+            onSubmit={handleSubmit}
+            className=" flex text-slate-700 text-lg font-semibold flex-col gap-8"
           >
-            Show More
-          </button>
-        )}
+            <div className="flex  flex-col justify-center gap-2">
+              <div className="relative  ">
+                <input
+                  name="requestTourPhone"
+                  type="text"
+                  id="searchTerm"
+                  value={sidebarData.SearchTerm}
+                  onChange={handleChange}
+                  className="border peer placeholder-transparent border-slate-800 p-3 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20 w-full sm:w-[60%] md:w-full"
+                  placeholder="search Term"
+                />
+                <label
+                  htmlFor="requestTourPhone"
+                  className="bg-gray-50   rounded-tl-md rounded-tr-md px-3 absolute left-5 -top-[1.2rem] text-[#64b6ac] text-sm transition-all duration-500 peer-focus:text-[#64b6ac]peer-focus:text-lg  peer-placeholder-shown:text-lg peer-placeholder-shown:text-slate-400 peer-placeholder-shown:top-2.5 peer-placeholder-shown:px-0  peer-placeholder-shown:bg-transparent"
+                >
+                  Search Term
+                </label>
+              </div>
+            </div>
+            <div className="flex flex-col gap-2 flex-wrap justify-center items-start">
+              <div className="flex items-center gap-2">
+                <label>Type</label>
+                <input
+                  type="checkbox"
+                  id="all"
+                  className="w-6 h-6 rounded-md focus:outline-none border focus:border-black focus:ring focus:ring-black/20 checked:bg-black/60 checked:border-black/30 "
+                  onChange={handleChange}
+                  checked={sidebarData.type === "all"}
+                />
+                <span>Rent & sale</span>
+              </div>{" "}
+              <div className="flex gap-2 items-center">
+                <input
+                  type="checkbox"
+                  id="rent"
+                  className="w-6 h-6 rounded-md focus:outline-none border focus:border-black focus:ring focus:ring-black/20 checked:bg-black/60 checked:border-black/30"
+                  onChange={handleChange}
+                  checked={sidebarData.type === "rent"}
+                />
+                <span>Rent </span>
+              </div>{" "}
+              <div className="flex gap-2">
+                <input
+                  type="checkbox"
+                  onChange={handleChange}
+                  checked={sidebarData.type === "sale"}
+                  id="sale"
+                  className="w-6 h-6 rounded-md focus:outline-none border focus:border-black focus:ring focus:ring-black/20 checked:bg-black/60 checked:border-black/30"
+                />
+                <span>Sale</span>
+              </div>{" "}
+              <div className="flex gap-2 items-center">
+                <input
+                  type="checkbox"
+                  id="offer"
+                  className="w-6 h-6 rounded-md focus:outline-none border focus:border-black focus:ring focus:ring-black/20 checked:bg-black/60 checked:border-black/30"
+                  onChange={handleChange}
+                  checked={sidebarData.offer}
+                />
+                <span>Offer</span>
+              </div>
+            </div>
+            <div className="flex flex-col  gap-2 flex-wrap items-start justify-center">
+              <label>Amenities</label>
+              <div className="flex gap-2 items-center">
+                <input
+                  type="checkbox"
+                  onChange={handleChange}
+                  checked={sidebarData.parking}
+                  id="parking"
+                  className="w-6 h-6 rounded-md focus:outline-none border focus:border-black focus:ring focus:ring-black/20 checked:bg-black/60 checked:border-black/30"
+                />
+                <span>Parking</span>
+              </div>{" "}
+              <div className="flex gap-2 items-center">
+                <input
+                  type="checkbox"
+                  id="furnished"
+                  className="w-6 h-6 rounded-md focus:outline-none border focus:border-black focus:ring focus:ring-black/20 checked:bg-black/60 checked:border-black/30"
+                  onChange={handleChange}
+                  checked={sidebarData.furnished}
+                />
+                <span>Furnished </span>
+              </div>{" "}
+            </div>
+            <div className="flex-col justify-center items-start gap-5">
+              <label className="font-semibold">Sort </label>
+              <select
+                id="sort_order"
+                className="w-full h-12 rounded-md focus:outline-none border border-gray-300 focus:border-black focus:ring focus:ring-black/20 bg-white px-3 text-slate-700"
+                onChange={handleChange}
+                value={`${sidebarData.sort}_${sidebarData.order}`}
+              >
+                <option
+                  value="regularPrice_desc"
+                  className="text-slate-700 font-semibold capitalize text-lg"
+                >
+                  Price high to low
+                </option>
+                <option
+                  value="regularPrice_asc"
+                  className="text-slate-700 font-semibold capitalize text-lg"
+                >
+                  Price low to high
+                </option>
+                <option
+                  value="createdAt_desc"
+                  className="text-slate-700 font-semibold capitalize text-lg"
+                >
+                  Latest
+                </option>
+                <option
+                  value="createdAt_asc"
+                  className="text-slate-700 font-semibold capitalize text-lg hover:bg-black"
+                >
+                  Oldest
+                </option>
+              </select>
+            </div>
+            <button className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95">
+              search
+            </button>
+          </form>
+        </div>
+        <div className="flex flex-col order-1 md:order-2  gap-10 p-7 flex-shrink-0 w-full sm:flex-1  lg:basis-3/4 border justify-center  rounded-2xl shadow-lg shadow-gray-300 border-black/10 ">
+          <div className="flex my-4 ">
+            <h1 className="inline-block text-xl   md:text-2xl lg:text-4xl   rounded-2xl py-2   px-4 shadow-inner  shadow-[#155e75]/20  text-[#155e75] capitalize mx-auto ">
+              Listing results
+            </h1>
+          </div>
+          <div className="flex justify-start items-start flex-wrap  gap-5 ">
+            {!loading && listing.length === 0 && <p>No listing found!</p>}
+            {!loading &&
+              listing.map((list) => (
+                <ListingItem key={list._id} listing={list} />
+              ))}
+          </div>
+          <div className="border  mx-auto">
+            {showMore && (
+              <button
+                onClick={onShowMoreClick}
+                className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95"
+              >
+                Show More
+              </button>
+            )}
+          </div>
+        </div>
       </div>
-    </div>
+    </Container>
   );
 };
 

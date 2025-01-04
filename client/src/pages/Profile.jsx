@@ -12,6 +12,7 @@ import {
   signoutFailure,
   signout,
 } from "../redux/feature/user/userSlice";
+import Container from "@/components/Container";
 export const Profile = () => {
   const { currentUser, loading, error } = useSelector((state) => state.user);
   const [uploading, setUploading] = useState(false);
@@ -146,86 +147,90 @@ export const Profile = () => {
   };
 
   return (
-    <div className="p-3 max-w-lg mx-auto border border-black/30 rounded-lg my-7 shadow-md shadow-gray-500">
-      <h1 className="text-3xl font-semibold text-center">Profile</h1>
-      <form
-        onSubmit={submitHandler}
-        className="flex flex-col gap-4 text-gray-700"
-      >
-        <input
-          onChange={(e) => setImageFile(e.target.files[0])}
-          type="file"
-          ref={imgRef}
-          accept="image/"
-          className="hidden"
-        />
-        <img
-          src={imgURL || currentUser.avatar}
-          onClick={() => imgRef.current.click()}
-          alt="profile picture"
-          className="rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2"
-        />
-        <p className="text-sm self-center">
-          {errorUploading ? (
-            <p className=" text-red-700">{errorUploading}</p>
-          ) : uploading ? (
-            <p className="animate-pulse">Uploading image...</p>
-          ) : imgURL ? (
-            <p className=" text-green-700">Image uploaded successfully</p>
-          ) : (
-            ""
-          )}
-        </p>
+    <Container>
+      <div className="p-3 max-w-lg mx-auto border border-black/30 rounded-lg my-7 shadow-md shadow-gray-500">
+        <h1 className="text-xl lg:text-3xl text-slate-700 font-semibold text-center">
+          Profile
+        </h1>
+        <form
+          onSubmit={submitHandler}
+          className="flex flex-col gap-4 text-gray-700"
+        >
+          <input
+            onChange={(e) => setImageFile(e.target.files[0])}
+            type="file"
+            ref={imgRef}
+            accept="image/"
+            className="hidden"
+          />
+          <img
+            src={imgURL || currentUser.avatar}
+            onClick={() => imgRef.current.click()}
+            alt="profile picture"
+            className="rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2"
+          />
+          <p className="text-sm self-center">
+            {errorUploading ? (
+              <p className=" text-red-700">{errorUploading}</p>
+            ) : uploading ? (
+              <p className="animate-pulse">Uploading image...</p>
+            ) : imgURL ? (
+              <p className=" text-green-700">Image uploaded successfully</p>
+            ) : (
+              ""
+            )}
+          </p>
 
-        <input
-          type="text"
-          placeholder="username"
-          defaultValue={currentUser.username}
-          id="username"
-          className="border p-3 rounded-lg"
-          onChange={changeHandler}
-        />
-        <input
-          type="email"
-          placeholder="email"
-          defaultValue={currentUser.email}
-          id="email"
-          className="border p-3 rounded-lg"
-          onChange={changeHandler}
-        />
-        <input
-          type="password"
-          placeholder="password"
-          id="password"
-          className="border p-3 rounded-lg"
-          onChange={changeHandler}
-        />
-        <button
-          disabled={loading}
-          className="bg-[#b09e99] font-semibold text-lg text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80 border border-black/60"
-        >
-          {loading
-            ? "Updating.."
-            : updateInfo
-            ? "Updated Successfully"
-            : "update"}
-        </button>
-      </form>
-      <div className="flex justify-between mt-5">
-        <button
-          className="border border-black/60 capitalize bg-red-500 py-1 px-4  rounded-md hover:bg-red-400 active:bg-[#c0fdfb]"
-          onClick={handleDelete}
-        >
-          {deleteUser ? "Deleted successfully" : "Delete account"}
-        </button>
-        <button
-          className="border border-black/60 capitalize bg-[#64b6ac] py-1 px-4  rounded-md hover:bg-[#85eade] active:bg-[#c0fdfb]"
-          onClick={handleSignout}
-        >
-          Sign out
-        </button>
+          <input
+            type="text"
+            placeholder="username"
+            defaultValue={currentUser.username}
+            id="username"
+            className="border font-normal p-2 placeholder:text-sm md:placeholder:text-md   md:p-3 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20"
+            onChange={changeHandler}
+          />
+          <input
+            type="email"
+            placeholder="email"
+            defaultValue={currentUser.email}
+            id="email"
+            className="border font-normal p-2 placeholder:text-sm md:placeholder:text-md   md:p-3 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20"
+            onChange={changeHandler}
+          />
+          <input
+            type="password"
+            placeholder="password"
+            id="password"
+            className="border font-normal p-2 placeholder:text-sm md:placeholder:text-md   md:p-3 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20"
+            onChange={changeHandler}
+          />
+          <button
+            disabled={loading}
+            className="bg-[#b09e99] font-semibold text-lg text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80 border border-black/60"
+          >
+            {loading
+              ? "Updating.."
+              : updateInfo
+              ? "Updated Successfully"
+              : "update"}
+          </button>
+        </form>
+        <div className="flex gap-4 flex-wrap justify-center sm:justify-between mt-5">
+          <button
+            className="border border-black/60 capitalize bg-red-500 py-1 px-4  rounded-md hover:bg-red-400 active:bg-[#c0fdfb]"
+            onClick={handleDelete}
+          >
+            {deleteUser ? "Deleted successfully" : "Delete account"}
+          </button>
+          <button
+            className="border border-black/60 capitalize bg-[#64b6ac] py-1 px-4  rounded-md hover:bg-[#85eade] active:bg-[#c0fdfb] cursor-pointer"
+            onClick={handleSignout}
+          >
+            Sign out
+          </button>
+        </div>
+        <p className="text-center text-red-700 mt-2">{error ? error : ""}</p>
       </div>
-      <p className="text-center text-red-700 mt-2">{error ? error : ""}</p>
-    </div>
+    </Container>
   );
 };

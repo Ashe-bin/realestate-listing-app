@@ -177,10 +177,12 @@ const EditListing = () => {
 
   return (
     <Container>
-      <main className="my-7">
-        <h1 className="text-2xl md:text-3xl text-[#083344]  font-semibold text-center my-5">
-          Update Listing
-        </h1>
+      <main className="my-7 flex flex-col gap-5 ">
+        <div className="flex ">
+          <h1 className="inline-block text-xl   sm:font-semibold md:text-2xl lg:text-4xl  rounded-2xl py-2 px-4 shadow-inner  shadow-[#155e75]/20  text-[#155e75] uppercase mx-auto ">
+            Update Listing
+          </h1>
+        </div>
         <form
           onSubmit={handleSubmit}
           className="flex flex-col lg:flex-row gap-10 mx-auto flex-shrink-0"
@@ -200,7 +202,7 @@ const EditListing = () => {
             <input
               type="text"
               placeholder="type of property (single-family,apartment, condo, townhouse...)"
-              className="border p-2 rounded-lg placeholder:text-sm md:placeholder:text-md md:p-3 focus:outline-none focus:border-black focus:ring focus:ring-black/20"
+              className="border p-2 rounded-lg font-normal placeholder:text-sm md:placeholder:text-md md:p-3 focus:outline-none focus:border-black focus:ring focus:ring-black/20"
               id="propertyType"
               onChange={handleFormChange}
               value={formData.propertyType}
@@ -208,13 +210,13 @@ const EditListing = () => {
             />
             <textarea
               type="text"
-              rows="5"
               placeholder="Short description"
               className="border p-2 rounded-lg font-normal placeholder:text-sm md:placeholder:text-md md:p-3 focus:outline-none focus:border-black focus:ring focus:ring-black/20"
               id="description"
               onChange={handleFormChange}
               value={formData.description}
               required
+              rows={4}
             />
             <textarea
               type="text"
@@ -224,7 +226,7 @@ const EditListing = () => {
               onChange={handleFormChange}
               value={formData.propertyDetail}
               required
-              rows={"5"}
+              rows={4}
             />
             <input
               type="text"
@@ -302,7 +304,7 @@ const EditListing = () => {
               </div>
             </div>
             <div className="flex flex-wrap flex-col sm:flex-row gap-4">
-              <div className="flex flex-col items-start sm:items-center gap-2 sm:flex-row">
+              <div className="flex flex-col items-start sm:flex-row sm:items-center gap-2">
                 <input
                   type="number"
                   id="bedRoom"
@@ -311,11 +313,11 @@ const EditListing = () => {
                   min="0"
                   max="100"
                   required
-                  className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20"
+                  className="p-3 border  border-gray-300 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20"
                 />
                 <p>Beds</p>
               </div>
-              <div className="flex flex-col smitems-center gap-2">
+              <div className="flex flex-col items-start sm:items-center gap-2 sm:flex-row">
                 <input
                   type="number"
                   id="bathRoom"
@@ -390,8 +392,8 @@ const EditListing = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col flex-1 gap-4 w-full md:w-[70%] mx-auto border border-black/10 p-5 lg:basis-1/2">
-            <p className="font-semibold">
+          <div className="flex flex-col flex-1 gap-4 w-full md:w-[70%] mx-auto border border-black/10 p-5 lg:basis-1/2 rounded-lg">
+            <p className="font-semibold text-slate-700 text-lg  ">
               Images:{" "}
               <span className="font-normal text-gray-600 ml-2">
                 The first image will be the cover of you listing (max-6)
@@ -399,7 +401,7 @@ const EditListing = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <input
-                className="p-3 border border-black/30 rounded-xl w-full"
+                className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20 file:border-black/50 file:text-slate-700 file:rounded-lg w-full"
                 type="file"
                 id="images"
                 accept="image/*"
@@ -424,16 +426,16 @@ const EditListing = () => {
               initialExtracted.map((img, idx) => (
                 <div
                   key={idx}
-                  className="relative flex justify-center items-center overflow-hidden rounded-lg my-1 w-full sm:w-[40%] md:w-[60%] lg:w-[80%] mx-auto"
+                  className="relative flex justify-center items-center overflow-hidden rounded-lg my-1 w-full sm:w-[40%] md:w-[60%] lg:w-[80%] mx-auto border-2 border-black/20  "
                 >
                   <img
                     src={img}
                     alt="listing-image"
-                    className="object-cover overflow-clip w-full h-80 self-center rounded-lg transition-transform duration-700 ease-in-out hover:scale-110"
+                    className="object-cover overflow-clip w-full h-80 self-center transition-all duration-1000 ease-in-out hover:scale-105"
                   />
                   <AiOutlineClose
                     onClick={() => handleDeleteImgFetched(img)}
-                    className="bg-white text-black rounded-full p-1 size-6 font-bold absolute top-1 right-1 hover:text-white hover:p-2 hover:bg-red-700 transition duration-300 ease-in-out"
+                    className="bg-white text-black rounded-full p-1 size-6 font-bold absolute top-1 right-1 hover:text-white  hover:bg-red-400 transition-all ease-in-out border border-black/30 hover:scale-125 duration-1000 "
                   />
                 </div>
               ))}
@@ -441,16 +443,16 @@ const EditListing = () => {
               selectedFile.map((file, idx) => (
                 <div
                   key={idx}
-                  className="relative flex justify-center items-center overflow-hidden rounded-lg my-1 w-full sm:w-[40%] md:w-[60%] lg:w-[80%] mx-auto"
+                  className="relative flex justify-center items-center overflow-hidden rounded-lg my-1 w-full sm:w-[40%] md:w-[60%] lg:w-[80%] mx-auto border-2 border-black/20"
                 >
                   <img
                     src={file}
                     alt="listing-image"
-                    className="object-cover overflow-clip w-full h-80 self-center rounded-lg transition-transform duration-700 ease-in-out hover:scale-110"
+                    className="object-cover overflow-clip w-full h-80 self-center  transition-transform duration-700 ease-in-out hover:scale-105"
                   />
                   <AiOutlineClose
                     onClick={() => handleDeleteImg(idx)}
-                    className="bg-white text-black rounded-full p-1 size-6 font-bold absolute top-1 right-1 hover:text-white hover:p-2 hover:bg-red-700 transition duration-300 ease-in-out"
+                    className="bg-white text-black rounded-full p-1 size-6 font-bold absolute top-1 right-1 hover:text-white  hover:bg-red-700 transition-all duration-1000 hover:scale-125 border border-black/30 ease-in-out"
                   />
                 </div>
               ))}
