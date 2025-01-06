@@ -37,7 +37,11 @@ export const signin = async (req, res, next) => {
     const token = jwt.sign({ id: isValidUser._id }, process.env.JWT_SECRET);
     const { password: pass, ...rest } = isValidUser._doc;
     res
-      .cookie("access_token", token, { httpOnly: true })
+      .cookie("access_token", token, {
+        httpOnly: true,
+        sameSite: "strict",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      })
       .status(200)
       .json(rest);
   } catch (error) {
@@ -56,7 +60,11 @@ export const googleAuth = async (req, res, next) => {
 
       const { password: pass, ...rest } = user._doc;
       res
-        .cookie("access_token", token, { httpOnly: true })
+        .cookie("access_token", token, {
+          httpOnly: true,
+          sameSite: "strict",
+          maxAge: 7 * 24 * 60 * 60 * 1000,
+        })
         .status(200)
         .json(rest);
     } else {
@@ -80,7 +88,11 @@ export const googleAuth = async (req, res, next) => {
 
       const { password: pass, ...rest } = newUser._doc;
       res
-        .cookie("access_token", token, { httpOnly: true })
+        .cookie("access_token", token, {
+          httpOnly: true,
+          sameSite: "strict",
+          maxAge: 7 * 24 * 60 * 60 * 1000,
+        })
         .status(200)
         .json(rest);
     }
@@ -91,7 +103,7 @@ export const googleAuth = async (req, res, next) => {
 
 export const signout = async (req, res, next) => {
   try {
-    res.clearCookie("access_token", { httpOnly: true });
+    res.clearCookie("access_token", { httpOnly: true, sameSite: "strict" });
     res.status(200).json("user has been logged out");
   } catch (error) {
     next(error);

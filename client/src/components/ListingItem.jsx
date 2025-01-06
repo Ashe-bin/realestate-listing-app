@@ -16,8 +16,6 @@ const ListingItem = ({ listing }) => {
   const dispatch = useDispatch();
 
   const handleLike = async (list) => {
-    console.log("console log execute", list);
-
     let likedExist = currentUser?.liked?.includes(list._id);
 
     if (likedExist) {
@@ -27,9 +25,7 @@ const ListingItem = ({ listing }) => {
     }
 
     dispatch(updateCurrentUserStart());
-    console.log("loading", loading);
     try {
-      console.log("loading", loading);
       const res = await fetch(`/api/user/liked/${currentUser._id}`, {
         method: "POST",
         headers: { "Content-Type": "application/JSON" },
@@ -41,10 +37,8 @@ const ListingItem = ({ listing }) => {
         console.error(`error occurred, ${data}`);
         return;
       }
-      console.log("data ", data);
 
       dispatch(updateCurrentUser(data));
-      console.log("currentUser", currentUser);
     } catch (error) {
       console.error(error.message);
     }
@@ -63,7 +57,6 @@ const ListingItem = ({ listing }) => {
             className="h-[320px] sm:h-[220px] w-full object-cover hover:scale-105 transition-scale duration-300"
           />
         </Link>
-        {console.log("loading", loading)}
         {currentUser?.liked?.includes(listing._id) ? (
           <div
             className={`z-10 flex justify-center items-center absolute bottom-5 right-5 border border-black/60 p-2 rounded-full bg-[#f5ebe0] active:bg-[#c0fdfb]   ${

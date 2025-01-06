@@ -133,11 +133,9 @@ const EditListing = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("exec");
 
     setCreateListError(true);
     setCreateListError(null);
-    console.log(formData);
 
     if (formData.imageURLS.length === 0) {
       setCreateListError("Please enter images to create listing");
@@ -156,7 +154,6 @@ const EditListing = () => {
       });
 
       const data = await res.json();
-      console.log("data", data);
 
       if (data.success === false) {
         setCreateListError("Create list failed, try again");

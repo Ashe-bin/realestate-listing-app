@@ -9,6 +9,10 @@ import { GoogleAuth } from "../components/GoogleAuth";
 import Container from "@/components/Container";
 import { useForm } from "react-hook-form";
 import { BeatLoader } from "react-spinners";
+import toast from "react-hot-toast";
+import { FaEyeSlash } from "react-icons/fa";
+import { MdRemoveRedEye } from "react-icons/md";
+import { useState } from "react";
 
 export const SignIn = () => {
   const {
@@ -16,18 +20,14 @@ export const SignIn = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { loading, error } = useSelector((state) => state.user);
+  const { loading } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isPasswordHidden, setIsPasswordHidden] = useState(true);
+
   const onSubmit = async (data) => {
     dispatch(signInStart());
 
-    if (data) {
-      setTimeout(() => {
-        dispatch(signInSuccess());
-      }, 3000);
-      return;
-    }
     try {
       const res = await fetch("/api/auth/signin", {
         method: "POST",
@@ -37,11 +37,18 @@ export const SignIn = () => {
       const resData = await res.json();
       if (resData.success === false) {
         dispatch(signInFailure(data.message));
+        toast.error("Account not found, please signup");
+        console.error(resData);
+
         return;
       }
-      dispatch(signInSuccess(data));
+      dispatch(signInSuccess(resData));
+      toast.success("Signin successful!");
+
       navigate("/");
     } catch (error) {
+      toast.error("Signin failed please try again!");
+      console.error(error.message);
       dispatch(signInFailure(error.message));
     }
   };
@@ -68,20 +75,32 @@ export const SignIn = () => {
           {errors.email && (
             <p className="text-red-500 text-sm py-1">{errors.email.message}</p>
           )}
-          <input
-            type="password"
-            placeholder="password"
-            className="border  font-normal p-2 placeholder:text-lg md:placeholder:text-xl  md:p-3 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20"
-            {...register("password", {
-              required: "password is required",
-              pattern: {
-                value:
-                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                message:
-                  "password must be at least 8 characters, include  capital letter, small letter, number, and special symbol",
-              },
-            })}
-          />
+          <div className="relative flex w-full">
+            <input
+              type={isPasswordHidden ? "password" : "text"}
+              placeholder="password"
+              className="border  font-normal p-2 placeholder:text-lg md:placeholder:text-xl  md:p-3 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20 w-full"
+              {...register("password", {
+                required: "password is required",
+                pattern: {
+                  value:
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                  message:
+                    "password must be at least 8 characters, include  capital letter, small letter, number, and special symbol",
+                },
+              })}
+            />
+            <div
+              className="absolute  right-4 top-4"
+              onClick={() => setIsPasswordHidden((prev) => !prev)}
+            >
+              {isPasswordHidden ? (
+                <MdRemoveRedEye className="size-5" />
+              ) : (
+                <FaEyeSlash className="size-5" />
+              )}
+            </div>
+          </div>
           {errors.password && (
             <p className="text-red-500 text-sm my-1">
               {errors.password.message}
@@ -105,7 +124,6 @@ export const SignIn = () => {
             <span className="text-blue-700">Sign up</span>
           </Link>
         </div>
-        {error && <p className="text-red-500 mt-5">{error}</p>}
       </div>
     </Container>
   );

@@ -20,7 +20,6 @@ const Search = () => {
   const [showMore, setShowMore] = useState(false);
 
   const navigate = useNavigate();
-  console.log("lisig", listing);
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get("searchTerm");
@@ -52,8 +51,6 @@ const Search = () => {
     }
 
     const fetchListings = async () => {
-      console.log("started exec");
-
       setLoading(true);
       const searchQuery = urlParams.toString();
       try {
@@ -61,7 +58,6 @@ const Search = () => {
         const data = await res.json();
         if (data.success === false) {
           setError(true);
-          console.log("error response", data);
           return;
         }
 
@@ -70,10 +66,9 @@ const Search = () => {
         } else {
           setShowMore(false);
         }
-        console.log("data", data, length.length);
         setListing(data);
       } catch (error) {
-        console.log("error", error.message);
+        console.error("error", error.message);
       } finally {
         setLoading(false);
       }
@@ -128,8 +123,6 @@ const Search = () => {
   };
 
   const onShowMoreClick = async () => {
-    console.log("exec");
-
     const numberOfListings = listing.length;
     const startIndex = numberOfListings;
     const urlParams = new URLSearchParams(location.search);
@@ -140,7 +133,6 @@ const Search = () => {
     if (data.success === false) {
       return;
     }
-    console.log("data", data);
     if (data.length < 9) {
       setShowMore(false);
     }

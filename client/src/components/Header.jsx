@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { MdMenu } from "react-icons/md";
 import { RiCloseLargeFill } from "react-icons/ri";
+import { FaUserAlt } from "react-icons/fa";
 
 export const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -39,11 +40,11 @@ export const Header = () => {
       setSearchTerm(searchTermFromUrl);
     }
   }, [location.search]);
-  console.log("pathname", pathname);
 
   const toggleMenuBar = () => {
     setOpenMenuBar((prev) => !prev);
   };
+
   return (
     <header className="sticky top-0 z-50 backdrop-filter backdrop-blur-3xl   py-2 transparent shadow-gray-800 shadow-md  ">
       <Container>
@@ -159,13 +160,15 @@ export const Header = () => {
                           <NavigationMenuTrigger
                             className={`flex gap-2  rounded-md  transition-all duration-700`}
                           >
-                            <Link to="/profile">
+                            {currentUser?.avatar ? (
                               <img
                                 className="rounded-full w-9 h-9 object-cover"
                                 src={currentUser.avatar}
-                                alt="profile picture"
+                                alt="profile "
                               />
-                            </Link>
+                            ) : (
+                              <FaUserAlt className="text-slate-700 size-10 rounded-full border border-black/30" />
+                            )}
                           </NavigationMenuTrigger>
                           <NavigationMenuContent className=" text-black/80 flex flex-col gap-2 ">
                             <NavigationMenuLink class="block whitespace-nowrap hover:bg-white px-4 py-2 w-full">
@@ -307,11 +310,15 @@ export const Header = () => {
                       }`}
                     >
                       <Link to="/profile">
-                        <img
-                          className="rounded-full w-9 h-9 object-cover"
-                          src={currentUser.avatar}
-                          alt="profile picture"
-                        />
+                        {currentUser?.avatar ? (
+                          <img
+                            className="rounded-full w-9 h-9 object-cover"
+                            src={currentUser.avatar}
+                            alt="profile "
+                          />
+                        ) : (
+                          <FaUserAlt className="text-slate-700 size-9 rounded-full border border-black/30" />
+                        )}
                       </Link>
                     </NavigationMenuTrigger>
                     <NavigationMenuContent className=" text-black/80 flex flex-col gap-2 ">
@@ -341,7 +348,13 @@ export const Header = () => {
             ) : (
               <Link to="/sign-in">
                 <li className=" sm:inline text-slate-700 hover:underline">
-                  <button className="border-2 border-black/30 capitalize bg-[#fcd5ce] py-1 px-4  rounded-xl hover:bg-[#fee9e1] active:bg-[#c0fdfb]">
+                  <button
+                    className={`border-2 border-black/30 capitalize  py-1 px-4  rounded-xl hover:bg-[#fee9e1] active:bg-[#c0fdfb]  ${
+                      pathname === "/sign-in" || pathname === "/sign-up"
+                        ? "bg-white"
+                        : "bg-[#fcd5ce]"
+                    }`}
+                  >
                     Sign in
                   </button>
                 </li>

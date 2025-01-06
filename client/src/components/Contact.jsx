@@ -4,25 +4,19 @@ import { Link } from "react-router-dom";
 const Contact = ({ listing }) => {
   const [landlord, setLandlord] = useState(null);
   const [message, setMessage] = useState(null);
-  console.log("listing", listing);
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const res = await fetch(`/api/user/${listing.userRef}`);
         const data = await res.json();
 
-        if (data.success === false) {
-          console.log("error data returned false", data);
-        }
         setLandlord(data);
       } catch (error) {
-        console.log("error cathc", error.message);
+        console.error("error cathc", error.message);
       }
     };
     fetchUser();
   }, [listing]);
-
-  console.log("user name", landlord);
 
   return (
     <div>

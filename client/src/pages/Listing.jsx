@@ -104,10 +104,8 @@ export const Listing = () => {
     };
     generateNextSevenDays();
   }, []);
-  console.log("day", dates);
 
   const toggleDropdown = (dropDownId) => {
-    console.log("dropDownId", dropDownId);
     setOpenDropdown((prev) => (prev === dropDownId ? null : dropDownId));
   };
 

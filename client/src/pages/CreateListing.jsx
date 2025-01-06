@@ -37,8 +37,6 @@ const CreateListing = () => {
     propertyDetail: "",
   });
 
-  console.log("formdata", formData);
-
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files).slice(0, 6);
     setImageFile(files);

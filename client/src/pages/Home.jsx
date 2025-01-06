@@ -27,13 +27,11 @@ export const Home = () => {
       try {
         const res = await fetch(`/api/listing/getListing?offer=true&limit=4`);
         const data = await res.json();
-        if (data.success === false) {
-          console.log("error fetching data", data);
-        }
+
         setOfferListings(data);
         fetchRentListings();
       } catch (error) {
-        console.log("error", error.message);
+        console.error("error", error.message);
       }
     };
     const fetchRentListings = async () => {
@@ -43,7 +41,7 @@ export const Home = () => {
         setRentListings(data);
         fetchSaleListings();
       } catch (error) {
-        console.log("error", error.message);
+        console.error("error", error.message);
       }
     };
 
@@ -53,7 +51,7 @@ export const Home = () => {
         const data = await res.json();
         setSaleListings(data);
       } catch (error) {
-        console.log("error", error.message);
+        console.error("error", error.message);
       }
     };
 
@@ -81,7 +79,7 @@ export const Home = () => {
       dispatch(setLiked(likedListData));
     };
     fetchInitialLikedList();
-  }, [currentUser.liked, dispatch]);
+  }, [currentUser?.liked, dispatch]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -90,8 +88,6 @@ export const Home = () => {
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
   };
-
-  console.log("liked list data", liked, "current user", currentUser);
 
   return (
     <div>
@@ -143,10 +139,10 @@ export const Home = () => {
                 ))}
               </div>
               <Link
-                className="border w-[300px] mx-auto border-black/30 text-md py-1 px-2 bg-[#64b6ac] rounded-lg md:text-lg text-black/70 shadow-md shadow-gray-500"
+                className="border w-[250px] sm:w-[300px] mx-auto border-black/30 text-md py-1 px-2 bg-[#64b6ac] rounded-lg md:text-lg text-black/70 shadow-md shadow-gray-500"
                 to={"/search?offer=true"}
               >
-                Show more listing with offers
+                Show more listing with offer
               </Link>
             </div>
           )}
@@ -166,7 +162,7 @@ export const Home = () => {
                 ))}
               </div>
               <Link
-                className="border w-[300px] mx-auto border-black/30 text-md py-1 px-2 bg-[#64b6ac] rounded-lg md:text-lg text-black/70 shadow-md shadow-gray-500"
+                className="border w-[250px] sm:w-[300px] mx-auto border-black/30 text-md py-1 px-2 bg-[#64b6ac] rounded-lg md:text-lg text-black/70 shadow-md shadow-gray-500"
                 to={"/search?type=rent"}
               >
                 Show more places for rent
@@ -189,7 +185,7 @@ export const Home = () => {
                 ))}
               </div>
               <Link
-                className="border w-[300px] mx-auto border-black/30 text-md py-1 px-2 bg-[#64b6ac] rounded-lg md:text-lg text-black/70 shadow-md shadow-gray-500"
+                className="border w-[250px] sm:w-[300px] mx-auto border-black/30 text-md py-1 px-2 bg-[#64b6ac] rounded-lg md:text-lg text-black/70 shadow-md shadow-gray-500"
                 to={"/search?type=sale"}
               >
                 Show more place for sale
