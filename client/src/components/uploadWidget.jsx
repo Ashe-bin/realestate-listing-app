@@ -29,7 +29,7 @@ const UploadWidget = ({
           if (multiple) {
             setUploadedImages((prev) => [...prev, publicURL]);
             console.log("uploadedImages", uploadedImages);
-            onComplete(null, { publicURLs: uploadedImages, result });
+            onComplete(null, { uploadedImages, result });
           } else {
             onComplete(null, { publicURL, result });
           }
@@ -38,7 +38,7 @@ const UploadWidget = ({
         }
       }
     );
-  }, [onComplete, multiple, uploadedImages]);
+  }, [onComplete]);
 
   return (
     <button

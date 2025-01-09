@@ -50,7 +50,7 @@ export const Header = () => {
       <Container>
         <div className="flex justify-between  flex-wrap sm:flex-nowrap  items-center  mx-auto py-4 pr-0 md:pr-12 ">
           <Link to="/" className="order-1">
-            <h1 className="font-bold text-xl flex flex-col lg:flex-row items-center justify-center relative   rounded-xl p-1  ">
+            <h1 className="font-bold text-xl flex flex-col lg:flex-row items-left justify-center relative   rounded-xl p-1  ">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-[#155e75] uppercase">
                 Real-
               </span>

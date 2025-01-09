@@ -36,7 +36,6 @@ export const Profile = () => {
       console.error("upload failed:", error);
       toast.error("Could not upload image please try again");
     } else if (result) {
-      console.log("update successful:", result);
       setImgURL(result.publicURL);
       setFormData((prev) => ({ ...prev, avatar: result.publicURL }));
       toast.success("Image upload successful");

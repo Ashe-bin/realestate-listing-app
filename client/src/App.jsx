@@ -35,7 +35,9 @@ function App() {
         dispatch(resetCurrentUser());
         dispatch(resetLiked());
       } finally {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 3000);
       }
     };
     checkUserSession();
