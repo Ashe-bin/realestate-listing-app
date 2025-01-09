@@ -3,13 +3,12 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Container from "@/components/Container";
 import ListingForm from "@/components/ListingForm";
+import toast from "react-hot-toast";
 
 const CreateListing = () => {
   const { currentUser } = useSelector((state) => state.user);
 
-  const [creatingList, setCreatingList] = useState(false);
-  const [createListError, setCreateListError] = useState(null);
-  const [imgURLS, setImgURLS] = useState([]);
+  const [isCreatingList, setIsCreatingList] = useState(false);
 
   const navigate = useNavigate();
 
@@ -33,29 +32,11 @@ const CreateListing = () => {
     propertyDetail: "",
   });
 
-  const handleFormChange = (e) => {
-    const { id, name, type, checked, value } = e.target;
-
-    if (name === "type") {
-      setFormData((prev) => ({ ...prev, type: id }));
-    } else {
-      setFormData((prev) => ({
-        ...prev,
-        [id]: type === "checkbox" ? checked : value,
-      }));
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setCreateListError(true);
-    setCreateListError(null);
+    setIsCreatingList(true);
     if (formData.imageURLS.length === 0) {
-      setCreateListError("Please enter images to create listing");
-      return;
-    }
-    if (+formData.regularPrice <= +formData.discountPrice) {
-      setCreateListError("discount can not be greater than regular price");
+      toast.error("Please upload images");
       return;
     }
 
@@ -69,14 +50,18 @@ const CreateListing = () => {
       const data = await res.json();
 
       if (data.success === false) {
-        setCreateListError("Create list failed, try again");
+        console.error(`creating list error ${data}`);
+        toast.error("Creating list failed, please try again");
         return;
       }
+      toast.success("Listing created successfully");
+      console.log(data);
+      navigate(`/show-listing/${data._id}`);
     } catch (error) {
-      setCreateListError("Create list failed, try again");
-      console.error(error.message);
+      console.error(`creating list error ${error.message}`);
+      toast.error("Creating list failed, please try again");
     } finally {
-      setCreatingList(false);
+      setIsCreatingList(false);
     }
   };
   return (
@@ -89,11 +74,10 @@ const CreateListing = () => {
         </div>
         <ListingForm
           handleSubmit={handleSubmit}
-          handleFormChange={handleFormChange}
           formData={formData}
           setFormData={setFormData}
-          setImgURLS={setImgURLS}
-          imgURLS={imgURLS}
+          isCreatingList={isCreatingList}
+          button={"Create Listing"}
         />
       </main>
     </Container>

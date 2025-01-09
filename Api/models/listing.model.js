@@ -17,8 +17,8 @@ const listingSchema = new mongoose.Schema(
     userRef: { type: String, required: true },
     propertyType: { type: String },
     propertyDetail: { type: String },
-    houseArea: { type: Number, required: true },
-    lotArea: { type: Number, required: true },
+    houseArea: { type: Number },
+    lotArea: { type: Number },
     developedDate: { type: Date },
   },
   { timestamps: true }

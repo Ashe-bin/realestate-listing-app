@@ -68,6 +68,9 @@ const userSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
+    updateProfilePic: (state, action) => {
+      state.currentUser.avatar = action.payload;
+    },
   },
 });
 export const {
@@ -85,5 +88,6 @@ export const {
   updateCurrentUserStart,
   signUpSuccess,
   resetCurrentUser,
+  updateProfilePic,
 } = userSlice.actions;
 export default userSlice.reducer;

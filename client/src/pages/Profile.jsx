@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -11,18 +11,24 @@ import {
   deleteUserSuccess,
   signoutFailure,
   signout,
+  updateProfilePic,
 } from "../redux/feature/user/userSlice";
 import Container from "@/components/Container";
-import UploadWidget from "@/components/uploadWidget";
 import toast from "react-hot-toast";
 import { BeatLoader } from "react-spinners";
 import { resetLiked } from "@/redux/feature/user/userLikedListSlice";
+import useCloudinaryUpload from "@/hooks/useCloudinaryUpload";
 
 export const Profile = () => {
+  const {
+    cloudinaryImgUpload,
+    imgUploading,
+    setUploadedImgURL,
+    uploadError,
+    uploadedImgURL,
+  } = useCloudinaryUpload();
   const { currentUser, loading, error } = useSelector((state) => state.user);
-  const [uploadingImage, setUploadingImage] = useState(false);
   const [imgURL, setImgURL] = useState(null);
-  const imgRef = useRef(null);
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -30,24 +36,30 @@ export const Profile = () => {
   const [isSignout, setIsSignout] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
-  const handleComplete = (error, result) => {
-    setUploadingImage(true);
-    if (error) {
-      console.error("upload failed:", error);
+  useEffect(() => {
+    if (uploadError) {
+      console.error("upload failed:", uploadError);
+      setUploadedImgURL([]);
       toast.error("Could not upload image please try again");
-    } else if (result) {
-      setImgURL(result.publicURL);
-      setFormData((prev) => ({ ...prev, avatar: result.publicURL }));
+    } else if (uploadedImgURL.length > 0) {
+      setImgURL(uploadedImgURL[0]);
       toast.success("Image upload successful");
+      dispatch(updateProfilePic(uploadedImgURL[0]));
+      setUploadedImgURL([]);
     }
-    setUploadingImage(false);
-  };
+  }, [uploadError, uploadedImgURL, setUploadedImgURL, dispatch]);
+
   const changeHandler = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
+  console.log("formdaata", formData);
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    if (imgURL) {
+      setFormData((prev) => ({ ...prev, avatar: imgURL }));
+    }
+
     setIsUpdating(true);
     dispatch(updateStart());
 
@@ -137,25 +149,22 @@ export const Profile = () => {
         >
           <div className="relative self-center group mt-5  rounded-full overflow-clip border border-black/30 ">
             <img
-              src={imgURL || currentUser.avatar}
-              onClick={() => imgRef.current.click()}
+              src={currentUser.avatar}
               alt="profile picture"
               className={`${
-                uploadingImage ? "animate-pulse" : ""
-              } h-24 w-24 object-cover cursor-pointer  `}
+                imgUploading ? "animate-pulse" : ""
+              } h-24 w-24 object-center aspect-square cursor-pointer  `}
             />
             <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity text-nowrap">
               Click to Change profile picture
             </div>
           </div>
           <div className=" text-center">
-            <div className=" self-center">
-              <UploadWidget
-                disabled={loading}
-                onComplete={handleComplete}
-                button={"update profile picture"}
-                className="bg-[#b09e99] cursor-pointer p-1 rounded-md text-white border border-black/20"
-              />
+            <div
+              className="self-center inline-block  capitalize bg-[#b09e99] cursor-pointer p-1 rounded-md text-white border border-black/20"
+              onClick={cloudinaryImgUpload}
+            >
+              update profile picture
             </div>
           </div>
 
@@ -183,7 +192,7 @@ export const Profile = () => {
             onChange={changeHandler}
           />
           <button
-            disabled={loading}
+            disabled={loading || imgUploading}
             className="bg-[#b09e99] font-semibold text-lg text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80 border border-black/60"
           >
             {isUpdating ? (
@@ -195,7 +204,7 @@ export const Profile = () => {
         </form>
         <div className="flex gap-4 flex-wrap justify-center sm:justify-between mt-5">
           <button
-            disabled={loading}
+            disabled={loading || imgUploading}
             className="border border-black/60 capitalize bg-red-500 py-1 px-4  rounded-md hover:bg-red-400 active:bg-[#c0fdfb]"
             onClick={handleDelete}
           >
@@ -206,7 +215,7 @@ export const Profile = () => {
             )}
           </button>
           <button
-            disabled={loading}
+            disabled={loading || imgUploading}
             className="border border-black/60 capitalize bg-[#64b6ac] py-1 px-4  rounded-md hover:bg-[#85eade]  active:bg-[#c0fdfb] cursor-pointer"
             onClick={handleSignout}
           >

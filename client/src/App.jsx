@@ -65,7 +65,7 @@ function App() {
 
             <Route path="/show-listing" element={<ShowListing />} />
           </Route>
-          <Route path="/About" element={<About />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </BrowserRouter>
     </>

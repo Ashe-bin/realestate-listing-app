@@ -2,12 +2,16 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useEffect } from "react";
 import useCloudinaryUpload from "@/hooks/useCloudinaryUpload";
 
+import { HiOutlineUpload } from "react-icons/hi";
+import toast from "react-hot-toast";
+import { BeatLoader } from "react-spinners";
+
 const ListingForm = ({
   handleSubmit,
-  handleFormChange,
   formData,
-  imgURLS,
-  setImgURLS,
+  button,
+  isCreatingList,
+  setFormData,
 }) => {
   const {
     cloudinaryImgUpload,
@@ -15,26 +19,50 @@ const ListingForm = ({
     imgUploading,
     setUploadedImgURL,
     uploadedImgURL,
-  } = useCloudinaryUpload(true);
+  } = useCloudinaryUpload({ multiple: true });
 
   useEffect(() => {
     const handleImageUpload = () => {
       if (uploadError) {
-        console.log("error", uploadError);
+        toast.error("Could not upload, image please try again");
         setUploadedImgURL([]);
       } else if (uploadedImgURL.length > 0) {
-        console.log("image upload successful");
-        setImgURLS((prev) => [...prev, ...uploadedImgURL]);
+        toast.success("Image uploaded successfully");
+        setFormData((prev) => ({
+          ...prev,
+          imageURLS: [...prev.imageURLS, ...uploadedImgURL],
+        }));
         setUploadedImgURL([]);
       }
     };
     handleImageUpload();
-  }, [uploadedImgURL, setUploadedImgURL, uploadError, setImgURLS]);
+  }, [uploadedImgURL, setUploadedImgURL, uploadError, setFormData]);
 
   const handleDeleteImg = (idx) => {
-    setImgURLS((prev) => prev.filter((_, arrayIndex) => idx !== arrayIndex));
+    setFormData((prev) => ({
+      ...prev,
+      imageURLS: prev.imageURLS.filter((_, arrayIndex) => idx !== arrayIndex),
+    }));
   };
-  console.log("uploadedImgURL", uploadedImgURL);
+  console.log("Fomdata", formData);
+
+  const handleFormChange = (e) => {
+    const { id, name, type, checked, value } = e.target;
+
+    if (name === "type") {
+      setFormData((prev) => ({ ...prev, type: id }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [id]:
+          type === "checkbox"
+            ? checked
+            : type === "number"
+            ? Number(value)
+            : value,
+      }));
+    }
+  };
 
   return (
     <form
@@ -201,15 +229,25 @@ const ListingForm = ({
           </div>
           {formData.offer && (
             <div className="flex flex-col sm:flex-row items-start  sm:items-center gap-2">
-              <input
-                type="number"
-                id="discountPrice"
-                min="1"
-                onChange={handleFormChange}
-                value={formData.discountPrice}
-                required
-                className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20"
-              />
+              <div className="flex flex-col gap-2">
+                <input
+                  type="number"
+                  id="discountPrice"
+                  min="1"
+                  max={formData.regularPrice}
+                  onChange={handleFormChange}
+                  value={formData.discountPrice}
+                  required
+                  className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20"
+                />
+                {formData.discountPrice > formData.regularPrice ? (
+                  <p className="font-normal text-red-600 text-sm my-1">
+                    Discount price cannot exceed regular price
+                  </p>
+                ) : (
+                  ""
+                )}
+              </div>
               <div className="flex flex-col items-center">
                 <p>Discounted Price</p>
                 <span className="text-xs">($ / month)</span>
@@ -247,25 +285,22 @@ const ListingForm = ({
         </div>
       </div>
       <div className="flex flex-col w-full md:w-[70%] mx-auto   gap-4 border border-black/10 rounded-lg p-5 flex-1 lg:basis-1/2">
-        <p className="font-semibold text-slate-700 text-lg">
-          Images:{" "}
-          <span className="font-normal text-gray-600 ml-2">
-            The first image will be the cover of you listing (max-6)
-          </span>
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4">
+        <p className="font-semibold text-slate-700 text-lg">Choose Images </p>
+        <div className="flex justify-center items-center flex-col sm:flex-row gap-4">
           <button
-            disabled={imgUploading}
+            disabled={imgUploading || isCreatingList}
             type="button"
-            className="p-3 disabled:text-gray-700 disabled:cursor-not-allowed  text-slate-700 border border-black/30 bg-[#64b6ac]  rounded-xl font-semibold uppercase hover:shadow-lg disabled:opacity-80 "
+            className={` disabled:text-gray-700 disabled:cursor-not-allowed  text-slate-600 border border-black/5  bg-black/5  rounded-xl font-semibold uppercase shadow-md shadow-[#c0fdfb] hover:text-slate-500`}
             onClick={cloudinaryImgUpload}
           >
-            {"Upload"}
+            <HiOutlineUpload
+              className={`size-24  ${imgUploading ? "animate-pulse " : ""}`}
+            />
           </button>
         </div>
 
-        {imgURLS.length > 0 &&
-          imgURLS?.map((url, idx) => (
+        {formData?.imageURLS?.length > 0 &&
+          formData?.imageURLS?.map((url, idx) => (
             <div
               key={idx}
               className="relative flex justify-center items-center overflow-hidden rounded-lg my-1 w-full sm:w-[40%] md:w-[60%] lg:w-[80%] mx-auto border-2 border-black/20"
@@ -282,8 +317,15 @@ const ListingForm = ({
             </div>
           ))}
 
-        <button className="p-3 bg-[#b09e99] text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80 disabled:cursor-not-allowed text-xl font-semibold border border-black/50">
-          Create Listing
+        <button
+          disabled={isCreatingList}
+          className="p-3 bg-[#b09e99] text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80 disabled:cursor-not-allowed text-xl font-semibold border border-black/50 flex justify-center  "
+        >
+          {isCreatingList ? (
+            <BeatLoader color="white" size={15} speedMultiplier={0.4} />
+          ) : (
+            button
+          )}
         </button>
       </div>
     </form>

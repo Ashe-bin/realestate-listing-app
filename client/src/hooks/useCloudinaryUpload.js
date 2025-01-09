@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 
-const useCloudinaryUpload = (multiple = false) => {
+const useCloudinaryUpload = ({ multiple = false } = {}) => {
   const [uploadedImgURL, setUploadedImgURL] = useState([]);
   const [imgUploading, setImgUploading] = useState(false);
   const [uploadError, setUploadError] = useState(null);
@@ -14,9 +14,11 @@ const useCloudinaryUpload = (multiple = false) => {
         cloudName: "dwxerup0m",
         uploadPreset: "real-listing-image",
         multiple: multiple,
+        resourceType: "image",
+        clientAllowedFormats: ["image"],
       },
       (error, result) => {
-        if (uploadError) {
+        if (error) {
           setImgUploading(false);
           setUploadError(error);
           console.log("error", error);
@@ -36,6 +38,9 @@ const useCloudinaryUpload = (multiple = false) => {
 
   const cloudinaryImgUpload = () => {
     setImgUploading(true);
+    setUploadError(null);
+    setUploadedImgURL([]);
+
     console.log("started execution");
     if (widgetRef.current) {
       widgetRef.current.open();
