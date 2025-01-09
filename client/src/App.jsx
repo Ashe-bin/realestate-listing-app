@@ -11,8 +11,40 @@ import Search from "./pages/Search";
 import About from "./pages/About";
 import { Header } from "./components/Header";
 import ShowListing from "./pages/ShowListing";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { resetCurrentUser } from "./redux/feature/user/userSlice";
+import { resetLiked } from "./redux/feature/user/userLikedListSlice";
+import Loading from "./components/Loading";
 
 function App() {
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    setLoading(true);
+    const checkUserSession = async () => {
+      try {
+        const res = await fetch("api/auth/accessTokenExist");
+        const data = res.json();
+        if (data.success === false) {
+          dispatch(resetCurrentUser());
+          dispatch(resetLiked());
+        }
+      } catch (error) {
+        console.error(error.message);
+        dispatch(resetCurrentUser());
+        dispatch(resetLiked());
+      } finally {
+        setLoading(false);
+      }
+    };
+    checkUserSession();
+  }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <>
       <BrowserRouter>

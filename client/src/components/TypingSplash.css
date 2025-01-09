@@ -1,0 +1,45 @@
+.splash-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f8edeb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.typing {
+  font-size: 3rem;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  text-align: center;
+  color: #1e293b; /* text-slate-900 */
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 4px solid transparent; /* Simulate the typing cursor */
+  animation: typing 12s steps(30, end) 1s infinite,
+    blink 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+  100% {
+    border-color: #1e293b; /* text-slate-900 cursor blink color */
+  }
+}

@@ -15,8 +15,7 @@ export const Home = () => {
   const [saleListings, setSaleListings] = useState([]);
   const [rentListings, setRentListings] = useState([]);
   const [searchTerm, setSearchTerm] = useState(null);
-  const { currentUser, loading, error } = useSelector((state) => state.user);
-  const { liked } = useSelector((state) => state.userLiked);
+  const { currentUser } = useSelector((state) => state.user);
   SwiperCore.use([Navigation]);
 
   const navigate = useNavigate();
@@ -93,7 +92,7 @@ export const Home = () => {
     <div>
       <div
         style={{
-          background: `linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)),url(https://images.pexels.com/photos/29799518/pexels-photo-29799518/free-photo-of-real-estate-investment-essentials-with-euro-currency.jpeg) center no-repeat`,
+          background: `linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)),url(https://images.pexels.com/photos/29799518/pexels-photo-29799518/free-photo-of-real-estate-investment-essentials-with-euro-currency.jpeg) center no-repeat`,
         }}
         className="h-[70vh]  flex flex-col justify-center items-center gap-8 bg-cover bg-center bg-gradient-to-b from-transparent to-black sm:bg-gradient-to-b sm:from-transparent sm:to-black md:bg-gradient-to-b md:from-black md:to-black"
       >
@@ -107,7 +106,7 @@ export const Home = () => {
         <div className="w-[80%] xs:w-[100%] sm:w-[60%]  md:w-[50%] lg:w-[40%]">
           <form
             onSubmit={handleSubmit}
-            className=" bg-slate-100 sm:p-1  rounded-full flex items-center  border border-red-800  transition-all duration-1000 border-black/25 focus-within:border-black  "
+            className=" bg-slate-100 sm:p-1  rounded-full flex items-center border     transition-all duration-1000 border-black/50 focus-within:border-black  "
           >
             <input
               type="text"
@@ -116,8 +115,8 @@ export const Home = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
               className="bg-transparent focus:outline-none border-none focus:border-none placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-xl px-2 focus:ring-0   md:placeholder:font-medium  w-full placeholder:text-gray-400 peer"
             />
-            <button className="flex mr-1 sm:mr-0 p-2 lg:p-3 text-center justify-center rounded-full bg-[#fcd5ce] peer-focus:bg-[#64b6ac] active:bg-[#c0fdfb] transition-all duration-1000">
-              <FaSearch className="text-md md:text-xl   lg:text-2xl" />
+            <button className="flex mr-1 sm:mr-0 p-2 lg:p-3 text-center justify-center rounded-full bg-[#fcd5ce] peer-focus:bg-[#64b6ac] active:bg-[#c0fdfb] transition-all duration-1000 border border-black/30">
+              <FaSearch className="text-md md:text-xl text-slate-700    lg:text-2xl" />
             </button>
           </form>
         </div>

@@ -1,8 +1,16 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const UploadWidget = ({ onComplete, button, className, disabled }) => {
+const UploadWidget = ({
+  onComplete,
+  button,
+  className,
+  disabled,
+  multiple = false,
+}) => {
   const cloudinaryRef = useRef();
   const widgetRef = useRef();
+
+  const [uploadedImages, setUploadedImages] = useState([]);
 
   useEffect(() => {
     cloudinaryRef.current = window.cloudinary;
@@ -10,17 +18,27 @@ const UploadWidget = ({ onComplete, button, className, disabled }) => {
       {
         cloudName: "dwxerup0m",
         uploadPreset: "real-listing-image",
+        multiple: true,
       },
       function (error, result) {
+        console.log("result", result);
         if (result.event === "success") {
           const publicURL = result.info.secure_url;
-          onComplete(null, { publicURL, result });
+          console.log(publicURL);
+
+          if (multiple) {
+            setUploadedImages((prev) => [...prev, publicURL]);
+            console.log("uploadedImages", uploadedImages);
+            onComplete(null, { publicURLs: uploadedImages, result });
+          } else {
+            onComplete(null, { publicURL, result });
+          }
         } else if (error) {
           onComplete(error, null);
         }
       }
     );
-  }, [onComplete]);
+  }, [onComplete, multiple, uploadedImages]);
 
   return (
     <button

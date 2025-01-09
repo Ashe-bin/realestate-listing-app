@@ -16,6 +16,7 @@ import Container from "@/components/Container";
 import UploadWidget from "@/components/uploadWidget";
 import toast from "react-hot-toast";
 import { BeatLoader } from "react-spinners";
+import { resetLiked } from "@/redux/feature/user/userLikedListSlice";
 
 export const Profile = () => {
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -92,7 +93,7 @@ export const Profile = () => {
 
       navigate("/sign-up");
       dispatch(deleteUserSuccess());
-      localStorage.clear();
+      dispatch(resetLiked());
       toast.success("Account deleted successfully");
     } catch (error) {
       dispatch(deleteUserFailure(error.message));
@@ -113,7 +114,7 @@ export const Profile = () => {
         toast.error("Could not signout please try again");
         return;
       }
-      localStorage.clear();
+      dispatch(resetLiked());
       dispatch(signout());
       toast.success("Signout successful");
       navigate("/sign-in");

@@ -82,6 +82,7 @@ export const getUser = async (req, res, next) => {
     next(error);
   }
 };
+
 export const addRemoveFromFavorite = async (req, res, next) => {
   try {
     if (req.user.id !== req.params.id) {

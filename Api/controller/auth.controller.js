@@ -109,3 +109,11 @@ export const signout = async (req, res, next) => {
     next(error);
   }
 };
+
+export const checkAccessToken = async (req, res, next) => {
+  if (!req.user || !req.user.id) {
+    return next(errorHandler(401, "access token do not exist"));
+  } else {
+    res.status(200).json(req.user);
+  }
+};

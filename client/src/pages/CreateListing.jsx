@@ -5,6 +5,7 @@ import { supabase } from "../supabase";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Container from "@/components/Container";
+import UploadWidget from "@/components/uploadWidget";
 
 const CreateListing = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -365,6 +366,11 @@ const CreateListing = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="flex-col gap-2">
+                <UploadWidget
+                  className="p-3 disabled:text-gray-700 disabled:cursor-not-allowed  text-slate-700 border border-black/30 bg-[#64b6ac]  rounded-xl font-semibold uppercase hover:shadow-lg disabled:opacity-80 "
+                  button={"Choose an image"}
+                  multiple={true}
+                />
                 <input
                   className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20 file:border-black/50 file:text-slate-700 file:rounded-lg w-full"
                   type="file"

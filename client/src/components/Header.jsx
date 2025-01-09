@@ -46,13 +46,17 @@ export const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 backdrop-filter backdrop-blur-3xl   py-2 transparent shadow-gray-800 shadow-md  ">
+    <header className="sticky top-0 z-50 backdrop-filter backdrop-blur-3xl   py-2 bg-transparent shadow-gray-800 shadow-md  ">
       <Container>
         <div className="flex justify-between  flex-wrap sm:flex-nowrap  items-center  mx-auto py-4 pr-0 md:pr-12 ">
           <Link to="/" className="order-1">
-            <h1 className="font-bold  text-xl flex flex-col lg:flex-row">
-              <span className="text-black uppercase">Real-</span>
-              <span className="text-red-700 uppercase">Listing</span>
+            <h1 className="font-bold text-xl flex flex-col lg:flex-row items-center justify-center relative   rounded-xl p-1  ">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-[#155e75] uppercase">
+                Real-
+              </span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-700 to-yellow-500 uppercase">
+                Listing
+              </span>
             </h1>
           </Link>
 
@@ -61,7 +65,7 @@ export const Header = () => {
             pathname !== "/sign-up" && (
               <form
                 onSubmit={handleSubmit}
-                className=" bg-slate-100 mt-1 sm:mt-0 flex-shrink-0 sm:flex-shrink md:p-1 order-3 sm:order-2  w-full rounded-full flex items-center border border-black/25 sm:w-[60%] custom-900:w-[40%] focus-within:border-black transition duration-1000 mx-auto"
+                className=" bg-slate-100 mt-1 sm:mt-0 flex-shrink-0 sm:flex-shrink md:p-1 order-3 sm:order-2  w-full rounded-full flex items-center border border-black/50 sm:w-[60%] custom-900:w-[40%] focus-within:border-black transition duration-1000 mx-auto"
               >
                 <input
                   type="text"
@@ -70,8 +74,8 @@ export const Header = () => {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="bg-transparent focus:outline-none placeholder:text-sm px-2   md:placeholder:font-medium  w-full placeholder:text-gray-400 border-none focus:ring-0 peer"
                 />
-                <button className="flex self-center p-2 md:p-[10px] mr-2 md:mr-0 text-center justify-center rounded-full bg-[#fcd5ce] peer-focus:bg-[#64b6ac] active:bg-[#c0fdfb] transition-all duration-1000">
-                  <FaSearch className="text-black/80  md:text-lg" />
+                <button className="flex self-center p-2 md:p-[10px] mr-2 md:mr-0 text-center justify-center rounded-full bg-[#fcd5ce] peer-focus:bg-[#64b6ac] active:bg-[#c0fdfb] transition-all duration-1000 border border-black/30">
+                  <FaSearch className="text-slate-700  md:text-lg" />
                 </button>
               </form>
             )}

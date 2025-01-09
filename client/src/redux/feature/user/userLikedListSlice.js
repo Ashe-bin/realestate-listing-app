@@ -17,8 +17,12 @@ const userLikedListSlice = createSlice({
     removeLiked: (state, action) => {
       state.liked = state.liked.filter((list) => list._id !== action.payload);
     },
+    resetLiked: (state) => {
+      state.liked = [];
+    },
   },
 });
 
-export const { setLiked, addLiked, removeLiked } = userLikedListSlice.actions;
+export const { setLiked, addLiked, removeLiked, resetLiked } =
+  userLikedListSlice.actions;
 export default userLikedListSlice.reducer;
