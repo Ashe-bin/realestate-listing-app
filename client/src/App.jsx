@@ -40,7 +40,7 @@ function App() {
         dispatch(resetCurrentUser());
         dispatch(resetLiked());
       } finally {
-        setLoading(false);
+        setLoading(true);
       }
     };
     checkUserSession();

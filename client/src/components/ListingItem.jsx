@@ -90,22 +90,24 @@ const ListingItem = ({ listing }) => {
           ))}
       </div>
       <Link to={`/listing/${listing._id}`}>
-        <div className="px-3  flex flex-col  w-full text-transparent bg-clip-text bg-gradient-to-r from-teal-700 via-zinc-500 to-yellow-800">
+        <div className="px-3 pb-3  flex flex-col gap-3 w-full text-transparent bg-clip-text bg-gradient-to-r from-teal-700 via-zinc-500 to-yellow-800">
           <p className="truncate text-wrap sm:text-nowrap text-sm bg-clip-text bg-gradient-to-r from-teal-700  to-yellow-700 ">
             {listing.propertyType}
           </p>
-          <div className="flex items-center ">
+          <div className="flex gap-3 items-center ">
             <IoHome className="size-5  text-[#64b6ac]" />
             <p className="truncate text-wrap sm:text-nowrap sm:text-lg sm:font-semibold text-transparent bg-clip-text bg-gradient-to-r from-teal-700  to-yellow-700">
               {listing.name}
             </p>
           </div>
-          <div className="flex items-center  ">
+          <div className="flex gap-3 items-center  ">
             <MdLocationOn className="size-5 text-[#64b6ac] " />
             <p className="text-sm  truncate w-full italic">{listing.address}</p>
           </div>
-          <p className="text-md   line-clamp-3">{listing.description}</p>
-          <div className="flex  items-center  ">
+          <p className="text-md   line-clamp-3 leading-tight ">
+            {listing.description}
+          </p>
+          <div className="flex gap-3  items-center  ">
             <AiFillDollarCircle className="size-5 text-[#64b6ac]" />
 
             <p className="  font-semibold">
@@ -116,12 +118,12 @@ const ListingItem = ({ listing }) => {
             </p>
           </div>
 
-          <div className=" flex ">
-            <div className="font-bold text-sm flex  items-center ">
+          <div className=" flex gap-3">
+            <div className="font-bold text-sm flex gap-3  items-center ">
               <FaBed className="size-5 text-[#64b6ac]" />
               {`${listing?.bedRoom} bed`}
             </div>
-            <div className="font-bold    text-sm flex items-center ">
+            <div className="font-bold    text-sm flex items-center gap-3">
               <FaBath className="size-5 text-[#64b6ac]" />
               {`${listing?.bathRoom} bath`}
             </div>
