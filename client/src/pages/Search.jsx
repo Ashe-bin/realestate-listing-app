@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ListingItem from "../components/ListingItem";
 import Container from "@/components/Container";
+import { ListingItemSkeleton } from "@/components/Skeleton";
+import { TbFaceIdError, TbMoodEmptyFilled } from "react-icons/tb";
 
 const Search = () => {
   const [sidebarData, setSidebarData] = useState({
@@ -14,7 +16,7 @@ const Search = () => {
     order: "desc",
   });
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [listing, setListing] = useState([]);
   const [showMore, setShowMore] = useState(false);
@@ -52,6 +54,7 @@ const Search = () => {
 
     const fetchListings = async () => {
       setLoading(true);
+      setError(false);
       const searchQuery = urlParams.toString();
       try {
         const res = await fetch(`/api/listing/getListing?${searchQuery}`);
@@ -60,7 +63,7 @@ const Search = () => {
           setError(true);
           return;
         }
-
+        console.log("data length", data.length);
         if (data.length > 8) {
           setShowMore(true);
         } else {
@@ -69,6 +72,7 @@ const Search = () => {
         setListing(data);
       } catch (error) {
         console.error("error", error.message);
+        setError(true);
       } finally {
         setLoading(false);
       }
@@ -148,23 +152,18 @@ const Search = () => {
             className=" flex text-slate-700 text-lg font-semibold flex-col gap-8"
           >
             <div className="flex  flex-col justify-center gap-2">
-              <div className="relative  ">
-                <input
-                  name="requestTourPhone"
-                  type="text"
-                  id="searchTerm"
-                  value={sidebarData.SearchTerm}
-                  onChange={handleChange}
-                  className="border peer placeholder-transparent border-slate-800 p-3 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20 w-full sm:w-[60%] md:w-full"
-                  placeholder="search Term"
-                />
-                <label
-                  htmlFor="requestTourPhone"
-                  className="bg-gray-50   rounded-tl-md rounded-tr-md px-3 absolute left-5 -top-[1.2rem] text-[#64b6ac] text-sm transition-all duration-500 peer-focus:text-[#64b6ac]peer-focus:text-lg  peer-placeholder-shown:text-lg peer-placeholder-shown:text-slate-400 peer-placeholder-shown:top-2.5 peer-placeholder-shown:px-0  peer-placeholder-shown:bg-transparent"
-                >
-                  Search Term
-                </label>
-              </div>
+              <p className="text-sm">
+                you can search by developer name or type of the house
+              </p>
+              <input
+                name="requestTourPhone"
+                type="text"
+                id="searchTerm"
+                value={sidebarData.SearchTerm}
+                onChange={handleChange}
+                className="border  placeholder-transparent border-slate-800 p-3 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20 w-full sm:w-[60%] md:w-full"
+                placeholder="search Term"
+              />
             </div>
             <div className="flex flex-col gap-2 flex-wrap justify-center items-start">
               <div className="flex items-center gap-2">
@@ -266,29 +265,60 @@ const Search = () => {
                 </option>
               </select>
             </div>
-            <button className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95">
+            <button className="bg-gradient-to-r from-slate-500 to-teal-200 text-white p-3 rounded-lg uppercase hover:opacity-80">
               search
             </button>
           </form>
         </div>
-        <div className="flex flex-col order-1 md:order-2  gap-10 p-7 flex-shrink-0 w-full sm:flex-1  lg:basis-3/4 border justify-center  rounded-2xl shadow-lg shadow-gray-300 border-black/10 ">
-          <div className="flex my-4 ">
-            <h1 className="inline-block text-xl   md:text-2xl lg:text-4xl   rounded-2xl py-2   px-4 shadow-inner  shadow-[#155e75]/20  text-[#155e75] capitalize mx-auto ">
+        <div className="flex flex-col order-1 md:order-2  gap-10 p-7 flex-shrink-0 w-full sm:flex-1  lg:basis-3/4 border  rounded-2xl shadow-lg shadow-gray-300 border-black/10 ">
+          <div className="my-4  flex justify-center  ">
+            <h1 className="inline-block text-xl   md:text-2xl lg:text-4xl   rounded-2xl py-2   px-4 shadow-inner  shadow-[#155e75]/20  text-[#155e75] capitalize mx-auto text-center ">
               Listing results
             </h1>
           </div>
-          <div className="flex justify-start items-start flex-wrap  gap-5 ">
-            {!loading && listing.length === 0 && <p>No listing found!</p>}
-            {!loading &&
-              listing.map((list) => (
-                <ListingItem key={list._id} listing={list} />
-              ))}
+          <div className="flex justify-center flex-wrap  ">
+            {loading && !error && (
+              <div className="flex flex-col gap-4   my-10  ">
+                <div className="flex flex-wrap gap-4 ">
+                  {Array.from({ length: 4 }, (_, index) => (
+                    <ListingItemSkeleton key={index} />
+                  ))}
+                </div>
+              </div>
+            )}
+            {error && !loading && (
+              <div className="flex flex-col gap-4 items-center justify-center  py-10 text-center px-4">
+                <TbFaceIdError className="w-24 h-24 text-slate-700 mb-4 animate-bounce" />
+                <h2 className="text-2xl font-bold text-slate-700 mb-2">
+                  Its Our bad, Could not fetch Listing
+                </h2>
+                <p className="text-muted-foreground text-lg">Try again</p>
+              </div>
+            )}
+            {!loading && listing.length === 0 && !error && (
+              <div className="flex flex-col items-center justify-center  text-center py-10 px-4">
+                <TbMoodEmptyFilled className="w-24 h-24 text-muted-foreground mb-4 animate-bounce" />
+                <h2 className="text-2xl font-bold mb-2 text-slate-700">
+                  Seems there is no listing with this search
+                </h2>
+                <p className="text-muted-foreground text-lg">
+                  Try to search another one!
+                </p>
+              </div>
+            )}
+            <div className="grid xl:grid-cols-2 grid-cols-1 w-full gap-5   flex-wrap">
+              {!loading &&
+                !error &&
+                listing.map((list) => (
+                  <ListingItem key={list._id} listing={list} />
+                ))}
+            </div>
           </div>
           <div className="border  mx-auto">
             {showMore && (
               <button
                 onClick={onShowMoreClick}
-                className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95"
+                className=" bg-gradient-to-r from-slate-500 to-teal-300 text-white p-3 rounded-lg uppercase hover:opacity-95 hover:bg-[#fee9e1]"
               >
                 Show More
               </button>

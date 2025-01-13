@@ -16,6 +16,7 @@ import {
 import { MdMenu } from "react-icons/md";
 import { RiCloseLargeFill } from "react-icons/ri";
 import { FaUserAlt } from "react-icons/fa";
+import LazyLoads from "./LazyLoads";
 
 export const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -46,12 +47,12 @@ export const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 backdrop-filter backdrop-blur-3xl   py-2 bg-transparent shadow-gray-800 shadow-md  ">
+    <header className="sticky top-0 backdrop-filter backdrop-blur-3xl z-[999]   py-2 bg-black/20 shadow-gray-800 shadow-md  ">
       <Container>
-        <div className="flex justify-between  flex-wrap sm:flex-nowrap  items-center  mx-auto py-4 pr-0 md:pr-12 ">
+        <div className="flex justify-between  flex-wrap sm:flex-nowrap  items-center  mx-auto py-4 gap-2 ">
           <Link to="/" className="order-1">
-            <h1 className="font-bold text-xl flex flex-col lg:flex-row items-left justify-center relative   rounded-xl p-1  ">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-[#155e75] uppercase">
+            <h1 className="font-bold text-2xl flex flex-col lg:flex-row items-left justify-center relative   rounded-xl p-1  ">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-800 to-[#45accb] uppercase">
                 Real-
               </span>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-700 to-yellow-500 uppercase">
@@ -65,7 +66,7 @@ export const Header = () => {
             pathname !== "/sign-up" && (
               <form
                 onSubmit={handleSubmit}
-                className=" bg-slate-100 mt-1 sm:mt-0 flex-shrink-0 sm:flex-shrink md:p-1 order-3 sm:order-2  w-full rounded-full flex items-center border border-black/50 sm:w-[60%] custom-900:w-[40%] focus-within:border-black transition duration-1000 mx-auto"
+                className=" bg-slate-100  flex-shrink-0 sm:flex-shrink pr-1 md:p-1 order-3 sm:order-2  w-full rounded-full flex items-center border border-black/50 sm:w-[60%] custom-900:w-[40%] focus-within:border-black transition duration-1000 mx-auto"
               >
                 <input
                   type="text"
@@ -74,8 +75,8 @@ export const Header = () => {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="bg-transparent focus:outline-none placeholder:text-sm px-2   md:placeholder:font-medium  w-full placeholder:text-gray-400 border-none focus:ring-0 peer"
                 />
-                <button className="flex self-center p-2 md:p-[10px] mr-2 md:mr-0 text-center justify-center rounded-full bg-[#fcd5ce] peer-focus:bg-[#64b6ac] active:bg-[#c0fdfb] transition-all duration-1000 border border-black/30">
-                  <FaSearch className="text-slate-700  md:text-lg" />
+                <button className="flex self-center p-2 md:p-[10px] text-center justify-center rounded-full bg-yellow-700 peer-focus:bg-[#64b6ac] active:bg-[#c0fdfb] transition-all duration-1000 border border-black/30">
+                  <FaSearch className="text-white  md:text-lg" />
                 </button>
               </form>
             )}
@@ -221,26 +222,17 @@ export const Header = () => {
             <Link to="/">
               <li className="hidden sm:inline text-slate-700 hover:underline">
                 <button
-                  className={`border-2 border-black/30 capitalize  py-1 px-4  rounded-xl hover:bg-[#fee9e1] active:bg-[#c0fdfb] bg-[#fcd5ce] ${
-                    pathname === "/" ? "bg-white" : ""
+                  className={`text-nowrap   capitalize py-1 px-4  rounded-md    hover:shadow-lg  shadow-pink-400  overflow-clip text-zinc-800 hover:from-pink-300 hover:to-teal-300 transition-all duration-1000 ${
+                    pathname === "/"
+                      ? "bg-white"
+                      : " bg-gradient-to-r  from-teal-300    to-rose-300"
                   } transition duration-300`}
                 >
                   Home
                 </button>
               </li>
             </Link>
-            <Link to="/about">
-              <li className="hidden sm:inline text-slate-700 hover:underline">
-                <button
-                  className={`border-2  border-black/30 capitalize py-1 px-4  rounded-xl hover:bg-[#fee9e1] active:bg-[#c0fdfb] bg-[#fcd5ce] ${
-                    pathname === "/about" ? "bg-white" : ""
-                  } transition duration-300`}
-                >
-                  {" "}
-                  About
-                </button>
-              </li>
-            </Link>
+
             <Link
               to={`${liked.length > 0 ? "/show-listing#saved-listing" : ""}`}
             >
@@ -249,19 +241,21 @@ export const Header = () => {
                   <NavigationMenuItem>
                     <NavigationMenuTrigger
                       hasDropdown={true}
-                      className={`flex gap-2 ${
-                        pathname === "/show-listing" ? "bg-white" : ""
+                      className={`flex gap-2  ${
+                        pathname === "/show-listing"
+                          ? "bg-white"
+                          : "bg-gradient-to-r from-teal-300   to-rose-300 hover:from-pink-300 hover:to-teal-300"
                       }`}
                     >
                       <li className="hidden sm:inline hover:underline">
-                        <button className="group  capitalize bg-white/30  p-1 rounded-full group-hover:bg-[#fee9e1] active:bg-[#c0fdfb] flex justify-center items-center ">
+                        <button className="group   capitalize bg-white/30  p-1 rounded-full group-hover:bg-[#fee9e1] active:bg-[#c0fdfb] flex justify-center items-center ">
                           {" "}
                           <IoMdHeartEmpty className="text-black/70 text-2xl" />
                         </button>
                       </li>
                     </NavigationMenuTrigger>
                     {pathname !== "/show-listing" && (
-                      <NavigationMenuContent className="custom-scrollbar text-slate-700 capitalize flex flex-col gap-2 w-auto max-h-64  overflow-y-scroll">
+                      <NavigationMenuContent className="custom-scrollbar text-slate-700 capitalize flex flex-col gap-2  max-h-64  overflow-y-scroll">
                         {liked.length > 0 ? (
                           <Link
                             to={"/show-listing#saved-listing"}
@@ -278,19 +272,22 @@ export const Header = () => {
                           liked.map((listing, idx) => (
                             <NavigationMenuLink
                               key={idx}
-                              class="block whitespace-nowrap hover:bg-white px-4 py-2"
+                              class="block whitespace-nowrap  hover:bg-white px-4 py-2 "
                             >
-                              <div className="flex gap-2 items-center ">
-                                <img
-                                  src={listing.imageURLS[0]}
-                                  alt="cover image"
-                                  className="h-14 w-14 rounded-md"
-                                />
-                                <div className="flex flex-col text-sm">
-                                  <p className="block whitespace-nowrap">
-                                    ${listing.regularPrice}
+                              <div className="flex gap-2 font-normal items-center  ">
+                                <div className="h-16 w-16  overflow-clip rounded-xl">
+                                  <LazyLoads
+                                    src={listing.imageURLS[0]}
+                                    alt="cover image"
+                                    className="w-full h-full object-cover  rounded-md"
+                                  />
+                                </div>
+                                <div className="flex flex-col ">
+                                  <p className="block whitespace-nowrap text-md truncate">
+                                    {`${listing.name.slice(0, 20)}...`}
                                   </p>
-                                  <p className="block whitespace-nowrap">
+
+                                  <p className="block whitespace-nowrap text-sm">
                                     {listing.address}
                                   </p>
                                 </div>
@@ -309,8 +306,11 @@ export const Header = () => {
                 <NavigationMenuList>
                   <NavigationMenuItem>
                     <NavigationMenuTrigger
-                      className={`flex gap-2 ${
-                        pathname === "/profile" ? "bg-white" : ""
+                      className={`flex gap-2  ${
+                        pathname === "/profile" ||
+                        pathname === "/create-listing"
+                          ? "bg-white"
+                          : "bg-gradient-to-r from-teal-300  to-rose-300 hover:from-pink-300 hover:to-teal-300"
                       }`}
                     >
                       <Link to="/profile">
@@ -353,17 +353,31 @@ export const Header = () => {
               <Link to="/sign-in">
                 <li className=" sm:inline text-slate-700 hover:underline">
                   <button
-                    className={`border-2 border-black/30 capitalize  py-1 px-4  rounded-xl hover:bg-[#fee9e1] active:bg-[#c0fdfb]  ${
+                    className={`text-nowrap   capitalize py-1 px-4  rounded-md    hover:shadow-lg  shadow-pink-400  overflow-clip text-zinc-800 hover:from-pink-300 hover:to-teal-300 transition-all duration-1000  ${
                       pathname === "/sign-in" || pathname === "/sign-up"
                         ? "bg-white"
-                        : "bg-[#fcd5ce]"
-                    }`}
+                        : " bg-gradient-to-r  from-teal-300    to-rose-300"
+                    } transition duration-300`}
                   >
                     Sign in
                   </button>
                 </li>
               </Link>
             )}
+            <Link to="/about">
+              <li className="hidden sm:inline text-slate-700 hover:underline">
+                <button
+                  className={`  text-nowrap   capitalize py-1 px-4  rounded-md    hover:shadow-lg  shadow-pink-400  overflow-clip text-zinc-800 hover:from-pink-300 hover:to-teal-300 transition-all duration-1000 ${
+                    pathname === "/about"
+                      ? "bg-white"
+                      : " bg-gradient-to-r from-teal-300 to-rose-300 "
+                  } transition duration-300`}
+                >
+                  {" "}
+                  About us
+                </button>
+              </li>
+            </Link>
           </ul>
         </div>
       </Container>

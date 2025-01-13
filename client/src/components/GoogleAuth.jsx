@@ -34,9 +34,7 @@ export const GoogleAuth = () => {
     <button
       onClick={handleGoogleAuth}
       type="button"
-      className="border border-black/60 capitalize bg-[#FAD2CF]
-          
-         transition-all duration-300  py-1 px-3 rounded-md hover:opacity-90 active:bg-[#c0fdfb] font-semibold cursor-pointer text-slate-800 text-lg md:text-xl lg:text-2xl flex justify-center items-center gap-2"
+      className="disabled:opacity-80 disabled:cursor-not-allowed p-3 font-semibold  background text-zinc-600 text-2xl rounded-xl  capitalize bg-gradient-to-r from-red-200 via-white/60 to-green-300 hover:bg-[#c9b2ac] active:bg-[#c0fdfb] w-full border border-black/50 mx-autotext-lg md:text-xl lg:text-2xl flex justify-center items-center gap-2"
     >
       <span className="">
         {" "}

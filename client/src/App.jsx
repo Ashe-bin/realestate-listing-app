@@ -15,29 +15,32 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { resetCurrentUser } from "./redux/feature/user/userSlice";
 import { resetLiked } from "./redux/feature/user/userLikedListSlice";
+import Footer from "./components/Footer";
+import ShowImage from "./pages/ShowImage";
 import Loading from "./components/Loading";
 
 function App() {
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     setLoading(true);
     const checkUserSession = async () => {
       try {
-        const res = await fetch("api/auth/accessTokenExist");
-        const data = res.json();
+        const res = await fetch("/api/auth/accessTokenExist");
+        const data = await res.json();
         if (data.success === false) {
+          console.log("error data", data);
           dispatch(resetCurrentUser());
           dispatch(resetLiked());
         }
+        console.log("data", data);
       } catch (error) {
-        console.error(error.message);
+        console.log("error-message", error.message);
+
         dispatch(resetCurrentUser());
         dispatch(resetLiked());
       } finally {
-        setTimeout(() => {
-          setLoading(false);
-        }, 3000);
+        setLoading(false);
       }
     };
     checkUserSession();
@@ -57,6 +60,10 @@ function App() {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/listing/:listingId" element={<Listing />} />
+          <Route
+            path="/listing/:listingId/show-image"
+            element={<ShowImage />}
+          />
           <Route path="/search" element={<Search />} />
           <Route element={<PrivateRoute />}>
             <Route path="/profile" element={<Profile />} />
@@ -67,6 +74,7 @@ function App() {
           </Route>
           <Route path="/about" element={<About />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </>
   );

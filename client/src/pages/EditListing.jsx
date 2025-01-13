@@ -61,6 +61,7 @@ const EditListing = () => {
 
     if (formData.imageURLS.length === 0) {
       toast.error("you need to have uploaded image, please upload images");
+      setIsCreatingList(false);
       return;
     }
 
@@ -94,7 +95,7 @@ const EditListing = () => {
     <Container>
       <main className="my-7 flex flex-col gap-5 ">
         <div className="flex ">
-          <h1 className="inline-block text-xl   sm:font-semibold md:text-2xl lg:text-4xl  rounded-2xl py-2 px-4 shadow-inner  shadow-[#155e75]/20  text-[#155e75] uppercase mx-auto ">
+          <h1 className="inline-block text-xl   sm:font-semibold md:text-2xl lg:text-4xl  rounded-xl py-2 px-4 shadow-inner  shadow-[#334155]/50  text-[#334155] capitalize mx-auto ">
             Update Listing
           </h1>
         </div>
@@ -103,7 +104,7 @@ const EditListing = () => {
           formData={formData}
           setFormData={setFormData}
           isCreatingList={isCreatingList}
-          button={"Create Listing"}
+          button={"Update Listing"}
         />
       </main>
     </Container>

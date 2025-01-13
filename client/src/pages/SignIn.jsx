@@ -108,7 +108,7 @@ export const SignIn = () => {
           )}
           <button
             disabled={loading}
-            className="border border-black/60 capitalize bg-[#1f2937] p-3 rounded-md hover:opacity-90 cursor-pointer text-white text-lg md:text-xl lg:text-2xl"
+            className="disabled:opacity-80 disabled:cursor-not-allowed p-3 font-semibold  background text-zinc-600 text-2xl rounded-xl  capitalize bg-gradient-to-r from-teal-200 via-white/60 to-black/50 hover:bg-[#c9b2ac] active:bg-[#c0fdfb] w-full  border border-black/50 mx-auto"
           >
             {loading ? (
               <BeatLoader color="white" size={15} speedMultiplier={0.4} />

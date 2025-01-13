@@ -9,7 +9,7 @@ import {
 const Footer = () => {
   return (
     <div
-      className="bg-[#b09e99] px-3  py-5  flex  justify-center  items-center gap-4 lg:gap-20 border  "
+      className="bg-[#b09e99] px-3  py-5  flex  justify-center   items-center gap-4 lg:gap-20 border  "
       style={{
         backgroundImage:
           "linear-gradient(to right, rgba(128, 128, 128, 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(128, 128, 128, 0.1) 1px, transparent 1px)",

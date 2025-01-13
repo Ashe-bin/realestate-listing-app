@@ -37,6 +37,7 @@ const CreateListing = () => {
     setIsCreatingList(true);
     if (formData.imageURLS.length === 0) {
       toast.error("Please upload images");
+      setIsCreatingList(false);
       return;
     }
 
@@ -56,7 +57,7 @@ const CreateListing = () => {
       }
       toast.success("Listing created successfully");
       console.log(data);
-      navigate(`/show-listing/${data._id}`);
+      navigate(`/listing/${data._id}`);
     } catch (error) {
       console.error(`creating list error ${error.message}`);
       toast.error("Creating list failed, please try again");
@@ -68,7 +69,7 @@ const CreateListing = () => {
     <Container>
       <main className=" my-7 flex flex-col gap-5">
         <div className="flex ">
-          <h1 className="inline-block text-xl   sm:font-semibold md:text-2xl lg:text-4xl   rounded-2xl  py-2 px-4 shadow-inner  shadow-[#155e75]/20  text-[#155e75] uppercase mx-auto ">
+          <h1 className="inline-block text-xl   sm:font-semibold md:text-2xl lg:text-4xl   rounded-2xl  py-2 px-4 shadow-inner  shadow-[#ea580c]/50  text-[#854d0e] capitalize mx-auto ">
             Create Listing
           </h1>
         </div>

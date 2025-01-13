@@ -95,7 +95,10 @@ export const getListings = async (req, res, next) => {
     const order = req.query.order || "desc";
 
     const filters = {
-      name: { $regex: searchTerm, $options: "i" },
+      $or: [
+        { name: { $regex: searchTerm, $options: "i" } },
+        { propertyType: { $regex: searchTerm, $options: "i" } }, // Search in both name and propertyType
+      ],
       offer,
       furnished,
       parking,

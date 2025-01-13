@@ -4,11 +4,11 @@
 @tailwind utilities;
 
 body {
-  background-color: #f8edeb;
+  background-color: #e7e5e4;
   font-family: "Roboto", serif;
-  background-image: linear-gradient(to right, #8080800a 1px, transparent 1px),
-    linear-gradient(to bottom, #8080800a 1px, transparent 1px);
-  background-size: 14px 14px;
+  background-image: linear-gradient(to right, #3c6b6407 1px, transparent 1px),
+    linear-gradient(to bottom, #4da6ae0a 1px, transparent 1px);
+  background-size: 20px 20px;
   overflow-x: hidden;
 }
 html {

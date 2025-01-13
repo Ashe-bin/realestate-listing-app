@@ -7,8 +7,8 @@ import ListingItem from "../components/ListingItem";
 import { FaSearch } from "react-icons/fa";
 import Container from "../components/Container";
 import { useDispatch, useSelector } from "react-redux";
-import { setLiked } from "@/redux/feature/user/userLikedListSlice";
-import Footer from "@/components/Footer";
+import { resetLiked, setLiked } from "@/redux/feature/user/userLikedListSlice";
+import { HomePageSkeleton } from "@/components/Skeleton";
 
 export const Home = () => {
   const [offerListings, setOfferListings] = useState([]);
@@ -16,6 +16,7 @@ export const Home = () => {
   const [rentListings, setRentListings] = useState([]);
   const [searchTerm, setSearchTerm] = useState(null);
   const { currentUser } = useSelector((state) => state.user);
+  const [isHomeLoading, setIsHomeLoading] = useState(true);
   SwiperCore.use([Navigation]);
 
   const navigate = useNavigate();
@@ -24,40 +25,47 @@ export const Home = () => {
   useEffect(() => {
     const fetchOfferListings = async () => {
       try {
-        const res = await fetch(`/api/listing/getListing?offer=true&limit=4`);
+        const res = await fetch(`/api/listing/getListing?offer=true&limit=6`);
         const data = await res.json();
 
         setOfferListings(data);
         fetchRentListings();
       } catch (error) {
         console.error("error", error.message);
+      } finally {
+        setIsHomeLoading(false);
       }
     };
     const fetchRentListings = async () => {
       try {
-        const res = await fetch(`/api/listing/getListing?type=rent&limit=4`);
+        const res = await fetch(`/api/listing/getListing?type=rent&limit=6`);
         const data = await res.json();
         setRentListings(data);
         fetchSaleListings();
       } catch (error) {
         console.error("error", error.message);
+      } finally {
+        setIsHomeLoading(false);
       }
     };
 
     const fetchSaleListings = async () => {
       try {
-        const res = await fetch(`/api/listing/getListing?type=sale&limit=4`);
+        const res = await fetch(`/api/listing/getListing?type=sale&limit=6`);
         const data = await res.json();
         setSaleListings(data);
       } catch (error) {
         console.error("error", error.message);
+      } finally {
+        setIsHomeLoading(false);
       }
     };
 
     fetchOfferListings();
 
     const fetchInitialLikedList = async () => {
-      if (currentUser.liked.length === 0) {
+      if (!currentUser?.liked) {
+        dispatch(resetLiked());
         return;
       }
       const likedList = currentUser.liked;
@@ -92,13 +100,20 @@ export const Home = () => {
     <div>
       <div
         style={{
-          background: `linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)),url(https://images.pexels.com/photos/29799518/pexels-photo-29799518/free-photo-of-real-estate-investment-essentials-with-euro-currency.jpeg) center no-repeat`,
+          background: `linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)),url(https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1) center no-repeat`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          width: "100%",
         }}
         className="h-[70vh]  flex flex-col justify-center items-center gap-8 bg-cover bg-center bg-gradient-to-b from-transparent to-black sm:bg-gradient-to-b sm:from-transparent sm:to-black md:bg-gradient-to-b md:from-black md:to-black"
       >
         <div className="flex flex-col w-[80%] md:[w-60%] lg:w-[45%   mx-auto  text-center">
-          <h1 className="text-white text-2xl  md:font-extrabold md:text-6xl">
-            Find your next <span className="text-slate-500">perfect</span>{" "}
+          <h1 className="text-teal-400 text-2xl  md:font-extrabold md:text-6xl">
+            Find your next{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-700  to-yellow-500 ">
+              perfect
+            </span>{" "}
             <br className="hidden md:block" /> place with ease
           </h1>
         </div>
@@ -113,87 +128,90 @@ export const Home = () => {
               placeholder=" name/type of the  house "
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="bg-transparent focus:outline-none border-none focus:border-none placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-xl px-2 focus:ring-0   md:placeholder:font-medium  w-full placeholder:text-gray-400 peer"
+              className="bg-transparent focus:outline-none border-none focus:border-none placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-xl px-2 focus:ring-0     w-full placeholder:text-gray-600 peer "
             />
-            <button className="flex mr-1 sm:mr-0 p-2 lg:p-3 text-center justify-center rounded-full bg-[#fcd5ce] peer-focus:bg-[#64b6ac] active:bg-[#c0fdfb] transition-all duration-1000 border border-black/30">
-              <FaSearch className="text-md md:text-xl text-slate-700    lg:text-2xl" />
+            <button className="flex mr-1 sm:mr-0 p-2 lg:p-3 text-center justify-center rounded-full bg-yellow-700 peer-focus:bg-[#64b6ac] active:bg-[#c0fdfb] transition-all duration-1000 border border-black/30">
+              <FaSearch className="text-md md:text-xl text-white    lg:text-2xl" />
             </button>
           </form>
         </div>
       </div>
       <Container>
-        <div className="w-full text-center   flex flex-col gap-10  my-10 py-10 ">
-          {offerListings && offerListings.length > 0 && (
-            <div className="flex flex-col gap-y-14 ">
-              <div>
-                <h2 className="inline-block text-xl   sm:font-semibold md:text-2xl lg:text-4xl md:font-extrabold rounded-2xl  p-3 shadow-sm shadow-[#f0abfc] text-[#155e75] ">
-                  Recent offers
-                </h2>
+        {isHomeLoading ? (
+          <HomePageSkeleton />
+        ) : (
+          <div className="w-full text-center   flex flex-col gap-10  my-10 py-10 ">
+            {offerListings && offerListings.length > 0 && (
+              <div className="flex flex-col gap-y-14 ">
+                <div>
+                  <h2 className=" inline-block text-xl sm:font-semibold md:text-2xl lg:text-4xl md:font-extrabold  border  p-3 rounded-2xl shadow-sm shadow-teal-300 capitalize text-[#155e75] text-transparent bg-clip-text bg-gradient-to-r from-teal-800  to-yellow-500 border-yellow-100">
+                    Recent offers
+                  </h2>
+                </div>
+                <div className="grid  md:grid-cols-2 xl:grid-cols-3    gap-5  ">
+                  {offerListings.map((listing) => (
+                    <div key={listing._id} className="">
+                      <ListingItem listing={listing} />
+                    </div>
+                  ))}
+                </div>
+                <Link
+                  className="border w-[250px] sm:w-[300px] mx-auto border-black/30 text-md py-1 px-2 bg-[#64b6ac] rounded-lg md:text-lg text-black/70 shadow-sm shadow-gray-500 hover:opacity-90 hover:shadow-lg"
+                  to={"/search?offer=true"}
+                >
+                  Show more listing with offer
+                </Link>
               </div>
-              <div className="flex  gap-7 flex-wrap  justify-center  ">
-                {offerListings.map((listing) => (
-                  <div key={listing._id} className="">
-                    <ListingItem listing={listing} />
-                  </div>
-                ))}
+            )}
+            {rentListings && rentListings.length > 0 && (
+              <div className="flex flex-col gap-y-14">
+                <div>
+                  <h2 className=" inline-block text-xl sm:font-semibold md:text-2xl lg:text-4xl md:font-extrabold  border  p-3 rounded-2xl shadow-sm shadow-teal-300 capitalize text-[#155e75] text-transparent bg-clip-text bg-gradient-to-r from-teal-800  to-yellow-500 border-yellow-100  ">
+                    {" "}
+                    Recent places for rent
+                  </h2>
+                </div>
+                <div className="grid  md:grid-cols-2 xl:grid-cols-3    gap-5 ">
+                  {rentListings.map((listing) => (
+                    <div key={listing._id} className="">
+                      <ListingItem listing={listing} />
+                    </div>
+                  ))}
+                </div>
+                <Link
+                  className="border w-[250px] sm:w-[300px] mx-auto border-black/30 text-md py-1 px-2 bg-[#64b6ac] rounded-lg md:text-lg text-black/70 shadow-sm shadow-gray-500 hover:opacity-90 hover:shadow-lg"
+                  to={"/search?type=rent"}
+                >
+                  Show more places for rent
+                </Link>
               </div>
-              <Link
-                className="border w-[250px] sm:w-[300px] mx-auto border-black/30 text-md py-1 px-2 bg-[#64b6ac] rounded-lg md:text-lg text-black/70 shadow-md shadow-gray-500"
-                to={"/search?offer=true"}
-              >
-                Show more listing with offer
-              </Link>
-            </div>
-          )}
-          {rentListings && rentListings.length > 0 && (
-            <div className="flex flex-col gap-y-14">
-              <div>
-                <h2 className="inline-block text-xl sm:font-semibold md:text-2xl lg:text-4xl md:font-extrabold rounded-2xl p-3  shadow-sm shadow-[#f0abfc] text-[#155e75]  ">
-                  {" "}
-                  Recent places for rent
-                </h2>
+            )}
+            {saleListings && saleListings.length > 0 && (
+              <div className="flex flex-col gap-y-14">
+                <div>
+                  <h2 className=" inline-block text-xl sm:font-semibold md:text-2xl lg:text-4xl md:font-extrabold  border  p-3 rounded-2xl shadow-sm shadow-teal-300 capitalize text-[#155e75] text-transparent bg-clip-text bg-gradient-to-r from-teal-800  to-yellow-500 border-yellow-100">
+                    {" "}
+                    Recent places for sale
+                  </h2>
+                </div>
+                <div className="grid  md:grid-cols-2 xl:grid-cols-3    gap-5 ">
+                  {saleListings.map((listing) => (
+                    <div key={listing._id} className="">
+                      <ListingItem listing={listing} />
+                    </div>
+                  ))}
+                </div>
+                <Link
+                  className="border w-[250px] sm:w-[300px] mx-auto border-black/30 text-md py-1 px-2 bg-[#64b6ac] rounded-lg md:text-lg text-black/70 shadow-sm shadow-gray-500 hover:opacity-90 hover:shadow-lg"
+                  to={"/search?type=sale"}
+                >
+                  Show more place for sale
+                </Link>
               </div>
-              <div className="flex  gap-7 flex-wrap  justify-center">
-                {rentListings.map((listing) => (
-                  <div key={listing._id} className="">
-                    <ListingItem listing={listing} />
-                  </div>
-                ))}
-              </div>
-              <Link
-                className="border w-[250px] sm:w-[300px] mx-auto border-black/30 text-md py-1 px-2 bg-[#64b6ac] rounded-lg md:text-lg text-black/70 shadow-md shadow-gray-500"
-                to={"/search?type=rent"}
-              >
-                Show more places for rent
-              </Link>
-            </div>
-          )}
-          {saleListings && saleListings.length > 0 && (
-            <div className="flex flex-col gap-y-14">
-              <div>
-                <h2 className=" inline-block text-xl sm:font-semibold md:text-2xl lg:text-4xl md:font-extrabold  border  p-3 rounded-2xl shadow-sm shadow-[#f0abfc] text-[#155e75] ">
-                  {" "}
-                  Recent places for sale
-                </h2>
-              </div>
-              <div className="flex gap-7 flex-wrap  justify-center">
-                {saleListings.map((listing) => (
-                  <div key={listing._id} className="">
-                    <ListingItem listing={listing} />
-                  </div>
-                ))}
-              </div>
-              <Link
-                className="border w-[250px] sm:w-[300px] mx-auto border-black/30 text-md py-1 px-2 bg-[#64b6ac] rounded-lg md:text-lg text-black/70 shadow-md shadow-gray-500"
-                to={"/search?type=sale"}
-              >
-                Show more place for sale
-              </Link>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </Container>
-      <Footer />
     </div>
   );
 };
