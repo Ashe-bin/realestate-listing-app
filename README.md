@@ -13,7 +13,7 @@
 - **Property Listings** – Homeowners can list their properties for sale or rent.
 - **User Discovery** – Users can browse, search, and filter available properties.
 - **Real-Time Updates** – Instant updates to listings using MongoDB.
-- **Simple UI** – Clean and responsive design built with React.
+- **Simple UI** – Clean and responsive design built with React, tailwind css.
 
 ---
 
