@@ -421,11 +421,15 @@ export const Listing = () => {
                       </div>
 
                       <button
-                        disabled={listing.userRef === currentUser._id}
+                        disabled={
+                          listing?.userRef === currentUser?._id || !currentUser
+                        }
                         className="p-3 font-semibold background text-zinc-600 text-xl rounded-xl  capitalize bg-gradient-to-r from-teal-200 via-white/60 to-black/30 hover:bg-[#c9b2ac] active:bg-[#c0fdfb] w-[80%] border border-black/50 disabled:cursor-not-allowed "
                         title={
-                          listing.userRef === currentUser._id
+                          listing?.userRef === currentUser?._id
                             ? "You cannot request a tour for your own listing"
+                            : !currentUser
+                            ? "Please sign in first"
                             : ""
                         }
                       >

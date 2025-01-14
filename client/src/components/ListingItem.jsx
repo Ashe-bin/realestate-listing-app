@@ -32,7 +32,7 @@ const ListingItem = ({ listing }) => {
 
     dispatch(updateCurrentUserStart());
     try {
-      const res = await fetch(`/api/user/liked/${currentUser._id}`, {
+      const res = await fetch(`/api/user/liked/${currentUser?._id}`, {
         method: "POST",
         headers: { "Content-Type": "application/JSON" },
         body: JSON.stringify({ id: list._id }),
@@ -55,7 +55,7 @@ const ListingItem = ({ listing }) => {
       <p className="absolute rounded-bl-md text-white top-0 right-0 px-1 z-10  bg-[#64b6ac] ">
         {listing.type}
       </p>
-      {currentUser._id === listing.userRef && (
+      {currentUser?._id === listing?.userRef && (
         <p className="absolute rounded-br-md text-white top-0 left-0 px-1 z-10  bg-[#64b6ac] ">
           your own listing
         </p>
@@ -68,8 +68,8 @@ const ListingItem = ({ listing }) => {
             className="h-[320px] sm:h-[220px] w-full object-cover hover:scale-105 transition-scale duration-300"
           />
         </Link>
-        {currentUser._id !== listing.userRef &&
-          (currentUser?.liked?.includes(listing._id) ? (
+        {currentUser?._id !== listing?.userRef &&
+          (currentUser?.liked?.includes(listing?._id) ? (
             <div
               className={`z-10 flex justify-center items-center absolute bottom-5 right-5 border border-black/60 p-2 rounded-full bg-teal-400 active:bg-[#c0fdfb]   ${
                 loading ? "cursor-not-allowed" : "cursor-pointer"
@@ -104,13 +104,10 @@ const ListingItem = ({ listing }) => {
             <MdLocationOn className="size-5 text-[#64b6ac] " />
             <p className="text-sm  truncate w-full italic">{listing.address}</p>
           </div>
-          <p className="text-md   line-clamp-3 leading-tight ">
-            {listing.description}
-          </p>
+          <p className="text-md   line-clamp-2  ">{listing.description}</p>
           <div className="flex gap-3  items-center  ">
             <AiFillDollarCircle className="size-5 text-[#64b6ac]" />
-
-            <p className="  font-semibold">
+            <p className="  font-normal">
               {listing.offer
                 ? listing.discountPrice.toLocaleString("en-US")
                 : listing.regularPrice.toLocaleString("en-US")}
@@ -118,12 +115,12 @@ const ListingItem = ({ listing }) => {
             </p>
           </div>
 
-          <div className=" flex gap-3">
-            <div className="font-bold text-sm flex gap-3  items-center ">
+          <div className=" flex gap-8">
+            <div className="font-normal text-md flex gap-1  items-center ">
               <FaBed className="size-5 text-[#64b6ac]" />
               {`${listing?.bedRoom} bed`}
             </div>
-            <div className="font-bold    text-sm flex items-center gap-3">
+            <div className="font-normal    text-md flex items-center gap-1">
               <FaBath className="size-5 text-[#64b6ac]" />
               {`${listing?.bathRoom} bath`}
             </div>

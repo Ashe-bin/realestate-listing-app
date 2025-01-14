@@ -8,7 +8,7 @@ const ToastContainer = () => {
         duration: 3000,
         removeDelay: 1000,
         style: {
-          background: "#363636",
+          background: "#34d399",
           color: "#fff",
         },
       }}

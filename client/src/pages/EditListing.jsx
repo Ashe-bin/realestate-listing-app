@@ -69,7 +69,7 @@ const EditListing = () => {
       const res = await fetch(`/api/listing/edit/${listingId}`, {
         method: "POST",
         headers: { "Content-Type": "Application/JSON" },
-        body: JSON.stringify({ ...formData, userRef: currentUser._id }),
+        body: JSON.stringify({ ...formData, userRef: currentUser?._id }),
       });
 
       const data = await res.json();

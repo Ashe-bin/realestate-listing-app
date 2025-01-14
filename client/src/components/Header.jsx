@@ -168,7 +168,7 @@ export const Header = () => {
                             {currentUser?.avatar ? (
                               <img
                                 className="rounded-full w-9 h-9 object-cover"
-                                src={currentUser.avatar}
+                                src={currentUser?.avatar}
                                 alt="profile "
                               />
                             ) : (
@@ -317,7 +317,7 @@ export const Header = () => {
                         {currentUser?.avatar ? (
                           <img
                             className="rounded-full w-9 h-9 object-cover"
-                            src={currentUser.avatar}
+                            src={currentUser?.avatar}
                             alt="profile "
                           />
                         ) : (

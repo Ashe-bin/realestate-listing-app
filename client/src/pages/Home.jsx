@@ -68,7 +68,7 @@ export const Home = () => {
         dispatch(resetLiked());
         return;
       }
-      const likedList = currentUser.liked;
+      const likedList = currentUser?.liked;
       const likedListData = [];
       for (const listId of likedList) {
         try {

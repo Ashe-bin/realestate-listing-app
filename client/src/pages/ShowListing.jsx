@@ -29,7 +29,7 @@ const ShowListing = () => {
     const handleShowListing = async () => {
       setShowListError(false);
       try {
-        const res = await fetch(`/api/user/listing/${currentUser._id}`);
+        const res = await fetch(`/api/user/listing/${currentUser?._id}`);
 
         const data = await res.json();
 

@@ -137,10 +137,12 @@ const ContactDeveloperForm = ({ listing }) => {
               )}
             </div>
             <button
-              disabled={currentUser._id === listing.userRef}
+              disabled={currentUser?._id === listing?.userRef || !currentUser}
               title={
-                currentUser._id === listing.userRef
+                currentUser?._id === listing?.userRef
                   ? "This is your own listing, you can not do this action"
+                  : !currentUser
+                  ? "please Sign in first"
                   : ""
               }
               className="p-3 font-semibold background text-zinc-600 text-xl rounded-xl  capitalize bg-gradient-to-r from-teal-200 via-white/60 to-black/30 hover:bg-[#c9b2ac] active:bg-[#c0fdfb] w-[80%] border border-black/50 mx-auto  disabled:cursor-not-allowed"

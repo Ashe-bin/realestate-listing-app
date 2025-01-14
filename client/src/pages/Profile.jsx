@@ -64,7 +64,7 @@ export const Profile = () => {
     dispatch(updateStart());
 
     try {
-      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+      const res = await fetch(`/api/user/update/${currentUser?._id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -91,7 +91,7 @@ export const Profile = () => {
     setIsDeleting(true);
 
     try {
-      const res = await fetch(`/api/user/delete-user/${currentUser._id}`, {
+      const res = await fetch(`/api/user/delete-user/${currentUser?._id}`, {
         method: "DELETE",
       });
 
@@ -149,7 +149,7 @@ export const Profile = () => {
         >
           <div className="relative self-center group mt-5  rounded-full overflow-clip border border-black/30 ">
             <img
-              src={currentUser.avatar}
+              src={currentUser?.avatar}
               alt="profile picture"
               className={`${
                 imgUploading ? "animate-pulse" : ""
@@ -171,7 +171,7 @@ export const Profile = () => {
           <input
             type="text"
             placeholder="username"
-            defaultValue={currentUser.username}
+            defaultValue={currentUser?.username}
             id="username"
             className="border font-normal p-2 placeholder:text-sm md:placeholder:text-md   md:p-3 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20"
             onChange={changeHandler}
@@ -179,7 +179,7 @@ export const Profile = () => {
           <input
             type="email"
             placeholder="email"
-            defaultValue={currentUser.email}
+            defaultValue={currentUser?.email}
             id="email"
             className="border font-normal p-2 placeholder:text-sm md:placeholder:text-md   md:p-3 rounded-lg focus:outline-none focus:border-black focus:ring focus:ring-black/20"
             onChange={changeHandler}
