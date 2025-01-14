@@ -27,9 +27,10 @@ const Loading = () => {
         backgroundImage:
           "linear-gradient(to right, #3c6b6407 1px, transparent 1px), linear-gradient(to bottom, #4da6ae0a 1px, transparent 1px)", // Custom grid pattern
         backgroundSize: "20px 20px", // Grid size
-        fontFamily: "'Roboto', serif", // Font family
+        fontFamily: "'Roboto', sans-serif", // Font family
         overflowX: "hidden", // To prevent horizontal overflow
       }}
+      className="font-sans"
     >
       <motion.div
         style={{

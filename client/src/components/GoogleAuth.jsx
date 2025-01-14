@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { signInSuccess } from "../redux/feature/user/userSlice";
 import { useNavigate } from "react-router-dom";
 import { GoogleIcon } from "./Icons/icons";
+import toast from "react-hot-toast";
 
 export const GoogleAuth = () => {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ export const GoogleAuth = () => {
         }),
       });
       const data = await res.json();
+      toast.success("Sign in successful");
       dispatch(signInSuccess(data));
       navigate("/");
     } catch (error) {
