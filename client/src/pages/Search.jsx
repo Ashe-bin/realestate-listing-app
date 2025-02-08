@@ -146,7 +146,7 @@ const Search = () => {
   return (
     <Container className="">
       <div className="flex  flex-col md:flex-row my-10 gap-5 ">
-        <div className="py-7 order-2 md:order-1 lg:flex-1 flex-shrink-0 md:w-[20rem] w-full  lg:basis-1/4 px-3 border rounded-2xl shadow-lg shadow-gray-300 border-black/10">
+        <div className="py-7 lg:flex-1 flex-shrink-0 md:w-[20rem] w-full  lg:basis-1/4 px-3 border rounded-2xl shadow-lg shadow-gray-300 border-black/10">
           <form
             onSubmit={handleSubmit}
             className=" flex text-slate-700 text-lg font-semibold flex-col gap-8"
@@ -201,7 +201,9 @@ const Search = () => {
                 <input
                   type="checkbox"
                   id="offer"
-                  className="w-6 h-6 rounded-md focus:outline-none border focus:border-black focus:ring focus:ring-black/20 checked:bg-black/60 checked:border-black/30"
+                  className="w-6 h-6 rounded
+                  
+                  -md focus:outline-none border focus:border-black focus:ring focus:ring-black/20 checked:bg-black/60 checked:border-black/30"
                   onChange={handleChange}
                   checked={sidebarData.offer}
                 />
@@ -270,15 +272,15 @@ const Search = () => {
             </button>
           </form>
         </div>
-        <div className="flex flex-col order-1 md:order-2  gap-10 p-7 flex-shrink-0 w-full sm:flex-1  lg:basis-3/4 border  rounded-2xl shadow-lg shadow-gray-300 border-black/10 ">
+        <div className="flex flex-col  gap-10 py-7 flex-shrink-0 w-full sm:flex-1  lg:basis-3/4 border  rounded-2xl shadow-lg shadow-gray-300 border-black/10 ">
           <div className="my-4  flex justify-center  ">
             <h1 className="inline-block text-xl   md:text-2xl lg:text-4xl   rounded-2xl py-2   px-4 shadow-inner  shadow-[#155e75]/20  text-[#155e75] capitalize mx-auto text-center ">
               Listing results
             </h1>
           </div>
-          <div className="flex justify-center flex-wrap  ">
+          <div className="flex justify-center flex-wrap ">
             {loading && !error && (
-              <div className="flex flex-col gap-4   my-10  ">
+              <div className="flex w-full flex-col gap-4   my-10  ">
                 <div className="flex flex-wrap gap-4 ">
                   {Array.from({ length: 4 }, (_, index) => (
                     <ListingItemSkeleton key={index} />

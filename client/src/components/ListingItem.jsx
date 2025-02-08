@@ -51,7 +51,7 @@ const ListingItem = ({ listing }) => {
   };
 
   return (
-    <div className="relative bg-white shadow-md shadow-gray-[#c0fdfb] hover:shadow-lg hover:shadow-gray-300 transition-shadow overflow-hidden rounded-lg w-[95%] mx-auto sm:w-[330px] border border-black/30 text-left ">
+    <div className="relative bg-white shadow-sm shadow-[#c0fdfb] hover:shadow-lg hover:shadow-gray-300 transition-shadow overflow-hidden rounded-lg w-[90%] mx-auto sm:w-[330px] border border-black/30 text-left ">
       <p className="absolute rounded-bl-md text-white top-0 right-0 px-1 z-10  bg-[#64b6ac] ">
         {listing.type}
       </p>

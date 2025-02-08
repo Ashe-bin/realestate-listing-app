@@ -109,7 +109,7 @@ export const Home = () => {
         className="h-[70vh]  flex flex-col justify-center items-center gap-8 bg-cover bg-center bg-gradient-to-b from-transparent to-black sm:bg-gradient-to-b sm:from-transparent sm:to-black md:bg-gradient-to-b md:from-black md:to-black"
       >
         <div className="flex flex-col w-[80%] md:[w-60%] lg:w-[45%   mx-auto  text-center">
-          <h1 className="text-teal-400 text-2xl  md:font-extrabold md:text-6xl">
+          <h1 className="text-teal-400 text-3xl font-semibold  md:font-extrabold md:text-6xl">
             Find your next{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-700  to-yellow-500 ">
               perfect
@@ -121,17 +121,17 @@ export const Home = () => {
         <div className="w-[80%] xs:w-[100%] sm:w-[60%]  md:w-[50%] lg:w-[40%]">
           <form
             onSubmit={handleSubmit}
-            className=" bg-slate-100 sm:p-1  rounded-full flex items-center border     transition-all duration-1000 border-black/50 focus-within:border-black  "
+            className=" bg-slate-100 py-1  sm:p-1  rounded-full flex items-center border     transition-all duration-1000 border-black/50 focus-within:border-black  "
           >
             <input
               type="text"
               placeholder=" name/type of the  house "
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="bg-transparent focus:outline-none border-none focus:border-none placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-xl px-2 focus:ring-0     w-full placeholder:text-gray-600 peer "
+              className="bg-transparent focus:outline-none border-none focus:border-none placeholder:text-sm md:placeholder:text-lg lg:placeholder:text-xl px-5 focus:ring-0     w-full placeholder:text-gray-600 peer "
             />
-            <button className="flex mr-1 sm:mr-0 p-2 lg:p-3 text-center justify-center rounded-full bg-yellow-700 peer-focus:bg-[#64b6ac] active:bg-[#c0fdfb] transition-all duration-1000 border border-black/30">
-              <FaSearch className="text-md md:text-xl text-white    lg:text-2xl" />
+            <button className="flex mr-1 sm:mr-0 p-3 lg:p-3 text-center justify-center rounded-full bg-yellow-700 peer-focus:bg-[#64b6ac] active:bg-[#c0fdfb] transition-all duration-1000 border border-black/30">
+              <FaSearch className="text-xl md:text-2xl text-white    lg:text-2xl" />
             </button>
           </form>
         </div>
@@ -148,7 +148,7 @@ export const Home = () => {
                     Recent offers
                   </h2>
                 </div>
-                <div className="grid  md:grid-cols-2 xl:grid-cols-3    gap-5  ">
+                <div className="grid w-full grid-cols-1  md:grid-cols-2 xl:grid-cols-3    gap-5  ">
                   {offerListings.map((listing) => (
                     <div key={listing._id} className="">
                       <ListingItem listing={listing} />

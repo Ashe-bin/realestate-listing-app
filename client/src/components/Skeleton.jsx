@@ -10,7 +10,7 @@ export const HomePageSkeleton = () => {
             <div className="h-3 rounded w-[50%]    bg-slate-400 animate-pulse"></div>
             <div className="h-4 rounded w-[80%] bg-slate-400 animate-pulse"></div>
           </div>
-          <div className="grid  md:grid-cols-2 xl:grid-cols-3    gap-5  ">
+          <div className="grid grid-cols-1 w-full    md:grid-cols-2 xl:grid-cols-3    gap-5  ">
             {items.map((_, idx) => (
               <ListingItemSkeleton key={idx} />
             ))}
@@ -21,7 +21,7 @@ export const HomePageSkeleton = () => {
             <div className="h-3 rounded w-[50%]    bg-slate-400 animate-pulse"></div>
             <div className="h-4 rounded w-[80%] bg-slate-400 animate-pulse"></div>
           </div>{" "}
-          <div className="grid  md:grid-cols-2 xl:grid-cols-3    gap-5  ">
+          <div className="grid grid-cols-1 w-full md:grid-cols-2 xl:grid-cols-3    gap-5  ">
             {items.map((_, idx) => (
               <ListingItemSkeleton key={idx} />
             ))}

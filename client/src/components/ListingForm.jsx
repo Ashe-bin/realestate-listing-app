@@ -89,7 +89,7 @@ const ListingForm = ({
     <>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col   mx-auto lg:flex-row flex-shrink-0 gap-10 "
+        className="flex flex-col   mx-auto lg:flex-row flex-shrink-0 gap-10 border  w-full"
       >
         <div className="flex flex-col gap-4 flex-1 border border-black/10 rounded-lg shadow-md shadow-gray-300 text-slate-700 font-semibold p-2 w-full md:w-[70%] mx-auto lg:basis-1/2 md:p-5">
           <input
@@ -315,7 +315,7 @@ const ListingForm = ({
             <button
               disabled={isCreatingList}
               type="button"
-              className={` disabled:text-gray-700 disabled:cursor-not-allowed  text-slate-600 border border-black/5  bg-black/5  rounded-xl font-semibold uppercase shadow-md shadow-[#c0fdfb] hover:text-slate-500`}
+              className={` disabled:text-gray-700 disabled:cursor-not-allowed  text-slate-600 border border-black/5  bg-black/5  rounded-xl font-semibold uppercase ] hover:text-slate-500`}
               onClick={cloudinaryImgUpload}
             >
               <HiOutlineUpload className={`size-24  `} />

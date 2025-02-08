@@ -67,7 +67,7 @@ const CreateListing = () => {
   };
   return (
     <Container>
-      <main className=" my-7 flex flex-col gap-5">
+      <main className=" my-7 flex flex-col gap-5 ">
         <div className="flex ">
           <h1 className="inline-block text-xl   sm:font-semibold md:text-2xl lg:text-4xl   rounded-2xl  py-2 px-4 shadow-inner  shadow-[#ea580c]/50  text-[#854d0e] capitalize mx-auto ">
             Create Listing

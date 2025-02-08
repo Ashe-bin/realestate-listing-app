@@ -91,7 +91,7 @@ export const SignIn = () => {
               })}
             />
             <div
-              className="absolute  right-4 top-4"
+              className="absolute  right-4 top-[0.7rem]"
               onClick={() => setIsPasswordHidden((prev) => !prev)}
             >
               {isPasswordHidden ? (

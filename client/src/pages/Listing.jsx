@@ -316,11 +316,11 @@ export const Listing = () => {
                   >
                     <form
                       onSubmit={handleRequestTour(onSubmit)}
-                      className="mx-auto border border-black/60  w-[60%] flex flex-col gap-4 justify-center items-center py-3 rounded-xl bg-[#d8e2dc] shadow-md shadow-gray-400"
+                      className="mx-auto border border-black/60 w-full  sm:w-[60%] flex flex-col gap-4 justify-center items-center py-3 rounded-xl bg-[#d8e2dc] shadow-md shadow-gray-400 "
                     >
                       <p className="text-center ">Schedule tour</p>
                       <p className="text-center">Choose your preferred date</p>
-                      <Carousel className="w-[80%] mx-auto  ">
+                      <Carousel className="w-[90%] sm:w-[80%]   ">
                         <CarouselContent className="">
                           {dates?.map((date, index) => (
                             <div key={index}>
@@ -361,7 +361,7 @@ export const Listing = () => {
                         <CarouselPrevious className="bg-white border border-black/40 " />
                         <CarouselNext className="bg-white border border-black/40 " />
                       </Carousel>
-                      <div className="w-[80%] mx-auto flex flex-col gap-6 border ">
+                      <div className=" w-[90%]  sm:w-[80%] mx-auto flex flex-col gap-6 border ">
                         <div className="relative">
                           <input
                             name="requestTourEmail"
@@ -390,7 +390,7 @@ export const Listing = () => {
                             </p>
                           )}
                         </div>
-                        <div className="relative ">
+                        <div className="relative  ">
                           <input
                             name="requestTourPhone"
                             type="text"
@@ -424,7 +424,7 @@ export const Listing = () => {
                         disabled={
                           listing?.userRef === currentUser?._id || !currentUser
                         }
-                        className="p-3 font-semibold background text-zinc-600 text-xl rounded-xl  capitalize bg-gradient-to-r from-teal-200 via-white/60 to-black/30 hover:bg-[#c9b2ac] active:bg-[#c0fdfb] w-[80%] border border-black/50 disabled:cursor-not-allowed "
+                        className="p-3 font-semibold background text-zinc-600 text-xl rounded-xl  capitalize bg-gradient-to-r from-teal-200 via-white/60 to-black/30 hover:bg-[#c9b2ac] active:bg-[#c0fdfb] w-[90%] sm:w-[80%] border border-black/50 disabled:cursor-not-allowed "
                         title={
                           listing?.userRef === currentUser?._id
                             ? "You cannot request a tour for your own listing"
@@ -502,7 +502,7 @@ export const Listing = () => {
                     )}
                   </div>
                 </div>{" "}
-                <div className=" mx-auto w-[70%] flex justify-center  ">
+                <div className=" mx-auto w-full sm:w-[70%] flex justify-center  ">
                   <ContactDeveloperForm listing={listing} />
                 </div>
                 <Dialog open={isOpenDialog} onOpenChange={setIsOpenDialog}>

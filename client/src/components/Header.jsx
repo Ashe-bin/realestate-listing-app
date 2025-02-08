@@ -202,11 +202,11 @@ export const Header = () => {
                 ) : (
                   <Link to="/sign-in">
                     <li
-                      className="w  text-slate-700 hover:underline "
+                      className=" flex   text-slate-700 hover:underline "
                       onClick={toggleMenuBar}
                     >
                       <button
-                        className={` w-full border-black/60 capitalize p-3 hover:bg-[#fee9e1] active:bg-[#c0fdfb]  ${
+                        className={`  border-black/60 capitalize p-3 hover:bg-[#fee9e1] active:bg-[#c0fdfb]  ${
                           pathname === "/about" ? "bg-white" : ""
                         } transition duration-300`}
                       >
