@@ -182,20 +182,25 @@ export const Listing = () => {
                       ))}
                     </Swiper>
                   </Link>
-                  <div className="absolute top-5 left-5 border rounded-full size-9 flex justify-center items-center bg-slate-100 z-50 cursor-pointer  ">
-                    <FaShare
-                      className="text-slate-500"
-                      onClick={() => {
-                        navigator.clipboard.writeText(window.location.href);
-                        setCopied(true);
-                        setTimeout(() => {
-                          setCopied(false);
-                        }, 3000);
-                      }}
-                    />
+                  <div
+                    className="absolute top-5 left-5 border rounded-full size-12 flex justify-center items-center bg-slate-100 z-50 cursor-pointer   "
+                    onClick={() => {
+                      const textArea = document.createElement("textarea");
+                      textArea.value = window.location.href;
+                      document.body.appendChild(textArea);
+                      textArea.select();
+                      document.execCommand("copy");
+                      document.body.removeChild(textArea);
+                      setCopied(true);
+                      setTimeout(() => {
+                        setCopied(false);
+                      }, 3000);
+                    }}
+                  >
+                    <FaShare className="text-slate-500" />
                   </div>
                   {copied && (
-                    <p className="absolute top-14 left-8 z-[999] rounded-md bg-slate-100 p-2">
+                    <p className="absolute top-16 left-8 z-50 rounded-md bg-slate-100 p-2">
                       Link copied!
                     </p>
                   )}

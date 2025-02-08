@@ -73,7 +73,7 @@ export const Header = () => {
                   placeholder="Search "
                   value={searchTerm ?? ""}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="bg-transparent focus:outline-none placeholder:text-sm px-2   md:placeholder:font-medium  w-full placeholder:text-gray-400 border-none focus:ring-0 peer"
+                  className="bg-transparent focus:outline-none placeholder:text-sm px-5   md:placeholder:font-medium  w-full placeholder:text-gray-400 border-none focus:ring-0 peer"
                 />
                 <button className="flex self-center p-2 md:p-[10px] text-center justify-center rounded-full bg-yellow-700 peer-focus:bg-[#64b6ac] active:bg-[#c0fdfb] transition-all duration-1000 border border-black/30">
                   <FaSearch className="text-white  md:text-lg" />
