@@ -56,7 +56,7 @@ export const Header = () => {
                 Real-
               </span>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-700 to-yellow-500 uppercase">
-                Listing
+                Nest
               </span>
             </h1>
           </Link>
