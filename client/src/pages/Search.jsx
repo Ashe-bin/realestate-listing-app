@@ -146,7 +146,7 @@ const Search = () => {
   return (
     <Container className="">
       <div className="flex  flex-col md:flex-row my-10 gap-5 ">
-        <div className="py-7 lg:flex-1 flex-shrink-0 md:w-[20rem] w-full  lg:basis-1/4 px-3 border rounded-2xl shadow-lg shadow-gray-300 border-black/10">
+        <div className="py-7 lg:flex-1 flex-shrink-0 md:w-[20rem] w-full h-fit  lg:basis-1/4 px-3 border rounded-2xl shadow-lg shadow-gray-300 border-black/10">
           <form
             onSubmit={handleSubmit}
             className=" flex text-slate-700 text-lg font-semibold flex-col gap-8"

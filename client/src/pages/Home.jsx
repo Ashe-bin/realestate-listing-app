@@ -95,7 +95,7 @@ export const Home = () => {
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
   };
-
+  console.log("rendlisitng", rentListings[0], "salelisitng", saleListings[0]);
   return (
     <div>
       <div
@@ -187,14 +187,13 @@ export const Home = () => {
               </div>
             )}
             {saleListings && saleListings.length > 0 && (
-              <div className="flex flex-col gap-y-14">
+              <div className="flex flex-col gap-y-14 ">
                 <div>
                   <h2 className=" inline-block text-xl sm:font-semibold md:text-2xl lg:text-4xl md:font-extrabold  border  p-3 rounded-2xl shadow-sm shadow-teal-300 capitalize text-[#155e75] text-transparent bg-clip-text bg-gradient-to-r from-teal-800  to-yellow-500 border-yellow-100">
-                    {" "}
-                    Recent places for sale
+                    Recent sales
                   </h2>
                 </div>
-                <div className="grid  md:grid-cols-2 xl:grid-cols-3    gap-5 ">
+                <div className="grid w-full grid-cols-1  md:grid-cols-2 xl:grid-cols-3    gap-5  ">
                   {saleListings.map((listing) => (
                     <div key={listing._id} className="">
                       <ListingItem listing={listing} />
@@ -205,7 +204,7 @@ export const Home = () => {
                   className="border w-[250px] sm:w-[300px] mx-auto border-black/30 text-md py-1 px-2 bg-[#64b6ac] rounded-lg md:text-lg text-black/70 shadow-sm shadow-gray-500 hover:opacity-90 hover:shadow-lg"
                   to={"/search?type=sale"}
                 >
-                  Show more place for sale
+                  Show more listing for sale
                 </Link>
               </div>
             )}
